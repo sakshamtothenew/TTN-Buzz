@@ -14,7 +14,7 @@ const get_all_activities_by_userid = (userId) => {
 
     return new Promise((resolve, reject) => {
 
-        Activity.find({ _id: id })
+        Activity.find({ createdBy: userId })
             .then(result => resolve(result))
             .catch(err => reject(err))
     })
@@ -58,10 +58,19 @@ const update_activities_by_id = (id, updation) => {
 }
 
 const delete_activities = (id) => {
-    return new Promise((resolve , reject)=> {
+    return new Promise((resolve, reject) => {
 
-        Activity.deleteOne({_id : id})
-        .then(result => resolve(result))
-        .catch(err => reject(err))
+        Activity.deleteOne({ _id: id })
+            .then(result => resolve(result))
+            .catch(err => reject(err))
     })
+}
+
+
+module.exports = {
+    get_all_activities,
+    get_all_activities_by_userid,
+    create_activities,
+    delete_activities,
+    update_activities_by_id
 }

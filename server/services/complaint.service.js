@@ -70,3 +70,10 @@ const get_complaints_by_user = () => {
 }
 
 
+module.exports = {
+    get_complaints_by_id,
+    get_complaints_by_status,
+    get_complaints_by_user,
+    update_complaint_by_id,
+    create_complaint
+}
