@@ -20,6 +20,14 @@ const ComplaintSchema = new Schema({
     Assigned_to: {
         type: Schema.type.ObjectId
     },
+    createdAt: {
+        type: Date,
+        default: Date.now()
+    },
+    updatedAt: {
+        type: Date,
+        default: Date.now()
+    },
     status: {
         type: String,
         enum: ["Resolved", "In-Progress", "Open"]

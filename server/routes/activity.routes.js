@@ -1,13 +1,19 @@
 const route = require('express').Router()
+const {
+    getAllActivities,
+    getAllActivitiesByUserId,
+    createActivities,
+    updateActivitiesById,
+    deleteActivities
+} = require('../controller/activity.controllers')
 
+route.get('/', getAllActivities)
 
-route.get('/', getallActivities)
-
-route.get('/:userid', getallActivitiesByUserId)
+route.get('/:userid', getAllActivitiesByUserId)
 
 route.post('/', createActivities)
 
-route.put('/:id', updateActivitiesByID)
+route.put('/:id', updateActivitiesById)
 
 route.delete('/:id', deleteActivities)
 
