@@ -1,5 +1,10 @@
 
-
+const {
+    add_user,
+    get_all_users,
+    get_user_by_id,
+    update_user_by_id
+} = require('../services/user.service')
 
 const addUser = (req, res) => {
 

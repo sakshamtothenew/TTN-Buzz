@@ -18,7 +18,7 @@ const ComplaintSchema = new Schema({
         required: true
     },
     Assigned_to: {
-        type: Schema.type.ObjectId
+        type: Schema.Types.ObjectId
     },
     createdAt: {
         type: Date,

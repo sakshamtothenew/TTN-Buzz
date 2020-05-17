@@ -1,4 +1,4 @@
-const mongoose = required('mongoose')
+const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
 
@@ -21,9 +21,6 @@ const valuablesSchema = new Schema({
         type: String,
         default: null
     },
-    note: {
-        type: String
-    },
     category: {
         type: String,
         enum: ["Electronics", "Wallets", "File/Doc", "Jewellery", "Kid", "Accessory", "others"],
@@ -34,4 +31,4 @@ const valuablesSchema = new Schema({
 
 
 
-module.exports.valuablesSchema = mongoose.model("valuables", valuablesSchema);
+module.exports.valuables = mongoose.model("valuables", valuablesSchema);
