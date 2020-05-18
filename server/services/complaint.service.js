@@ -5,7 +5,7 @@ const get_complaints_by_id = (id) => {
 
         Complaints.find({ _id: id })
             .then(result => resolve(result))
-            .catch(err => resolve(err))
+            .catch(err => reject(err))
     })
 }
 
@@ -13,7 +13,7 @@ const get_complaints_by_id = (id) => {
 const get_complaints_by_status = (status) => {
     return new Promise((resolve, reject) => {
         Complaints.find({ status: status })
-            .then((result => result))
+            .then((result => resolve(result)))
             .catch(err => reject(err))
     })
 
@@ -23,7 +23,7 @@ const get_complaints_by_status = (status) => {
 const create_complaint = ({
     department,
     createdBy,
-    issuedId,
+    issueId,
     Assigned_to,
     status
 }) => {
@@ -31,7 +31,7 @@ const create_complaint = ({
         const newComplaints = new Complaints({
             department: department,
             createdBy: createdBy,
-            issuedId: issuedId,
+            issueId: issueId,
             Assigned_to: Assigned_to,
             status: status
         })
