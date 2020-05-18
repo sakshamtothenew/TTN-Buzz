@@ -1,4 +1,6 @@
 const { Activity } = require('../model/Activity.model')
+const { ISOdate, ObjectId } = require('../Utils/convertors')
+
 
 const get_all_activities = () => {
 
@@ -23,7 +25,6 @@ const get_all_activities_by_userid = (userId) => {
 
 const create_activities = ({
     createdBy,
-    createdAt,
     title,
     content,
     imageUrl,
@@ -31,18 +32,25 @@ const create_activities = ({
 }) => {
     return new Promise((resolve, reject) => {
 
+
+        const createdBy_objectId = ObjectId(createdBy)
+        const lastUpdated_toDate = ISOdate(lastUpdated);
+
+
         const newActivity = new Activity({
-            createdBy: createdBy,
-            createdAt: createdAt,
+            createdBy: createdBy_objectId,
             title: title,
             content: content,
             imageUrl: imageUrl,
-            lastUpdated: lastUpdated
+            lastUpdated: lastUpdated_toDate
         })
 
         newActivity.save()
             .then(result => resolve(result))
-            .catch(err => reject(err))
+            .catch(err => {
+                console.log(err)
+                reject(err)
+            })
     })
 }
 
@@ -50,11 +58,12 @@ const create_activities = ({
 const update_activities_by_id = (id, updation) => {
     return new Promise((resolve, reject) => {
 
-        Activity.update({ _id: id },
+        Activity.updateOne({ _id: id },
             { $set: { ...updation } })
+            .then(result => resolve(result))
+            .catch(err => reject(err))
     })
-        .then(result => resolve(result))
-        .catch(err => reject(err))
+
 }
 
 const delete_activities = (id) => {

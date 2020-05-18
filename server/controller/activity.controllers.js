@@ -10,32 +10,31 @@ const {
 const getAllActivities = (req, res) => {
 
     get_all_activities()
-        .then(result => {
-            res.send(result)
-        })
-        .catch(err => {
-
-            res.send(err)
-        })
+        .then(result => res.send(result))
+        .catch(err => res.send(err))
 
 }
 
 const getAllActivitiesByUserId = (req, res) => {
 
-    get_all_activities_by_userid(req.params.id)
+    get_all_activities_by_userid(req.params.userid)
         .then(result => res.send(result))
         .catch(err => res.send(err))
 }
 
 const createActivities = (req, res) => {
     create_activities(req.body)
-        .then(result => res.send(result))
-        .catch(err => res.send(err))
+        .then(result => {
+            console.log(result);
+            res.send(result)})
+        .catch(err => {
+            console.log(err);
+            res.send(err)})
 }
 
 const updateActivitiesById = (req, res) => {
 
-    update_activities_by_id(id, req.body)
+    update_activities_by_id(req.params.id, req.body)
         .then(result => res.send(result))
         .catch(err => res.send(err))
 
