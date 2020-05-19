@@ -1,4 +1,4 @@
-import React , {useState} from 'react'
+import React, { useState } from 'react'
 import Input from '../../../../UI/Input/input'
 
 const ValuableForm = () => {
@@ -53,9 +53,12 @@ const ValuableForm = () => {
         setValuableForm(currstate);
     }
 
-    const fromBody = Object.keys(valuableForm).forEach((keys) => {
+    const formBody = [];
 
-        return (<Input type={valuableForm[keys].elementType}
+    Object.keys(valuableForm).forEach((keys) => {
+
+        console.log(valuableForm[keys].elementType)
+        formBody.push(<Input type={valuableForm[keys].elementType}
             key={keys}
             elementConfig={valuableForm[keys].elementConfig}
             label={valuableForm[keys].label}
@@ -68,7 +71,7 @@ const ValuableForm = () => {
 
     return (
         <React.Fragment>
-            {fromBody}
+            {formBody}
         </React.Fragment>
     )
 }

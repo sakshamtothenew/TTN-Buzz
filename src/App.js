@@ -7,8 +7,8 @@ import ValuableForm from './components/MainDashboard/MainBody/MainContent/Forms/
 function App() {
   return (
     <React.Fragment>
-  <Complaints />
-      <ActivityForm />
+  {/* <Complaints />
+      <ActivityForm /> */}
       <ValuableForm />
     </React.Fragment>
      
