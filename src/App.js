@@ -1,25 +1,17 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Complaints from './components/MainDashboard/MainBody/MainContent/Forms/complaintForm/Complaints';
+import ActivityForm from './components/MainDashboard/MainBody/MainContent/Forms/activityForm/activity.form';
+import ValuableForm from './components/MainDashboard/MainBody/MainContent/Forms/valuables/valuables.form';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+  <Complaints />
+      <ActivityForm />
+      <ValuableForm />
+    </React.Fragment>
+     
   );
 }
 

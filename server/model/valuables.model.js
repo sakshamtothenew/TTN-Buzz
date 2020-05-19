@@ -21,7 +21,7 @@ const valuablesSchema = new Schema({
         type: String,
         default: null
     },
-    category: {
+    item_type: {
         type: String,
         enum: ["Electronics", "Wallets", "File/Doc", "Jewellery", "Kid", "Accessory", "others"],
         required: true
