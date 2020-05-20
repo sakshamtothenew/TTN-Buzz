@@ -6,7 +6,7 @@ const NavBar = () => {
 
     return (
         <React.Fragment>
-            <NavElement link="/Buzz">Buzz</NavElement>
+            <NavElement link="/">Buzz</NavElement>
             <NavElement link="/Complaints">Complaints</NavElement>
         </React.Fragment>)
 }
