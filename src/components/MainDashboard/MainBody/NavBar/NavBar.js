@@ -1,14 +1,13 @@
-import React from 'react'
-import NavElement from './NavElements/NavElements'
-
+import React from "react";
+import NavElement from "./NavElements/NavElements";
+import classes from './Navbar.module.css'
 
 const NavBar = () => {
-
-    return (
-        <React.Fragment>
-            <NavElement link="/">Buzz</NavElement>
-            <NavElement link="/Complaints">Complaints</NavElement>
-        </React.Fragment>)
-}
-
-export default NavBar
+  return (
+    <div className = {classes.NavBar}>
+      <NavElement exact link="/">Buzz</NavElement>
+      <NavElement link="/Complaints">Complaints</NavElement>
+    </div>
+  );
+};
+export default NavBar;

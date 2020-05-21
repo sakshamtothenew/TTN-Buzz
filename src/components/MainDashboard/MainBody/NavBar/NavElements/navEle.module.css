@@ -1,0 +1,22 @@
+.navElement {
+    width : 70%;
+    padding : 5% 5%;
+    background-color: #fff;
+
+
+}
+
+.navElement a {
+    text-decoration: none;
+    color : #948f8f
+}
+
+
+.navElement:first-child {
+
+    border-radius : 5px 5px 0 0 ;
+}
+
+.navElement:last-child {
+    border-radius: 0 0 5px 5px;
+}

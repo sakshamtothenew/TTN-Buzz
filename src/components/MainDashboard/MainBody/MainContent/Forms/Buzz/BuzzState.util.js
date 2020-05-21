@@ -7,6 +7,7 @@ export const Activity_Buzz = {
     },
     value: "",
     label: "Your Name",
+    classname: "Activity",
   },
 };
 
@@ -19,6 +20,7 @@ export const Valuable_Buzz = {
     },
     value: "",
     label: "Category",
+    classname : "LFSelect"
   },
   name: {
     elementType: "input",
@@ -28,6 +30,7 @@ export const Valuable_Buzz = {
     },
     value: "",
     label: "Your Name",
+    classname :  "LFInput"
   },
   description: {
     elementType: "textarea",
@@ -37,6 +40,7 @@ export const Valuable_Buzz = {
     },
     value: "",
     label: "item describe",
+    classname :  "LFTextarea"
   },
   item_type: {
     elementType: "select",
@@ -53,7 +57,8 @@ export const Valuable_Buzz = {
       ],
     },
     value: "",
-    label: "category",
+    label: "Item type",
+    classname : "LFSelect"
   },
 };
 

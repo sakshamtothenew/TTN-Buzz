@@ -4,29 +4,30 @@ import Complaints from "./Forms/complaintForm/Complaints";
 import ActivityForm from "./Forms/Buzz/buzz.form";
 import ComplaintTable from "./ArticleSection/Complaints/Complaints.Article";
 import Activities from "./ArticleSection/Activities/Activities.Article";
+import classes from "./MainContent.module.css";
 
 const MainContent = () => {
   const complaintPage = (
-    <React.Fragment>
+    <div>
       <Complaints />
       <ComplaintTable />
-    </React.Fragment>
+    </div>
   );
 
   const BuzzPage = (
-    <React.Fragment>
+    <div>
       <ActivityForm />
       <Activities />
-    </React.Fragment>
+    </div>
   );
 
   return (
-    <React.Fragment>
+    <div className = {classes.MainContent}>
       <Switch>
         <Route path="/" exact render={() => BuzzPage} />
         <Route path="/Complaints" render={() => complaintPage} />
       </Switch>
-    </React.Fragment>
+    </div>
   );
 };
 
