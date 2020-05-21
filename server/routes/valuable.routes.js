@@ -1,22 +1,20 @@
-const route = require('express').Router();
+const route = require("express").Router();
 const {
-    getAllValuable,
-    getValuableById,
-    addValuables,
-    updateValuablesById,
-    deleteValuablesById
-} = require('../controller/valuable.controllers')
+  getAllValuable,
+  getValuableById,
+  addValuables,
+  updateValuablesById,
+  deleteValuablesById,
+} = require("../controller/valuable.controllers");
 
+route.get("/", getAllValuable);
 
+route.get("/:id", getValuableById);
 
-route.get('/', getAllValuable)
+route.post("/", addValuables);
 
-route.get('/:id', getValuableById)
+route.put("/:id", updateValuablesById);
 
-route.post('/', addValuables)
-
-route.put('/:id', updateValuablesById)
-
-route.delete('/:id', deleteValuablesById)
+route.delete("/:id", deleteValuablesById);
 
 module.exports = route;
