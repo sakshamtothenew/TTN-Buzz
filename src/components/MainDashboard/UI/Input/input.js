@@ -1,5 +1,7 @@
 import React from "react";
 import classes from "./input.module.css";
+
+
 const Input = (props) => {
   let inputElement = null;
   switch (props.type) {
@@ -10,7 +12,7 @@ const Input = (props) => {
           type={props.elementConfig.type}
           placeholder={props.elementConfig.placeholder}
           value={props.value}
-          className={classes[props.classname]}
+        
         />
       );
       break;
@@ -19,19 +21,21 @@ const Input = (props) => {
       const options = props.elementConfig.options.map((eachOption) => {
         return <option key={eachOption}>{eachOption}</option>;
       });
-
-      inputElement = <select onChange={props.changed}>{options}</select>;
+      
+      inputElement = <select value = {props.value} onChange={props.changed}
+      
+      >   <option hidden>{props.value}</option>
+        {options}</select>;
       break;
 
     case "textarea":
-        
       inputElement = (
         <textarea
           placeholder={props.elementConfig.placeholder}
           onChange={props.changed}
           value={props.value}
           type={props.elementConfig.type}
-          className={classes[props.classname]}
+        
         ></textarea>
       );
       break;
@@ -41,8 +45,8 @@ const Input = (props) => {
   }
 
   return (
-    <div classname = {classes.inputdiv}>
-      <label>{props.label}</label>
+    <div className={[classes.inputdiv , classes[props.classname]].join(' ')}>
+     {props.label == ""? null : <label>{props.label}</label>}
       {inputElement}
     </div>
   );

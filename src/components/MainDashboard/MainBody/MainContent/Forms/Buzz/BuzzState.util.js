@@ -3,10 +3,10 @@ export const Activity_Buzz = {
     elementType: "textarea",
     elementConfig: {
       type: "textarea",
-      placeholder: "create Activity",
+      placeholder: "create Activity...",
     },
     value: "",
-    label: "Your Name",
+    label: "",
     classname: "Activity",
   },
 };
@@ -18,29 +18,9 @@ export const Valuable_Buzz = {
       placeholder: "type",
       options: ["Lost", "Found"],
     },
-    value: "",
+    value: "category",
     label: "Category",
-    classname : "LFSelect"
-  },
-  name: {
-    elementType: "input",
-    elementConfig: {
-      type: "text",
-      placeholder: "Name",
-    },
-    value: "",
-    label: "Your Name",
-    classname :  "LFInput"
-  },
-  description: {
-    elementType: "textarea",
-    elementConfig: {
-      type: "textarea",
-      placeholder: "Description..",
-    },
-    value: "",
-    label: "item describe",
-    classname :  "LFTextarea"
+    classname: "LFSelect",
   },
   item_type: {
     elementType: "select",
@@ -56,10 +36,32 @@ export const Valuable_Buzz = {
         "others",
       ],
     },
-    value: "",
+    value: "item Type",
     label: "Item type",
-    classname : "LFSelect"
+    classname: "LFSelect",
   },
+  name: {
+    elementType: "input",
+    elementConfig: {
+      type: "text",
+      placeholder: "Name",
+    },
+    value: "",
+    label: "Your Name",
+    classname: "LFInput",
+  },
+  
+  description: {
+    elementType: "textarea",
+    elementConfig: {
+      type: "textarea",
+      placeholder: "Description..",
+    },
+    value: "",
+    label: "item describe",
+    classname: "LFTextarea",
+  },
+ 
 };
 
 export const Buzz_category = {
@@ -69,6 +71,7 @@ export const Buzz_category = {
     placeholder: "Category",
     options: ["Activity", "Lost & Found"],
   },
-  value: "",
-  label: "category",
+  value: "Category",
+  label: "",
+  classname: "CTSelect",
 };

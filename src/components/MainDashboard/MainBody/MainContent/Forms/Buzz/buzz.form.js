@@ -7,7 +7,9 @@ import Wrapper from "../../../../UI/Wrapper/Wrapper";
 
 const ActivityForm = (props) => {
   const [BuzzForm, setBuzzForm] = useState(BuzzState.Activity_Buzz);
-
+  const [categoryValue, setCategoryValue] = useState(
+    BuzzState.Buzz_category.value
+  );
   const inputChangeHandler = (event, inputIdentifier) => {
     const currstate = { ...BuzzForm };
     const changeInput = { ...currstate[inputIdentifier] };
@@ -17,6 +19,8 @@ const ActivityForm = (props) => {
   };
 
   const categoryHandler = (event) => {
+    setCategoryValue(event.target.value);
+
     if (event.target.value === "Activity") {
       setBuzzForm(BuzzState.Activity_Buzz);
       return;
@@ -26,7 +30,6 @@ const ActivityForm = (props) => {
 
   const formBody = [];
   Object.keys(BuzzForm).forEach((keys) => {
-      console.log(BuzzForm.classname)
     formBody.push(
       <Input
         type={BuzzForm[keys].elementType}
@@ -34,7 +37,8 @@ const ActivityForm = (props) => {
         elementConfig={BuzzForm[keys].elementConfig}
         label={BuzzForm[keys].label}
         changed={(event) => inputChangeHandler(event, keys)}
-        classname = {BuzzForm[keys].classname}
+        classname={BuzzForm[keys].classname}
+        value={BuzzForm[keys].value}
       />
     );
   });
@@ -45,15 +49,17 @@ const ActivityForm = (props) => {
       elementConfig={BuzzState.Buzz_category.elementConfig}
       label={BuzzState.Buzz_category.label}
       changed={(event) => categoryHandler(event)}
+      classname={BuzzState.Buzz_category.classname}
+      value={categoryValue}
     />
   );
 
   return (
-    <div className = {classes.Formdiv}>
+    <div className={classes.Formdiv}>
       <Wrapper heading="Create Buzz">
         <form className={classes.buzzForm}>
-          <div>{formBody}</div>
-          {categoryField}
+          <div className = {classes.inputFields}>{formBody}</div>
+          <div className={classes.categoryDiv}>{categoryField}</div>
         </form>
       </Wrapper>
     </div>

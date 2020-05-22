@@ -1,12 +1,84 @@
-.Activity {
-    width : 100%;
-    
+.Activity textarea{
+  width: 96%;
+  height: 100px;
+  border: none;
+  background: transparent;
+  resize: none;
+  outline: none;
 }
 
 .inputdiv {
-    width: 100%;
+  width: 100%;
+  margin : 1% 0;
+}
+.CTSelect select{
+  padding: 1% 0.5%;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  color: #797474;
+  font-size: 15px;
 }
 
-.inputdiv label {
-    display: block;
+.CTSelect select option {
+  color: #000;
+  position: relative;
+  top : -50px;
+  left : 50px;
+  outline: none;
+
 }
+.CTSelect select::-ms-expand {
+  display: none;
+}
+.CTSelect select{
+  -webkit-appearance: none;
+  appearance: none;
+}
+label {
+  display: block;
+  margin : 2% 0;
+  color : #949090;
+}
+
+.LFTextarea textarea{
+   width : 100%;
+   margin : 0 auto;
+   height : 100px;
+   resize : none;
+   padding : 2%;
+}
+
+.LFSelect {
+  flex-basis : 45%;
+}
+
+.LFSelect select {
+  padding: 2% ;
+  background-color: transparent;
+  width: 90%;
+ 
+  outline: none;
+  color: #797474;
+  font-size: 15px;
+}
+
+.LFInput input {
+  padding : 3%;
+  font-size : 15px;
+  width : 90%;
+
+}
+
+.LFInput {
+  flex-basis : 45%;
+}
+
+.inputdiv input , textarea , select{
+  border-radius : 5px;
+  outline : none;
+  border : 1px solid #cac4c4
+  
+  
+}
+
