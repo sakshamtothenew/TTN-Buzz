@@ -9,8 +9,15 @@
 
 .categoryDiv {
   padding: 1% 2%;
+  display: flex;
+  align-items: center ;
+  justify-content: space-around
 }
 
+.categoryDiv i {
+  color : #e5ad45;
+  transform: rotate(45deg);
+}
 .inputFields {
   padding: 1% 2%;
   border-bottom: 1px solid #f2f2f2;

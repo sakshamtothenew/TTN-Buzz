@@ -58,8 +58,11 @@ const ActivityForm = (props) => {
     <div className={classes.Formdiv}>
       <Wrapper heading="Create Buzz">
         <form className={classes.buzzForm}>
-          <div className = {classes.inputFields}>{formBody}</div>
-          <div className={classes.categoryDiv}>{categoryField}</div>
+          <div className={classes.inputFields}>{formBody}</div>
+          <div className={classes.categoryDiv}>
+            {categoryField}
+            <i class="fas fa-location-arrow"></i>
+          </div>
         </form>
       </Wrapper>
     </div>

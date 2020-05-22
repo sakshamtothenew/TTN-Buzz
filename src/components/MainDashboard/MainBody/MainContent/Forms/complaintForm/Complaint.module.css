@@ -4,3 +4,33 @@
     padding : 2%;
     
 }
+
+.container {
+    margin-bottom : 5%;
+}
+
+.attachment {
+
+   flex-basis: 100%;
+    display: none;
+}
+.icon {
+    flex-basis: 100%;
+    display : flex;
+    justify-content: flex-end;
+}
+.icon i {
+    font-size :  20px;
+    
+}
+.submitBtn {
+    font-size : 15px;
+    padding : 1.5% 3.5%;
+    margin-left : auto;
+    color : #fff;
+    background-color :#eba91c;;
+    border : none;
+
+    border-radius: 5px;
+}
+

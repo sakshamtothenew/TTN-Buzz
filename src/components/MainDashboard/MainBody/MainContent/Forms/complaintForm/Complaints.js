@@ -77,6 +77,10 @@ const Complaints = () => {
     setComplaintFormState(currstate);
   };
 
+  const fileuploadDisplayHandler = (event) => {
+    console.log(event.target.value)
+  }
+
   const formBody = [];
   Object.keys(ComplaintForm).forEach((keys) => {
     formBody.push(
@@ -92,9 +96,15 @@ const Complaints = () => {
     );
   });
   return (
-    <div>
+    <div className = {classes.container}>
       <Wrapper heading="Complaints">
-        <form className={classes.ComDiv}>{formBody}</form>
+        <form className={classes.ComDiv}>{formBody}
+        <label className = {classes.icon} for ="file">
+        <i class="fas fa-image "></i>
+        </label>
+        <input onChange = {fileuploadDisplayHandler} className = {classes.attachment} id ="file" type = "file"></input>
+         <button className = {classes.submitBtn}>Submit</button>
+        </form>
       </Wrapper>
     </div>
   );

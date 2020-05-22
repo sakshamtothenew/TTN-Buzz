@@ -11,6 +11,10 @@
   width: 100%;
   margin : 1% 0;
 }
+
+.CTSelect {
+  flex-basis : 75%;
+}
 .CTSelect select{
   padding: 1% 0.5%;
   background-color: transparent;
@@ -18,6 +22,7 @@
   outline: none;
   color: #797474;
   font-size: 15px;
+   
 }
 
 .CTSelect select option {
