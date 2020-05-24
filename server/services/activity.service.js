@@ -1,4 +1,5 @@
 const { Activity } = require("../model/Activity.model");
+const { get_user_by_email } = require("./user.service");
 const { ISOdate, ObjectId } = require("../Utils/convertors");
 
 const get_all_activities = () => {
@@ -17,32 +18,39 @@ const get_all_activities_by_userid = (userId) => {
   });
 };
 
-const create_activities = ({
-  createdBy,
-  title,
-  content,
-  imageUrl,
-  lastUpdated,
-}) => {
+const create_activities = (
+  {
+    email,
+    activity,
+  },
+  {
+    filename,
+    path
+  }) => {
   return new Promise((resolve, reject) => {
-    const createdBy_objectId = ObjectId(createdBy);
-    const lastUpdated_toDate = ISOdate(lastUpdated);
 
-    const newActivity = new Activity({
-      createdBy: createdBy_objectId,
-      title: title,
-      content: content,
-      imageUrl: imageUrl,
-      lastUpdated: lastUpdated_toDate,
-    });
+    console.log(email);
+    let UserId = null;
+    get_user_by_email(email)
+      .then((result) => {
 
-    newActivity
-      .save()
-      .then((result) => resolve(result))
-      .catch((err) => {
-        console.log(err);
-        reject(err);
-      });
+        UserId = result._id;
+
+        const newActivity = new Activity({
+          createdBy: UserId,
+          content: activity,
+          image: { filename, path }
+        });
+
+        newActivity
+          .save()
+          .then((result) => resolve(result))
+          .catch((err) => {
+            console.log(err);
+            reject(err);
+          });
+      })
+      .catch((err) => reject(err));
   });
 };
 
@@ -62,10 +70,19 @@ const delete_activities = (id) => {
   });
 };
 
+
+const delete_all = () => {
+   return new Promise((resolve , reject) => {
+      Activity.remove()
+      .then(result => resolve(result))
+      .catch(err => reject(err))
+   })
+}
 module.exports = {
   get_all_activities,
   get_all_activities_by_userid,
   create_activities,
   delete_activities,
   update_activities_by_id,
+  delete_all
 };

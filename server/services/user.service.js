@@ -41,9 +41,20 @@ const update_user_by_id = (id) => {
   });
 };
 
+const get_user_by_email = (email) => {
+  return new Promise((resolve , reject) => {
+
+    User.findOne({email : email})
+    .then(result => resolve(result))
+    .catch(err => reject(err))
+  })
+
+}
+
 module.exports = {
   add_user,
   get_all_users,
   get_user_by_id,
+  get_user_by_email,
   update_user_by_id,
 };
