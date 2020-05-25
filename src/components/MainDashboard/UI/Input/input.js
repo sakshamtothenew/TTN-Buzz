@@ -46,7 +46,7 @@ const Input = (props) => {
 
   return (
     <div className={[classes.inputdiv , classes[props.classname]].join(' ')}>
-     {props.label == ""? null : <label>{props.label}</label>}
+     {props.label === ""? null : <label>{props.label}</label>}
       {inputElement}
     </div>
   );

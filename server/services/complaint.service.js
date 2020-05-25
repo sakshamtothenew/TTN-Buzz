@@ -1,5 +1,5 @@
 const { Complaints } = require("../model/Complaints.model");
-
+const { get_user_by_email } = require('./user.service')
 const get_complaints_by_id = (id) => {
   return new Promise((resolve, reject) => {
     Complaints.find({ _id: id })
@@ -17,25 +17,38 @@ const get_complaints_by_status = (status) => {
 };
 
 const create_complaint = ({
+  name,
   department,
-  createdBy,
-  issueId,
-  Assigned_to,
+  description,
+  email,
+  issueTitle,
   status,
+} , {
+  filename,
+  path
 }) => {
   return new Promise((resolve, reject) => {
-    const newComplaints = new Complaints({
-      department: department,
-      createdBy: createdBy,
-      issueId: issueId,
-      Assigned_to: Assigned_to,
-      status: status,
-    });
+    get_user_by_email(email)
+      .then((result => {
+        const issueId = newIssueId();
+        const userid = result._id
+        const newComplaints = new Complaints({
+          department: department,
+          createdBy: {userid, name},
+          description,
+          issueId: issueId,
+          issueTitle: issueTitle,
+          status: status,
+          image : {filename , path}
+        });
 
-    newComplaints
-      .save()
-      .then((result) => resolve(result))
-      .catch((err) => reject(err));
+        newComplaints
+          .save()
+          .then((result) => resolve(result))
+          .catch((err) => reject(err));
+      }))
+      .catch(err => reject(err))
+
   });
 };
 
@@ -63,6 +76,9 @@ const get_complaints_by_user = () => {
   });
 };
 
+const newIssueId = () => {
+  return '_' + Math.random().toString(36).substr(2, 9);
+}
 module.exports = {
   get_complaints_by_id,
   get_complaints_by_status,

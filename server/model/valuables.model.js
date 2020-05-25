@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 
 const valuablesSchema = new Schema({
 
-    type: {
+    category: {
         type: String,
         required: true,
         enum: ["Lost", "Found"]
@@ -17,14 +17,17 @@ const valuablesSchema = new Schema({
         type: Date,
         default: Date.now()
     },
-    item_description: {
+    description: {
         type: String,
         default: null
     },
-    item_type: {
+    type: {
         type: String,
         enum: ["Electronics", "Wallets", "File/Doc", "Jewellery", "Kid", "Accessory", "others"],
         required: true
+    },
+    image : {
+        type : Object,
     }
 
 })

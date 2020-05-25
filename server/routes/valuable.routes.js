@@ -7,11 +7,13 @@ const {
   deleteValuablesById,
 } = require("../controller/valuable.controllers");
 
+const {upload}  = require('../Config/Multer.config')
+
 route.get("/", getAllValuable);
 
 route.get("/:id", getValuableById);
 
-route.post("/", addValuables);
+route.post("/", upload.single('img') , addValuables);
 
 route.put("/:id", updateValuablesById);
 

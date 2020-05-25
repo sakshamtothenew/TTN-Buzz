@@ -1,36 +1,44 @@
 .ComDiv {
-    display : flex;
-    flex-wrap : wrap;
-    padding : 2%;
-    
+  display: flex;
+  flex-wrap: wrap;
+  padding: 2%;
 }
 
 .container {
-    margin-bottom : 5%;
+  margin-bottom: 5%;
 }
 
 .attachment {
-
-   flex-basis: 100%;
-    display: none;
+  flex-basis: 100%;
+  display: none;
 }
 .icon {
-    flex-basis: 100%;
-    display : flex;
-    justify-content: flex-end;
+  flex-basis: 100%;
+  display: flex;
+  justify-content: flex-end;
 }
 .icon i {
-    font-size :  20px;
-    
+  font-size: 20px;
 }
 .submitBtn {
-    font-size : 15px;
-    padding : 1.5% 3.5%;
-    margin-left : auto;
-    color : #fff;
-    background-color :#eba91c;;
-    border : none;
+  font-size: 15px;
+  padding: 1% 2%;
+  width : 100px;
+  color: #fff;
+  background-color: #eba91c;
+  border: none;
 
-    border-radius: 5px;
+  border-radius: 5px;
 }
 
+.submitBtn:hover {
+  background-color: rgb(12, 238, 12);
+  transition: 0.5s all ease;
+  font-weight: bold;
+}
+
+.btndiv {
+  display: flex;
+  flex-basis: 100%;
+  justify-content: flex-end;
+}

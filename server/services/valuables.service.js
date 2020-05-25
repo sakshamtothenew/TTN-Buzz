@@ -1,4 +1,5 @@
 const { valuables } = require("../model/valuables.model");
+const { get_user_by_email } = require('./user.service')
 
 const get_all_valuables = () => {
   return new Promise((resolve, reject) => {
@@ -19,32 +20,45 @@ const get_valuables_by_id = (id) => {
 
 
 const add_valuables = ({
-  type,
-  createdBy,
-  createdDate,
-  item_description,
-  note,
   category,
-}) => {
+  type,
+  email,
+  description,
+} , 
+{
+  filename ,
+  path
+}
+) => {
   return new Promise((resolve, reject) => {
-    const newValuable = new valuables({
-      type,
-      createdBy,
-      createdDate,
-      item_description,
-      note,
-      category,
-    });
 
-    newValuable
-      .save()
-      .then((result) => resolve(result))
-      .catch((err) => reject(err));
-  });
+    get_user_by_email(email)
+      .then(result => {
+        
+        const userId =  result === null ? null : result._id
+        const newValuable = new valuables({
+          category : category,
+          createdBy: userId,
+          description : description,
+          type : type,
+          image : {
+            filename,
+            path
+          }
+        });
+
+        newValuable
+          .save()
+          .then((result) => resolve(result))
+          .catch((err) => reject(err));
+      })
+      .catch(err => reject(err));
+
+  })
 };
 
 const update_valuables_by_id = (id, updation) => {
-  return new Promise((resolve, rejject) => {
+  return new Promise((resolve, reject) => {
     valuables
       .update({ _id: id }, { $set: { ...updation } })
       .then((results) => resolve(results))

@@ -19,9 +19,14 @@ const getComplaintsByStatus = (req, res) => {
 };
 
 const createComplaint = (req, res) => {
-  create_complaint(req.body)
+
+  create_complaint(req.body, req.file)
     .then((result) => res.send(result))
-    .catch((err) => res.send(err));
+    .catch((err) => {
+      res.status(400)
+      res.send(err)
+    }
+    );
 };
 
 const getAllComplaints = (req, res) => {

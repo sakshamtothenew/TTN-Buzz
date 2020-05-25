@@ -4,18 +4,20 @@
 
 .Formdiv {
   width: 100%;
-  margin-bottom : 5% ;
+  margin-bottom: 5%;
 }
 
 .categoryDiv {
   padding: 1% 2%;
   display: flex;
-  align-items: center ;
-  justify-content: space-around
+  width: 90%;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .categoryDiv i {
-  color : #e5ad45;
+  color: #e5ad45;
   transform: rotate(45deg);
 }
 .inputFields {
@@ -23,5 +25,36 @@
   border-bottom: 1px solid #f2f2f2;
   display: flex;
   flex-wrap: wrap;
+}
+
+.categoryFieldsDiv {
+  padding: 1% 0;
+  display: flex;
+  align-items: center;
   
+  flex-basis : 30%
+}
+
+.categoryFieldsDiv i {
+  transform: rotate(0);
+  font-size: 15px;
+  color: inherit;
+}
+
+.submitbtn {
+  background : transparent;
+  border : none;
+  outline: transparent;
+
+}
+
+.submitbtn:hover  i {
+    transition: 0.5s all ease;
+    font-size : 20px;
+    color : rgb(9, 243, 9);
+    
+}
+
+.submitbtn:hover {
+  outline : transparent
 }

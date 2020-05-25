@@ -43,29 +43,43 @@ const ActivityForm = (props) => {
 
     const formData = new FormData();
 
-    Object.keys(BuzzForm).forEach((keys) => {
-       formData.append(keys , BuzzForm[keys].value)
-    });
-    formData.append('img' , attachmentPath)
+    formData.append('img', attachmentPath)
 
-    
-    console.log('this is uploaded image')
-    console.log(FormData.img)
-    formData.append("email" , "saksham.sachdeva@tothenew.com");
 
     if (categoryValue === "Activity") {
-      console.log("activity buzz created");
-    
+
+
+      Object.keys(BuzzForm).forEach((keys) => {
+        formData.append(keys, BuzzForm[keys].value)
+      });
+
+      formData.append("email", "saksham.sachdeva@tothenew.com");
+
       axios
-        .post("http://localhost:5000/activities", formData )
-        .then((result) => console.log(result));
-    } else if (categoryValue === "Lost&Found") {
-    
-  
+        .post("http://localhost:5000/activities", formData)
+        .then((result) => {
+          if(result.status === 200)
+          alert('activity generated successfully')
+        });
+
+    } else if (categoryValue === "Lost & Found") {
+
+
+      Object.keys(BuzzForm).forEach((keys) => {
+
+        formData.append(keys, BuzzForm[keys].value)
+      });
+
+      axios
+        .post('http://localhost:5000/valuables', formData)
+        .then(result => console.log(result))
+
     } else {
       alert("please select category to submit");
     }
   };
+
+
 
   const formBody = [];
   Object.keys(BuzzForm).forEach((keys) => {
@@ -104,7 +118,7 @@ const ActivityForm = (props) => {
               <ImgUpld fileuploadDisplayHandler={imageattachmentHandler} />
             </div>
             <button onClick={SubmitHandler} className={classes.submitbtn}>
-              <i class="fas fa-location-arrow"></i>
+              <i className="fas fa-location-arrow"></i>
             </button>
           </div>
         </form>

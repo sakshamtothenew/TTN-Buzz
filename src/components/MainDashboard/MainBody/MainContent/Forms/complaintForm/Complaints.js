@@ -3,7 +3,11 @@ import { issueTitles } from "./IssueTitle";
 import Input from "../../../../UI/Input/input";
 import classes from "./Complaint.module.css";
 import Wrapper from "../../../../UI/Wrapper/Wrapper";
+import ImgUpld from "../../../../UI/imageIcon/Imageicon";
+import axios from 'axios'
+
 const Complaints = () => {
+  const [attachment , setAttachment] = useState(null);
   const [ComplaintForm, setComplaintFormState] = useState({
     name: {
       elementType: "input",
@@ -13,7 +17,7 @@ const Complaints = () => {
       },
       value: "",
       label: "Your Name",
-      classname : "LFInput"
+      classname: "LFInput",
     },
 
     email: {
@@ -25,7 +29,7 @@ const Complaints = () => {
 
       value: "",
       label: "Your Email",
-      classname : "LFInput"
+      classname: "LFInput",
     },
 
     department: {
@@ -47,11 +51,11 @@ const Complaints = () => {
         options: ["choose department first.."],
       },
       value: "Select Issue-Title",
-      label : "Issue Title",
+      label: "Issue Title",
       classname: "LFSelect",
     },
 
-    Description: {
+    description: {
       elementType: "textarea",
       elementConfig: {
         type: "text",
@@ -62,6 +66,8 @@ const Complaints = () => {
       classname: "LFTextarea",
     },
   });
+
+
 
   const inputChangeHandler = (event, inputIdentifier) => {
     const currstate = { ...ComplaintForm };
@@ -77,9 +83,35 @@ const Complaints = () => {
     setComplaintFormState(currstate);
   };
 
-  const fileuploadDisplayHandler = (event) => {
-    console.log(event.target.value)
+
+
+
+  const submitHandler = (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+
+    Object.keys(ComplaintForm).forEach(keys => {
+
+      formData.append(keys ,ComplaintForm[keys].value)
+    })
+
+    formData.append("img" , attachment);
+    formData.append("status" , "Open")
+    axios
+    .post('http://localhost:5000/complaints' , formData)
+    .then(result => {
+       console.log(result)
+    })
+ 
   }
+  
+
+
+  const fileuploadDisplayHandler = (event) => {
+    setAttachment(event.target.files[0])
+  };
+
+
 
   const formBody = [];
   Object.keys(ComplaintForm).forEach((keys) => {
@@ -91,23 +123,31 @@ const Complaints = () => {
         label={ComplaintForm[keys].label}
         changed={(event) => inputChangeHandler(event, keys)}
         classname={ComplaintForm[keys].classname}
-        value = {ComplaintForm[keys].value}
+        value={ComplaintForm[keys].value}
       />
     );
   });
+
+
+
+
+
   return (
-    <div className = {classes.container}>
+    <div className={classes.container}>
       <Wrapper heading="Complaints">
-        <form className={classes.ComDiv}>{formBody}
-        <label className = {classes.icon} for ="file">
-        <i class="fas fa-image "></i>
-        </label>
-        <input onChange = {fileuploadDisplayHandler} className = {classes.attachment} id ="file" type = "file"></input>
-         <button className = {classes.submitBtn}>Submit</button>
+        <form className={classes.ComDiv}>
+          {formBody}
+         <ImgUpld  fileuploadDisplayHandler = {fileuploadDisplayHandler}/>
+          <div className={classes.btndiv}>
+            <button  onClick = {submitHandler}  className={classes.submitBtn}>Submit</button>
+          </div>
         </form>
       </Wrapper>
     </div>
   );
 };
+
+
+
 
 export default Complaints;

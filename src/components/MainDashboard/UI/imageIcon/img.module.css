@@ -1,0 +1,13 @@
+.attachment {
+  flex-basis: 100%;
+  display: none;
+}
+
+.icon {
+  flex-basis: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+.icon i {
+  font-size: 20px;
+}

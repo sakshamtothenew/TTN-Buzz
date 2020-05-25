@@ -4,19 +4,27 @@ const Schema = mongoose.Schema;
 
 const ComplaintSchema = new Schema({
   department: {
-    type: Schema.Types.ObjectId,
+    type: String,
     required: true,
   },
   createdBy: {
-    type: Schema.Types.ObjectId,
+    type: Object,
     required: true,
   },
   issueId: {
     type: String,
     required: true,
   },
+  issueTitle: {
+    type: String,
+    required: true
+  },
   Assigned_to: {
     type: Schema.Types.ObjectId,
+  },
+  description: {
+    type: String,
+    required: true
   },
   createdAt: {
     type: Date,
@@ -30,6 +38,9 @@ const ComplaintSchema = new Schema({
     type: String,
     enum: ["Resolved", "In-Progress", "Open"],
   },
+  image : {
+    type : Object
+  }
 });
 
 module.exports.Complaints = mongoose.model("Complaints", ComplaintSchema);

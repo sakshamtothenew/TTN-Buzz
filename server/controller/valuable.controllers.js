@@ -19,9 +19,15 @@ const getValuableById = (req, res) => {
 };
 
 const addValuables = (req, res) => {
-  add_valuables(req.body)
+console.log(req.body)
+
+  add_valuables(req.body , req.file)
     .then((result) => res.send(result))
-    .catch((err) => res.send(err));
+    .catch((err) => {
+      console.log(err)
+      res.status(400)
+      res.send(err);
+    });
 };
 
 const updateValuablesById = (req, res) => {

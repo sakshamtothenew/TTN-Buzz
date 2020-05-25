@@ -22,7 +22,7 @@ export const Valuable_Buzz = {
     label: "Category",
     classname: "LFSelect",
   },
-  item_type: {
+  type: {
     elementType: "select",
     elementConfig: {
       type: "text",
@@ -40,17 +40,17 @@ export const Valuable_Buzz = {
     label: "Item type",
     classname: "LFSelect",
   },
-  name: {
+  email: {
     elementType: "input",
     elementConfig: {
       type: "text",
-      placeholder: "Name",
+      placeholder: "Email",
     },
     value: "",
-    label: "Your Name",
+    label: "Your Email",
     classname: "LFInput",
   },
-  
+
   description: {
     elementType: "textarea",
     elementConfig: {
@@ -61,7 +61,7 @@ export const Valuable_Buzz = {
     label: "item describe",
     classname: "LFTextarea",
   },
- 
+
 };
 
 export const Buzz_category = {
