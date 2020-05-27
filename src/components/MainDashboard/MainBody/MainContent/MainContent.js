@@ -24,8 +24,8 @@ const MainContent = () => {
   return (
     <div className = {classes.MainContent}>
       <Switch>
-        <Route path="/" exact render={() => BuzzPage} />
-        <Route path="/Complaints" render={() => complaintPage} />
+        <Route path="/home" exact render={() => BuzzPage} />
+        <Route path="/home/Complaints" render={() => complaintPage} />
       </Switch>
     </div>
   );
