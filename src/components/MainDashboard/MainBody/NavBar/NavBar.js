@@ -5,8 +5,8 @@ import classes from './Navbar.module.css'
 const NavBar = () => {
   return (
     <div className = {classes.NavBar}>
-      <NavElement exact link="/">Buzz</NavElement>
-      <NavElement link="/Complaints">Complaints</NavElement>
+      <NavElement exact link="/home">Buzz</NavElement>
+      <NavElement link="/home/Complaints">Complaints</NavElement>
     </div>
   );
 };

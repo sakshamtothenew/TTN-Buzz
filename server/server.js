@@ -2,6 +2,10 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require('cors')
+const cookieSession = require('cookie-session')
+const passport = require('passport')
+
+require('./Config/passport-google.config')
 
 const app = express();
 
@@ -13,14 +17,24 @@ mongoose.connect(
   }
 );
 
+app.use(
+  cookieSession({
+    maxAge : 30*24*60*60*1000,
+    keys : ['thisisverystrongkey']
+  })
+)
+
 app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(passport.initialize())
+app.use(passport.session())
 
 app.use("/user", require("./routes/user.routes"));
 app.use("/activities", require("./routes/activity.routes"));
 app.use("/complaints", require("./routes/complaints.routes"));
 app.use("/valuables", require("./routes/valuable.routes"));
+app.use('/auth' , require('./routes/auth.routes'))
 
 
 app.listen(5000, () => {

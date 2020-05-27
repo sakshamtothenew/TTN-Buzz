@@ -1,14 +1,14 @@
 import React from 'react';
 import MainDashboard from './components/MainDashboard/MainDashboard';
+import { Switch, Route } from 'react-router-dom'
+import Login from './components/LandingPage/Login/Login';
 
-
-
-function App() {
+const App = () => {
   return (
-    <React.Fragment>
-      <MainDashboard />
-    </React.Fragment>
-
+    <Switch>
+      <Route path='/' exact render={() => <Login />} />
+      <Route path='/home' render={() => <MainDashboard />} />
+    </Switch>
   );
 }
 

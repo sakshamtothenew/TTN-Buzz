@@ -5,15 +5,19 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
   type: {
     type: String,
-    required: true,
+   
     enum: ["Admin", "Employee"],
   },
   email: {
     type: String,
-    required: true,
+    
   },
   name: {
     type: String,
+  },
+  token : {
+    type : String,
+    required : true
   },
   createdAt: {
     type: Date,

@@ -1,0 +1,35 @@
+.container {
+
+    background: url('../../../assets/backgroundImage.jpg') center center/cover no-repeat;
+    height : 100vh;
+    filter: blur(8px);
+}
+
+
+.loginDiv {
+    height : 40%;
+    width : 30%;
+    background-color: rgba(255, 255, 255, 0.959);
+    position: absolute;
+    top : 30%;
+    left : 35%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.loginDiv img {
+    height : 60%;
+    width : 40%;
+    
+}
+
+.loginDiv p {
+    color : rgb(153, 149, 149)
+}
+.loginDiv a{
+    color : #fff;
+    background-color: tomato;
+    width : 80%;
+    margin : 0 auto;
+}
