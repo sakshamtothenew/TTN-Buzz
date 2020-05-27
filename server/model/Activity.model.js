@@ -6,8 +6,8 @@ const Schema = mongoose.Schema
 const ActivitySchema = new Schema({
     createdBy: {
         type: Schema.Types.ObjectId,
-        required : true
-        
+        required: true
+
     },
     createdAt: {
         type: Date,
@@ -22,6 +22,14 @@ const ActivitySchema = new Schema({
         type: Object,
 
     },
+    likes: {
+        type: Number ,
+        default : 0
+    },
+    dislikes: {
+        type: Number,
+        default : 0
+    },
     lastUpdated: {
         type: Date,
         default: Date.now()
@@ -29,9 +37,9 @@ const ActivitySchema = new Schema({
 
 })
 
- ActivitySchema.pre('updateOne' , function(next) {
-     this.set({lastUpdated : Date.now()})
- }
- )
+ActivitySchema.pre('updateOne', function (next) {
+    this.set({ lastUpdated: Date.now() })
+}
+)
 
 module.exports.Activity = mongoose.model("Activities", ActivitySchema)

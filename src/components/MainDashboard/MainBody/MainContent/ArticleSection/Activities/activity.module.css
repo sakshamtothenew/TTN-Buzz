@@ -1,0 +1,129 @@
+.container {
+    display : flex;
+    padding : 2%;
+    border-bottom : 1px solid #ebe3e3
+
+}
+.outercontainer {
+    height : 700px;
+    overflow-y: scroll;
+}
+
+
+.outercontainer::-webkit-scrollbar {
+    width: 5px;
+  }
+
+
+.outercontainer::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 5px;
+  }
+
+
+.outercontainer::-webkit-scrollbar-thumb {
+    background-color: #faac0598;
+    border-radius: 10px;
+  }
+
+.container p {
+    margin : 0;
+}
+
+.imagediv {
+    height : 50%;
+    width : 100%;
+    padding : 0 2% 2% 0;
+    border-radius: 5px;
+}
+.content {
+    flex-basis: 90%;
+}
+.imagediv img{
+    height: 100%;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.date {
+    flex-basis: 10%;
+}
+
+.date p {
+    font-size : 35px;
+    width : 100%;
+    line-height: 29px;
+    font-weight: lighter;
+    font-style: italic;
+    overflow-wrap: break-word;
+}
+
+.slash {
+    font-size: 15px;
+}
+.dt {
+    color : rgb(177, 170, 170)
+}
+
+.userInfo {
+    display : flex;
+    width : 100%; 
+    margin-top: 2%;
+    
+}
+
+.userInfo p {
+    width: 100%;
+}
+
+.email {
+    margin-left : 2%;
+    color : rgb(167, 157, 157)
+}
+
+.caption {
+    font-size : 13px;
+}
+.time {
+    font-size : 12px;
+    margin-left : 5%;
+    color : gray;
+}
+
+.time::before {
+    content : ".";
+    
+    margin-right: 2px;
+}
+
+.like {
+    display : flex;
+    justify-content: flex-end;
+    align-items : center;
+    margin-top : 2%;
+}
+.like * {
+    margin : 2% 3%;
+}
+
+.like p {
+    font-size : 12px;
+    color : rgb(165, 161, 161)
+}
+
+.likebtn {
+    background-color: transparent;
+    border : none;
+    
+}
+
+.likebtn:focus {
+    outline: none;
+}
+.orange {
+    color : #faac05;
+}
+
+.gray {
+    color : gray
+}
