@@ -58,8 +58,8 @@ const ActivityForm = (props) => {
       axios
         .post("http://localhost:5000/activities", formData)
         .then((result) => {
-          if(result.status === 200)
-          alert('activity generated successfully')
+          if (result.status === 200)
+            alert('activity generated successfully')
         });
 
     } else if (categoryValue === "Lost & Found") {
@@ -110,14 +110,14 @@ const ActivityForm = (props) => {
   return (
     <div className={classes.Formdiv}>
       <Wrapper heading="Create Buzz">
-        <form className={classes.buzzForm}>
+        <form onSubmit={(event) => SubmitHandler(event)} className={classes.buzzForm}>
           <div className={classes.inputFields}>{formBody}</div>
           <div className={classes.categoryDiv}>
             <div className={classes.categoryFieldsDiv}>
               {categoryField}
               <ImgUpld fileuploadDisplayHandler={imageattachmentHandler} />
             </div>
-            <button onClick={SubmitHandler} className={classes.submitbtn}>
+            <button className={classes.submitbtn}>
               <i className="fas fa-location-arrow"></i>
             </button>
           </div>

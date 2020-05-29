@@ -22,14 +22,6 @@ const ActivitySchema = new Schema({
         type: Object,
 
     },
-    likes: {
-        type: Number ,
-        default : 0
-    },
-    dislikes: {
-        type: Number,
-        default : 0
-    },
     lastUpdated: {
         type: Date,
         default: Date.now()

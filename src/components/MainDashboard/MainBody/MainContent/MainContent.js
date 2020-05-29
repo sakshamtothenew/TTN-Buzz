@@ -1,12 +1,10 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 import Complaints from "./Forms/complaintForm/Complaints";
-import ActivityForm from "./Forms/Buzz/buzz.form";
 import ComplaintTable from "./ArticleSection/Complaints/Complaints.Article";
-import Activities from "./ArticleSection/Activities/Activities.Article";
 import classes from "./MainContent.module.css";
-
-const MainContent = () => {
+import BuzzPage from './BuzzPage/BuzzPage'
+const MainContent = (props) => {
   const complaintPage = (
     <div>
       <Complaints />
@@ -14,17 +12,12 @@ const MainContent = () => {
     </div>
   );
 
-  const BuzzPage = (
-    <div>
-      <ActivityForm />
-      <Activities />
-    </div>
-  );
+ 
 
   return (
     <div className = {classes.MainContent}>
       <Switch>
-        <Route path="/home" exact render={() => BuzzPage} />
+        <Route path="/home" exact render={() => <BuzzPage user = {props.user}/>} />
         <Route path="/home/Complaints" render={() => complaintPage} />
       </Switch>
     </div>

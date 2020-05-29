@@ -37,7 +37,7 @@ const updateValuablesById = (req, res) => {
 };
 
 const deleteValuablesById = (req, res) => {
-  delete_valuables_by_id(id)
+  delete_valuables_by_id(req.params.id)
     .then((result) => res.send(result))
     .catch((err) => res.send(err));
 };

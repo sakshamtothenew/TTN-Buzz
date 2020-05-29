@@ -4,7 +4,9 @@ const {
   create_activities,
   delete_activities,
   update_activities_by_id,
-  delete_all
+  delete_all,
+  update_actions,
+  delete_actions
 } = require("../services/activity.service");
 
 
@@ -54,11 +56,38 @@ const deleteAll = (req , res) => {
    .catch(err => res.send(err))
 }
 
+const updateActions = (req , res) => {
+
+  const post_id = req.body.post_id;
+  const user = req.body.user;
+  const value = req.body.value;
+  console.log("it came here too")
+  update_actions(post_id , user , value)
+  .then(result => res.send(result))
+  .catch(err => {
+    res.status(500)
+    res.send(err);
+  })
+
+}
+
+const deleteAction = (req , res) => {
+  const user = req.params.user;
+  const post = req.params.post
+   delete_actions(user , post)
+   .then(response => res.send(response))
+   .catch(err => {
+     res.status(500)
+     res.send(err)
+   })
+}
 module.exports = {
   getAllActivities,
   getAllActivitiesByUserId,
   createActivities,
   updateActivitiesById,
   deleteActivities,
-  deleteAll
+  deleteAll,
+  updateActions,
+  deleteAction
 };

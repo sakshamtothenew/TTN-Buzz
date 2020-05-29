@@ -3,12 +3,12 @@ import NavBar from './NavBar/NavBar'
 import MainContent from './MainContent/MainContent'
 import classes from './mainbody.module.css'
 
-const MainBody = () => {
+const MainBody = (props) => {
 
     return(
         <div className = {classes.container}>
             <NavBar />
-            <MainContent />
+            <MainContent user = {props.user}/>
         </div>
     )
 }

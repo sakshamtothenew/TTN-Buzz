@@ -1,0 +1,26 @@
+
+.switchbtn {
+    width : 100%;
+    background-color: #ffae00;
+    display : flex;
+    margin-bottom: 5%;   
+    border-radius : 5px;
+}
+
+
+.activity {
+    flex-basis : 50%;
+    text-align: center;
+    border-right : 2px solid rgb(125, 134, 124);
+    padding: 2%;
+    border-radius: 5px 0 0 5px;
+    cursor: pointer;
+}
+
+.lostnfound {
+    flex-basis: 50%;
+    text-align: center;
+    padding : 2%;
+    border-radius : 5px;
+    cursor : pointer
+}

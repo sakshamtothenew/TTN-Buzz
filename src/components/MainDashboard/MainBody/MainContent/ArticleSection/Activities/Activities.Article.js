@@ -1,114 +1,191 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Wrapper from "../../../../UI/Wrapper/Wrapper";
 import classes from "./activity.module.css";
-import sample from '../../../../../../assets/banner.jpg'
-import { set } from "mongoose";
-const Activities = () => {
+import axios from 'axios'
 
-  const [actions, setactions] = useState({
-    likes: 0,
-    dislikes: 0,
-    disliked: false,
-    liked: false
-  })
 
-  const onlikehandler = (action) => {
-    const state = { ...actions };
+const URL = "http://localhost:5000"
+const Activities = (props) => {
+
+
+  const [activities, setActivities] = useState({})
+  const [actions, setactions] = useState({})
+
+  useEffect(() => {
+    axios.get('http://localhost:5000/activities/')
+      .then(response => {
+        console.log(response.data)
+        const stateObj = {}
+        for (let i in response.data) {
+          stateObj[response.data[i]._id] = { ...response.data[i] };
+        }
+        console.log(stateObj)
+        setActivities(stateObj)
+      })
+  }, [])
+
+  const onlikehandler = (action, post_id) => {
+    const requestBody = {
+      value: action,
+      user: props.user._id,
+      post_id: post_id
+    }
+    let actionid = null;
+    let activity = { ...activities };
+    let state = { ...activity[post_id] }
+    let method = null;
     if (action == "Like") {
-      if (actions.liked) {
-        state.likes -= 1;
-        state.liked = !state.liked
+      if (state.actionDetails.value === "Like") {
+        state = Unlike(state);
+        method = "DELETE"
+        actionid = state.actionDetails._id
       }
       else {
-        if (state.disliked) {
-
-          state.likes += 1;
-          state.liked = !state.liked;
-          state.dislikes -= 1;
-          state.disliked = !state.disliked
+        if (state.actionDetails.value === "Dislike") {
+          state = changeDislikedToLiked(state)
+          method = "PUT"
         }
         else {
-          state.likes += 1;
-          state.liked = !state.liked;
+          state = justLike(state)
+          method = "PUT"
         }
       }
     }
     else {
-      if (state.disliked) {
-        state.dislikes -= 1;
-        state.disliked = !state.disliked
+      if (state.actionDetails.value === "Dislike") {
+        state = undoDislike(state)
+        method = "DELETE"
+        actionid = state.actionDetails._id
       }
       else {
-        if (state.liked) {
-
-          state.likes -= 1;
-          state.liked = !state.liked
-          state.dislikes += 1;
-          state.disliked = !state.disliked;
-
+        if (state.actionDetails.value === "Like") {
+          state = changeLikedToDisliked(state)
+          method = "PUT"
         }
         else {
-          state.dislikes += 1;
-          state.disliked = !state.liked;
+          state = justDislike(state)
+          method = "PUT"
         }
       }
     }
+    activity[post_id] = state;
     console.log(state)
-    setactions(state);
+
+
+
+    makeRequest(method, activity, requestBody)
+
   }
+
+
+  const Unlike = (state) => {
+    console.log(state.actionDetails)
+    state.actionDetails.likeCount -= 1;
+    state.actionDetails.value = null
+    return state
+  }
+
+  const changeDislikedToLiked = (state) => {
+    state.actionDetails.likeCount += 1;
+    state.actionDetails.value = "Like";
+    state.actionDetails.dislikeCount -= 1;
+    return state
+  }
+
+  const justLike = (state) => {
+    state.actionDetails.likeCount += 1;
+    state.actionDetails.value = "Like"
+    return state
+  }
+
+  const undoDislike = (state) => {
+    state.actionDetails.dislikeCount -= 1;
+    state.actionDetails.value = null
+    return state
+  }
+
+  const changeLikedToDisliked = (state) => {
+    state.actionDetails.likeCount -= 1;
+    state.actionDetails.value = "Dislike"
+    state.actionDetails.dislikeCount += 1;
+    return state
+  }
+
+  const justDislike = (state) => {
+    state.actionDetails.dislikeCount += 1;
+    state.actionDetails.value = "Dislike"
+    return state
+  }
+
+  const makeRequest = (method, state, requestBody) => {
+    if (method === 'PUT') {
+      axios.put(`${URL}/activities/actions`, requestBody)
+        .then(response => {
+          console.log(response.data)
+          setActivities(state)
+        })
+    }
+    else {
+      axios.delete(`${URL}/activities/actions/${requestBody.user}/${requestBody.post_id}`)
+        .then(response => {
+          console.log(response.data)
+          setActivities(state)
+        })
+    }
+  }
+  const allActivities = [];
+
+  Object.keys(activities).forEach((eactActivity) => {
+
+    let imagepath = activities[eactActivity].image.path;
+
+    const path = imagepath.split('/');
+    imagepath = ["", path[path.length - 2], path[path.length - 1]].join('/')
+
+
+    allActivities.push(<div className={classes.container}>
+      <div className={classes.date}>
+        <p><span className={classes.dt}>15</span>
+          <span className={classes.slash}>/ </span>20</p>
+
+      </div>
+      <div className={classes.content}>
+
+        <div className={classes.imagediv}>
+          <img src={process.env.PUBLIC_URL + imagepath} alt="img" />
+        </div>
+        <div className={classes.userInfo}>
+          <p className={classes.username}>saksham123
+          <span className={classes.email}>saksham5ssachdeva</span>
+            <span className={classes.time}>2h</span>
+          </p>
+
+        </div>
+        <div className={classes.caption}>
+          <p>{activities[eactActivity].content}</p>
+        </div>
+        <div className={classes.like}>
+          <p>{activities[eactActivity].actionDetails.likeCount}</p>
+          <button className={[classes.likebtn, (activities[eactActivity].actionDetails.value === "Like" ? classes.orange : classes.gray)].join(' ')}
+            onClick={() => onlikehandler("Like", activities[eactActivity]._id)}>
+            <i className="fas fa-thumbs-up"></i>
+          </button>
+          <p>{activities[eactActivity].actionDetails.dislikeCount}</p>
+          <button className={[classes.likebtn, (activities[eactActivity].actionDetails.value === "Dislike" ? classes.orange : classes.gray)].join(' ')}
+            onClick={() => onlikehandler("Dislike", activities[eactActivity]._id)}>
+            <i className="fas fa-thumbs-down"></i>
+          </button>
+        </div>
+      </div>
+    </div>)
+  })
 
 
   return (
 
     <Wrapper heading="Recent Buzz">
       <div className={classes.outercontainer}>
-        <div className={classes.container}>
-          <div className={classes.date}>
-            <p><span className={classes.dt}>15</span>
-              <span className={classes.slash}>/ </span>20</p>
-
-          </div>
-          <div className={classes.content}>
-
-            <div className={classes.imagediv}>
-              <img src={sample} alt="img" />
-            </div>
-            <div className={classes.userInfo}>
-              <p className={classes.username}>saksham123
-              <span className={classes.email}>saksham5ssachdeva</span>
-                <span className={classes.time}>2h</span>
-              </p>
-
-            </div>
-            <div className={classes.caption}>
-              <p>The quick, brown fox jumps over a lazy dog. DJs flock by when MTV ax quiz prog.
-              Junk MTV quiz graced by fox whelps. Bawds jog, flick quartz, vex nymphs.
-              Waltz, bad nymph, for quick jigs vex! Fox nymphs grab quick-jived waltz.
-              Brick quiz whangs jumpy veldt fox. Bright vixens jump; dozy fowl quack.
-              Quick wafting zephyrs vex bold Jim. Quick zephyrs blow, vexing daft Jim.
-              Sex-charged fop blew my junk TV quiz. How quickly daft jumping zebras vex.
-              Two driven jocks help fax my big quiz. Quick, Baz, get my woven flax jodhpurs!
-              "Now fax quiz Jack!" my brave ghost pled. Five quacking zephyrs jolt my wax bed.
-              Flummoxed by job, kvetching W. zaps Iraq. Cozy sphinx waves quart jug of bad milk.
-              A very bad quack might jinx zippy fowls. Few quips galvanized the mock jury box.
-              Quick brown dogs jump over the lazy fox. The jay, pig, fox, zebra, and my wolves quack!
-              Blowzy red vixens fight for a quick jump. Joaquin Phoenix was gazed by MTV for luck.
-                     A wizard’s job is to vex chumps quickly in fog. Watch "Jeopardy!",</p>
-            </div>
-            <div className={classes.like}>
-              <p>{actions.likes}</p>
-              <button className={[classes.likebtn, (actions.liked ? classes.orange : classes.gray)].join(' ')}
-                onClick={() => onlikehandler("Like")}>
-                <i className="fas fa-thumbs-up"></i>
-              </button>
-              <p>{actions.dislikes}</p>
-              <button className={[classes.likebtn, (actions.disliked ? classes.orange : classes.gray)].join(' ')}
-                onClick={() => onlikehandler("Dislike")}>
-                <i className="fas fa-thumbs-down"></i>
-              </button>
-            </div>
-          </div>
-        </div>
+        {allActivities}
       </div>
 
     </Wrapper>

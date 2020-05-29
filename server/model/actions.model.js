@@ -27,4 +27,4 @@ const actions = new Schema({
 })
 
 
-module.exports.action = mongoose.model("actions" ,actions);
+module.exports.Action = mongoose.model("actions" ,actions);
