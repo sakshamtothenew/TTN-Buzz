@@ -1,7 +1,6 @@
 const { Activity } = require("../model/Activity.model");
 const { get_user_by_email } = require("./user.service");
 const { Action } = require('../model/actions.model')
-const { ISOdate, ObjectId } = require("../Utils/convertors");
 
 const get_all_activities = () => {
   return new Promise((reject, resolve) => {
@@ -31,7 +30,6 @@ const get_all_activities = () => {
         resolve(result)
       })
       .catch(err => reject(err))
-
   });
 };
 
@@ -53,14 +51,12 @@ const create_activities = (
     path
   }) => {
   return new Promise((resolve, reject) => {
-
     console.log(email);
     let UserId = null;
+    
     get_user_by_email(email)
       .then((result) => {
-
         UserId = result._id;
-
         const newActivity = new Activity({
           createdBy: UserId,
           content: activity,
@@ -104,9 +100,9 @@ const delete_all = () => {
   })
 }
 
-const delete_actions = (user , post_id) => {
+const delete_actions = (user, post_id) => {
   return new Promise((resolve, reject) => {
-    Action.deleteOne({ pushed_by : user , post_id : post_id })
+    Action.deleteOne({ pushed_by: user, post_id: post_id })
       .then(result => resolve(result))
       .catch(err => reject(err))
   })

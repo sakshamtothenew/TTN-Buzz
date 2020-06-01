@@ -4,7 +4,18 @@ const { get_user_by_email } = require('./user.service')
 const get_all_valuables = () => {
   return new Promise((resolve, reject) => {
     valuables
-      .find()
+      .aggregate([
+        {
+          $lookup: {
+            from: "users",
+            localField: "createdBy",
+            foreignField: "_id",
+            as: "userDetails"
+          },
+        },
+        { $unwind: "$userDetails" }
+
+      ])
       .then((result) => resolve(result))
       .catch((err) => reject(err));
   });
@@ -24,24 +35,24 @@ const add_valuables = ({
   type,
   email,
   description,
-} , 
-{
-  filename ,
-  path
-}
+},
+  {
+    filename,
+    path
+  }
 ) => {
   return new Promise((resolve, reject) => {
 
     get_user_by_email(email)
       .then(result => {
-        
-        const userId =  result === null ? null : result._id
+
+        const userId = result === null ? null : result._id
         const newValuable = new valuables({
-          category : category,
+          category: category,
           createdBy: userId,
-          description : description,
-          type : type,
-          image : {
+          description: description,
+          type: type,
+          image: {
             filename,
             path
           }

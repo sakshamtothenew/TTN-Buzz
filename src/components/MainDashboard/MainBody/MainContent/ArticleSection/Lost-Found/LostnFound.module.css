@@ -12,12 +12,19 @@
 }
 
 .date {
-    padding : 2%;
+    padding : 2% 1%;
 }
 .type {
     font-style: italic;
     font-size : 40px;
+   
+}
+
+.Lost {
     color : rgb(211, 17, 17)
+}
+.Found {
+    color : rgb(12, 122, 12)
 }
 .img {
     height : 200px;
