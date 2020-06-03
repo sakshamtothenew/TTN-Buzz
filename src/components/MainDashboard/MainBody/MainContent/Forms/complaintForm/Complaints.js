@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { issueTitles } from "./IssueTitle";
 import Input from "../../../../UI/Input/input";
 import classes from "./Complaint.module.css";
@@ -7,7 +9,7 @@ import ImgUpld from "../../../../UI/imageIcon/Imageicon";
 import axios from 'axios'
 
 const Complaints = () => {
-  const [attachment , setAttachment] = useState(null);
+  const [attachment, setAttachment] = useState(null);
   const [ComplaintForm, setComplaintFormState] = useState({
     name: {
       elementType: "input",
@@ -92,19 +94,31 @@ const Complaints = () => {
 
     Object.keys(ComplaintForm).forEach(keys => {
 
-      formData.append(keys ,ComplaintForm[keys].value)
+      formData.append(keys, ComplaintForm[keys].value)
     })
 
-    formData.append("img" , attachment);
-    formData.append("status" , "Open")
+    formData.append("img", attachment);
+    formData.append("status", "Open")
     axios
-    .post('http://localhost:5000/complaints' , formData)
-    .then(result => {
-       console.log(result)
-    })
- 
+      .post('/complaints/', formData)
+      .then(result => {
+        console.log(result)
+      })
+      .catch(err => {
+        
+        toast.error( err , {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          });
+      })
+
   }
-  
+
 
 
   const fileuploadDisplayHandler = (event) => {
@@ -137,11 +151,12 @@ const Complaints = () => {
       <Wrapper heading="Complaints">
         <form className={classes.ComDiv}>
           {formBody}
-         <ImgUpld  fileuploadDisplayHandler = {fileuploadDisplayHandler}/>
+          <ImgUpld fileuploadDisplayHandler={fileuploadDisplayHandler} />
           <div className={classes.btndiv}>
-            <button  onClick = {submitHandler}  className={classes.submitBtn}>Submit</button>
+            <button onClick={submitHandler} className={classes.submitBtn}>Submit</button>
           </div>
         </form>
+        <ToastContainer />
       </Wrapper>
     </div>
   );

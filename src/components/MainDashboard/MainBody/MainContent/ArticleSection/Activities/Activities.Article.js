@@ -1,27 +1,55 @@
 import React, { useState, useEffect } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useSelector } from 'react-redux'
 import Wrapper from "../../../../UI/Wrapper/Wrapper";
 import classes from "./activity.module.css";
 import axios from 'axios'
+import { withRouter } from "react-router-dom";
 
 
 const URL = "http://localhost:5000"
 const Activities = (props) => {
 
 
+
+  const user = useSelector(state => state.user.user)
+
+  console.log(user)
+
   const [activities, setActivities] = useState({})
   const [actions, setactions] = useState({})
 
   useEffect(() => {
-    axios.get('http://localhost:5000/activities/')
+    axios.get('/activities')
       .then(response => {
         console.log(response.data)
+
         const stateObj = {}
         for (let i in response.data) {
           stateObj[response.data[i]._id] = { ...response.data[i] };
         }
         console.log(stateObj)
         setActivities(stateObj)
+
+
+
       })
+      .catch(err => {
+
+
+        toast.error(`${err}`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        
+      })
+
   }, [])
 
   const onlikehandler = (action, post_id) => {
@@ -131,6 +159,9 @@ const Activities = (props) => {
           console.log(response.data)
           setActivities(state)
         })
+        .catch(err => {
+          console.log(err)
+        })
     }
   }
   const allActivities = [];
@@ -187,7 +218,7 @@ const Activities = (props) => {
       <div className={classes.outercontainer}>
         {allActivities}
       </div>
-
+      <ToastContainer />
     </Wrapper>
 
 
@@ -195,4 +226,4 @@ const Activities = (props) => {
   );
 };
 
-export default Activities;
+export default withRouter(Activities);

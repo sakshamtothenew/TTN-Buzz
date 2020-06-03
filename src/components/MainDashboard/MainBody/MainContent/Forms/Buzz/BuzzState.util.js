@@ -3,10 +3,12 @@ export const Activity_Buzz = {
     elementType: "textarea",
     elementConfig: {
       type: "textarea",
-      placeholder: "create Activity...",
+      placeholder: "Please Select Category First...",
+      disabled: true,
     },
     value: "",
     label: "",
+   
     classname: "Activity",
   },
 };
@@ -17,7 +19,7 @@ export const Valuable_Buzz = {
     elementConfig: {
       placeholder: "type",
       options: ["Lost", "Found"],
-    },
+    }, 
     value: "category",
     label: "Category",
     classname: "LFSelect",

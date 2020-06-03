@@ -1,22 +1,25 @@
 import React, { useEffect, useState } from 'react'
+import {useDispatch , useSelector} from 'react-redux'
 import classes from './MainDashboard.module.css'
 import Header from './Header/Header'
 import MainBody from './MainBody/MainBody'
 import axios from 'axios'
+import * as actions from '../../store/actions/index.actions'
 const MainDashboard = () => {
-  const [user , setuser] = useState(null)
+
+    const dispatch = useDispatch();
+    const  setUsers = () =>  dispatch(actions.setUser())
+
     useEffect(() => {
-        axios.get('/auth/getuser')
-            .then(result => {console.log(result)
-                const user = result.data
-                console.log('this happened')
-                setuser(user)
-            })
-    } , [])
+
+        console.log("dasboard updates")
+        setUsers();
+    
+    }, [])
     return (
         <div className={classes.mainBody}>
             <Header />
-            <MainBody user = {user} />
+            <MainBody  />
         </div>
     )
 }

@@ -35,6 +35,7 @@ const Input = (props) => {
           onChange={props.changed}
           value={props.value}
           type={props.elementConfig.type}
+           disabled = {props.elementConfig.disabled}
         
         ></textarea>
       );

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import * as BuzzState from "./BuzzState.util";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import classes from "./buzz.module.css";
 import Input from "../../../../UI/Input/input";
 import Wrapper from "../../../../UI/Wrapper/Wrapper";
@@ -8,6 +9,7 @@ import ImgUpld from "../../../../UI/imageIcon/Imageicon";
 import axios from "axios";
 
 const ActivityForm = (props) => {
+  console.log(BuzzState.Activity_Buzz)
   const [BuzzForm, setBuzzForm] = useState(BuzzState.Activity_Buzz);
   const [attachmentPath, setAttachmentPath] = useState(null);
   const [categoryValue, setCategoryValue] = useState(
@@ -26,7 +28,14 @@ const ActivityForm = (props) => {
     setCategoryValue(event.target.value);
 
     if (event.target.value === "Activity") {
-      setBuzzForm(BuzzState.Activity_Buzz);
+      const state = { ...BuzzState.Activity_Buzz }
+      const activity = { ...state.activity }
+      const eleConfig = { ...activity.elementConfig }
+      eleConfig.disabled = false;
+      eleConfig.placeholder = "create Buzz.."
+      activity.elementConfig = eleConfig;
+      state.activity = activity
+      setBuzzForm(state);
       return;
     }
     setBuzzForm(BuzzState.Valuable_Buzz);
@@ -56,10 +65,18 @@ const ActivityForm = (props) => {
       formData.append("email", "saksham.sachdeva@tothenew.com");
 
       axios
-        .post("http://localhost:5000/activities", formData)
+        .post("/activities", formData)
         .then((result) => {
           if (result.status === 200)
-            alert('activity generated successfully')
+            toast.success('New Activity Created', {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
         });
 
     } else if (categoryValue === "Lost & Found") {
@@ -75,7 +92,15 @@ const ActivityForm = (props) => {
         .then(result => console.log(result))
 
     } else {
-      alert("please select category to submit");
+      toast.error('Please Choose Category', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   };
 

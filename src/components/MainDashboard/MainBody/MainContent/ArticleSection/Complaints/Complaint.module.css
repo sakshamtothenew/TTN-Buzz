@@ -1,0 +1,17 @@
+.Open  {
+    color :  red;
+}
+.InProgress {
+    color : blue;
+}
+.Resolved {
+    color : green
+}
+
+.tableBody td , th {
+    text-align: center;
+    padding : 1% 5% ;
+    font-size: 14px;
+    
+}
+

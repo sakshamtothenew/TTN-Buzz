@@ -4,16 +4,9 @@ import Wrapper from '../../../../UI/Wrapper/Wrapper'
 import classes from './LostnFound.module.css'
 import activityClasses from '../Activities/activity.module.css'
 const LostnFound = () => {
-  const [displayInfo, setDisplayInfo] = useState("hide")
+  
   const [lostnfounds, setlostnfounds] = useState([])
-  const infohandler = () => {
-    if (displayInfo == "show") {
-      setDisplayInfo("hide")
-    }
-    else {
-      setDisplayInfo("show")
-    }
-  }
+  
 
   const dateConverter = (date) => {
     console.log(date);

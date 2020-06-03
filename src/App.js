@@ -1,15 +1,42 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector , useDispatch } from 'react-redux'
 import MainDashboard from './components/MainDashboard/MainDashboard';
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import Login from './components/LandingPage/Login/Login';
+import SetUser from './components/SetUser/SetUser';
+import * as actions from './store/actions/index.actions'
 
 const App = () => {
-  return (
+
+ const dispatch = useDispatch();
+
+  const setUser = () => dispatch(actions.setUser())
+
+   useEffect(() => {
+    setUser()
+   } , [])
+
+  const User = useSelector(state => state.user.user)
+  
+
+  console.log(User)
+  let routes = (
     <Switch>
-      <Route path='/' exact render={() => <Login />} />
       <Route path='/home' render={() => <MainDashboard />} />
+      <Redirect to ="/home" />
     </Switch>
-  );
+  )
+
+  if (!User) {
+    routes = (
+      <Switch>
+        <Route path='/' exact render={() => <Login />} />
+        <Route path='/auth/setUser' render={() => <SetUser />} />
+        <Redirect to="/" />
+      </Switch>
+    )
+  }
+  return routes;
 }
 
 export default App;
