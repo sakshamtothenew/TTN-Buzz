@@ -10,12 +10,14 @@ const {
   deleteAction
 } = require("../controller/activity.controllers");
 
+const verifyAuth = require('../middlewares/verifyAuthentication')
+
 const { upload } = require("../Config/Multer.config");
-route.get("/", getAllActivities);
+route.get("/", verifyAuth, getAllActivities);
 
 route.get("/:userid", getAllActivitiesByUserId);
 
-route.post("/", upload.single("img"), createActivities);
+route.post("/", verifyAuth ,  upload.single("img"), createActivities);
 
 route.put("/update/:id", updateActivitiesById);
 

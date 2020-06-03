@@ -10,7 +10,7 @@ route.get('/google' , passport.authenticate('google' ,
 
 route.get('/google/callback' , passport.authenticate('google') ,(req , res) => {
 
-    res.redirect('http://localhost:3000/home')
+    res.redirect('http://localhost:3000/auth/setUser')
 })
 
 

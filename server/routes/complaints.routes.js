@@ -9,15 +9,18 @@ const {
   getComplaintsByUserId,
 } = require("../controller/complaints.controllers");
 
-const {upload} = require('../Config/Multer.config')
+const verifyAuth = require('../middlewares/verifyAuthentication')
+
+
+const { upload } = require('../Config/Multer.config')
 
 route.get("/:id", getComplaintsById);
 
 route.get("/status/:status", getComplaintsByStatus);
 
-route.post("/", upload.single("img"), createComplaint);
+route.post("/", verifyAuth , upload.single("img"), createComplaint);
 
-route.get("/user/:id", getComplaintsByUserId);
+route.get("/user/:id", verifyAuth , getComplaintsByUserId);
 
 route.get("/", getAllComplaints);
 

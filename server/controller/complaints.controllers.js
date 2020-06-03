@@ -42,6 +42,7 @@ const updateComplaintById = (req, res) => {
 };
 
 const getComplaintsByUserId = (req, res) => {
+  console.log(req.params.id)
   get_complaints_by_user(req.params.id)
     .then((result) => res.send(result))
     .catch((err) => res.send(err));

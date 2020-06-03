@@ -1,5 +1,6 @@
 const { Complaints } = require("../model/Complaints.model");
 const { get_user_by_email } = require('./user.service')
+const {ObjectId} = require('../Utils/convertors')
 const get_complaints_by_id = (id) => {
   return new Promise((resolve, reject) => {
     Complaints.find({ _id: id })
@@ -34,7 +35,7 @@ const create_complaint = ({
         const userid = result._id
         const newComplaints = new Complaints({
           department: department,
-          createdBy: {userid, name},
+          createdBy: {userid : userid , name : name},
           description,
           issueId: issueId,
           issueTitle: issueTitle,
@@ -68,11 +69,17 @@ const update_complaint_by_id = (id, updation) => {
   });
 };
 
-const get_complaints_by_user = () => {
+const get_complaints_by_user = (id) => {
+  console.log(id)
   return new Promise((resolve, reject) => {
-    Commplaint.find({ createdBy: id })
-      .then((result) => resolve(result))
-      .catch((err) => reject(err));
+    Complaints.find({ "createdBy.userid" : ObjectId(id)  })
+      .then((result) =>{         
+        console.log(result)
+        resolve(result)
+      })
+      .catch((err) => {
+        console.log(err)
+        reject(err)});
   });
 };
 
