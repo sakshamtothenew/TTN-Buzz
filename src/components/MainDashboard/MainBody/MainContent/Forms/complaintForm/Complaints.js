@@ -105,8 +105,8 @@ const Complaints = () => {
         console.log(result)
       })
       .catch(err => {
-        
-        toast.error( err , {
+
+        toast.error(err, {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -114,7 +114,7 @@ const Complaints = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          });
+        });
       })
 
   }
@@ -156,7 +156,6 @@ const Complaints = () => {
             <button onClick={submitHandler} className={classes.submitBtn}>Submit</button>
           </div>
         </form>
-        <ToastContainer />
       </Wrapper>
     </div>
   );

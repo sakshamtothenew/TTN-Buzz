@@ -8,10 +8,9 @@ import axios from 'axios'
 import classes from './Complaint.module.css'
 const ComplaintTable = (props) => {
   const User = useSelector(state => state.user)
-  const loading = useSelector(state => state.user.loading)
+  
+  const [complaints, setComplaints] = useState({})
 
-
-  const [complaints, setComplaints] = useState([])
   useEffect(() => {
     if (User.user === null) {
       setComplaints("loading")
@@ -19,9 +18,15 @@ const ComplaintTable = (props) => {
     else {
       axios.get('/complaints/user/' + User.user._id)
         .then(response => {
-          setComplaints(response.data)
+
+          const stateObj = {}
+          for (let i in response.data) {
+            stateObj[response.data[i]._id] = { ...response.data[i] };
+          }
+          console.log(stateObj)
+          setComplaints(stateObj)
         })
-        .catch(err =>{
+        .catch(err => {
 
           toast.error(`${err}`, {
             position: "top-right",
@@ -31,21 +36,24 @@ const ComplaintTable = (props) => {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            });
-        } )
+          });
+        })
 
     }
   }, [])
 
-  let complaintList;
-  if (Array.isArray(complaints)) {
-    complaintList = complaints.map((eachComplaint) => {
-      return (<tr>
+
+
+  let complaintList = [];
+  if (typeof complaints === "object") {
+    Object.keys(complaints).forEach((keys) => {
+      const eachComplaint = complaints[keys];
+
+      complaintList.push(<tr>
         <td>{eachComplaint.department}</td>
         <td><a href="#">{eachComplaint.issueId}</a></td>
         <td>{eachComplaint.AssignedTo ? eachComplaint.AssignedTo : "UnAssigned"}</td>
-        <td>{eachComplaint.createdBy.name}</td>
-        <td className={classes[eachComplaint.status]}>{eachComplaint.status}</td>
+        <td className={classes[eachComplaint.status]} >{eachComplaint.status}</td>
       </tr>)
     })
   }
@@ -61,7 +69,6 @@ const ComplaintTable = (props) => {
             <th>Department</th>
             <th>Issue Id</th>
             <th>Assigned To</th>
-            <th>Locked To</th>
             <th>Status</th>
           </tr>
         </thead>

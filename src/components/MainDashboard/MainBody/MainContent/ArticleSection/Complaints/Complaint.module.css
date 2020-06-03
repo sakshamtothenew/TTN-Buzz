@@ -1,10 +1,22 @@
 .Open  {
     color :  red;
 }
-.InProgress {
+.InProgress  {
     color : blue;
 }
 .Resolved {
+    color : green
+}
+
+.Open select {
+    color : red
+}
+
+.InProgress select{
+    color : blue;
+}
+
+.Resolved select {
     color : green
 }
 

@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import Wrapper from '../../../../UI/Wrapper/Wrapper'
 import classes from './LostnFound.module.css'
 import activityClasses from '../Activities/activity.module.css'
 const LostnFound = () => {
-  
+
   const [lostnfounds, setlostnfounds] = useState([])
-  
+
 
   const dateConverter = (date) => {
     console.log(date);
@@ -19,10 +21,21 @@ const LostnFound = () => {
     }
   }
   useEffect(() => {
-    axios.get('http://localhost:5000/valuables')
+    axios.get('/valuables')
       .then(response => {
         console.log(response.data)
         setlostnfounds(response.data);
+      })
+      .catch(err => {
+        toast.error(`${err}`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       })
   }, [])
 
@@ -63,7 +76,7 @@ const LostnFound = () => {
       <div className={activityClasses.outercontainer}>
         {lostnfoundlist}
       </div>
-
+      <ToastContainer />
     </Wrapper>
 
   );
