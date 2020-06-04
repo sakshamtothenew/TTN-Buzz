@@ -4,11 +4,23 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useSelector } from 'react-redux'
 import { Table } from "react-bootstrap";
 import Wrapper from '../../../../UI/Wrapper/Wrapper'
+import Input from '../../../../UI/Input/input'
 import axios from 'axios'
 import classes from './Complaint.module.css'
 const ComplaintTable = (props) => {
-  const User = useSelector(state => state.user)
-  
+  const User = useSelector(state => state.user.user)
+  const [statusSelect, setStatusSelect] = useState({
+    elementType: "select",
+    elementConfig: {
+      type: "text",
+      placeholder: "Status",
+      options: ["Open", "InProgress", "Resolved"],
+    },
+    value: "",
+    label: "",
+    classname: "CTSelect"
+  })
+
   const [complaints, setComplaints] = useState({})
 
   useEffect(() => {
@@ -16,7 +28,9 @@ const ComplaintTable = (props) => {
       setComplaints("loading")
     }
     else {
-      axios.get('/complaints/user/' + User.user._id)
+      let UserQuery = "";
+
+      axios.get('/complaints/user/' + User._id)
         .then(response => {
 
           const stateObj = {}
@@ -43,6 +57,16 @@ const ComplaintTable = (props) => {
   }, [])
 
 
+  const statusChangedHandler = (event, ComplaintIdentifier) => {
+    const currComplaints = { ...complaints }
+    const changedComplaint = { ...currComplaints[ComplaintIdentifier] }
+    changedComplaint.status = event.target.value;
+    currComplaints[ComplaintIdentifier] = changedComplaint;
+    setComplaints(currComplaints);
+
+  }
+
+
 
   let complaintList = [];
   if (typeof complaints === "object") {
@@ -51,10 +75,21 @@ const ComplaintTable = (props) => {
 
       complaintList.push(<tr>
         <td>{eachComplaint.department}</td>
-        <td><a href="#">{eachComplaint.issueId}</a></td>
-        <td>{eachComplaint.AssignedTo ? eachComplaint.AssignedTo : "UnAssigned"}</td>
-        <td className={classes[eachComplaint.status]} >{eachComplaint.status}</td>
-      </tr>)
+        <td><button onClick={() => props.showhandler(eachComplaint)}>{eachComplaint.issueId}</button></td>
+        {User.type === "Admin" && props.editable ? <td>{eachComplaint.createdBy.name}</td> : null}
+        < td > {eachComplaint.AssignedTo ? eachComplaint.AssignedTo : "UnAssigned"}</td >
+        <td className={classes[eachComplaint.status]} >{
+          User.type === "Admin" && props.editable ?
+            <Input
+              type={statusSelect.elementType}
+              elementConfig={statusSelect.elementConfig}
+              label={statusSelect.label}
+              classname={statusSelect.classname}
+              value={eachComplaint.status}
+              changed={(event) => statusChangedHandler(event, keys)}
+            /> :
+            eachComplaint.status}</td>
+      </tr >)
     })
   }
   else {
@@ -68,6 +103,7 @@ const ComplaintTable = (props) => {
           <tr>
             <th>Department</th>
             <th>Issue Id</th>
+            {User.type === "Admin" && props.editable ? <th>Locked By</th> : null}
             <th>Assigned To</th>
             <th>Status</th>
           </tr>

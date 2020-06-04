@@ -55,7 +55,7 @@ const Activities = (props) => {
   const onlikehandler = (action, post_id) => {
     const requestBody = {
       value: action,
-      user: props.user._id,
+      user: user._id,
       post_id: post_id
     }
     let actionid = null;

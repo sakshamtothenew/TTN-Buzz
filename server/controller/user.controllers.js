@@ -24,7 +24,8 @@ const getAllUsers = (req, res) => {
 };
 
 const updateUserById = (req, res) => {
-  update_user_by_id(id, req.body)
+
+  update_user_by_id(req.params.id, req.body)
     .then((result) => res.send(result))
     .catch((err) => res.send(err));
 };

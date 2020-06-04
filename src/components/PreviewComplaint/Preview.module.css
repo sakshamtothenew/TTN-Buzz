@@ -1,0 +1,25 @@
+.container {
+    height : 100%;
+    padding : 2%;
+}
+
+.issueid {
+    font-style : italic;
+    font-weight : 500;
+    color : rgb(175, 168, 168)
+}
+.issueTitle {
+    margin : 2% 0;
+
+}
+
+.metaInfo {
+    display : flex;
+    flex-wrap: wrap;
+}
+
+.metaInfo h5 {
+    flex-basis : 50%;
+    font-size: 17px;
+    margin : 2% 0;
+}

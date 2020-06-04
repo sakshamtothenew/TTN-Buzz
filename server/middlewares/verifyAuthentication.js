@@ -1,11 +1,10 @@
-const verifyAuth = (req , res , next) => {
-    if(req.user)
-    {
+const verifyAuth = (req, res, next) => {
+    if (req.user) {
         next()
     }
     else {
         res.status(401)
-        res.send({message : "Unauthorised!!"})
+        res.send({ message: "Unauthorised!!" })
     }
 }
 

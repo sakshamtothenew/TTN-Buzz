@@ -10,7 +10,7 @@ const NavBar = () => {
     <div className={classes.NavBar}>
       <NavElement exact link="/home/Buzz">Buzz</NavElement>
       <NavElement link="/home/Complaints">Complaints</NavElement>
-      {User.type === "Employee" ? <NavElement link="/home/Resolved">Resolved</NavElement> : null}
+      {User.type === "Admin" ? <NavElement link="/home/Resolved">Resolved</NavElement> : null}
 
     </div>
   );
