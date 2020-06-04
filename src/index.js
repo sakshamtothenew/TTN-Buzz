@@ -4,6 +4,10 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux'
 import { createStore, compose, combineReducers, applyMiddleware } from 'redux'
 import userReducers from './store/reducers/user.reducers'
+import activitiesReducer from './store/reducers/activities.reducer'
+import complaintReducer from './store/reducers/complaints.reducer'
+import valuableReducer from './store/reducers/valuables.reducer'
+import toastReducer from './store/reducers/toast.reducer'
 import thunk from 'redux-thunk'
 import './index.css';
 
@@ -14,7 +18,11 @@ import * as serviceWorker from './serviceWorker';
 const Enhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 const rootReducer = combineReducers({
-  user: userReducers
+  user: userReducers,
+  activities: activitiesReducer,
+  complaints: complaintReducer,
+  valuables: valuableReducer,
+  toasts: toastReducer
 })
 const store = createStore(rootReducer,
   Enhancers(

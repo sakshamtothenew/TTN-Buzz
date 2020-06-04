@@ -1,54 +1,43 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import Wrapper from "../../../../UI/Wrapper/Wrapper";
 import classes from "./activity.module.css";
-import axios from 'axios'
 import { withRouter } from "react-router-dom";
+import * as actions from '../../../../../../store/actions/index.actions'
 
 
-const URL = "http://localhost:5000"
 const Activities = (props) => {
 
+  const dispatch = useDispatch();
 
+  const getActivities = () => dispatch(actions.get_activities());
+  const makeChanges = (method, state, requestBody) => dispatch(actions.make_actions(method, state, requestBody))
 
   const user = useSelector(state => state.user.user)
+  const toasts = useSelector(state => state.toasts)
+  const activities = useSelector(state => state.activities)
+
+  if (toasts) {
+    console.log("toast called")
+    toast.error(`error occured`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    })
+
+  }
 
   console.log(user)
 
-  const [activities, setActivities] = useState({})
-  const [actions, setactions] = useState({})
-
   useEffect(() => {
-    axios.get('/activities')
-      .then(response => {
-        console.log(response.data)
 
-        const stateObj = {}
-        for (let i in response.data) {
-          stateObj[response.data[i]._id] = { ...response.data[i] };
-        }
-        console.log(stateObj)
-        setActivities(stateObj)
-
-
-
-      })
-      .catch(err => {
-
-
-        toast.error(`${err}`, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-        
-      })
+    getActivities();
 
   }, [])
 
@@ -101,7 +90,7 @@ const Activities = (props) => {
 
 
 
-    makeRequest(method, activity, requestBody)
+    makeChanges(method, activity, requestBody)
 
   }
 
@@ -145,25 +134,6 @@ const Activities = (props) => {
     return state
   }
 
-  const makeRequest = (method, state, requestBody) => {
-    if (method === 'PUT') {
-      axios.put(`${URL}/activities/actions`, requestBody)
-        .then(response => {
-          console.log(response.data)
-          setActivities(state)
-        })
-    }
-    else {
-      axios.delete(`${URL}/activities/actions/${requestBody.user}/${requestBody.post_id}`)
-        .then(response => {
-          console.log(response.data)
-          setActivities(state)
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    }
-  }
   const allActivities = [];
 
   Object.keys(activities).forEach((eactActivity) => {
