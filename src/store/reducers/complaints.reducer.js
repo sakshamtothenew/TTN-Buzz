@@ -8,6 +8,16 @@ const reducer = (state = {}, action) => {
 
         case (actionTypes.SET_COMPLAINTS):
             return { ...action.complaints }
+        case (actionTypes.INIT_COMPLAINTS):
+            return {}
+        case (actionTypes.UPDATE_COMPLAINTS):
+            console.log(state , action.updatedObj)
+            state[action.updatedObj._id] = { ...state[action.updatedObj._id], ...action.updatedObj }
+            console.log(state);
+            return {
+                ...state,
+
+            }
 
         default:
             return state

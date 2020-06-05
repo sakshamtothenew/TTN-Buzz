@@ -9,7 +9,9 @@ export {
 } from './activities.action'
 
 export {
-   get_complaints
+   get_complaints,
+   set_complaints,
+   update_complaints
 } from './complaints.action'
 
 export {
@@ -17,6 +19,6 @@ export {
 } from './valuables.action'
 
 export {
- show_toast,
- hide_toast
+   show_toast,
+   hide_toast
 } from './toasts.action'

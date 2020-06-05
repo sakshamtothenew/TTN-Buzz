@@ -1,21 +1,22 @@
-import React , {useState} from 'react'
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import Complaints from '../../Forms/complaintForm/Complaints'
 import ComplaintTable from '../Complaints/Complaints.Article'
 import PreviewComplaints from '../../../../../PreviewComplaint/PreviewComplaint'
 const ComplaintPage = (props) => {
 
-    const [previewComplaint, setPreviewComplaint] = useState(null)
+    const [previewComplaintid, setPreviewComplaintid] = useState(null)
 
 
-    const previewComplaintHandler = (ComplaintObj) => {
-        setPreviewComplaint(ComplaintObj)
+    const previewComplaintHandler = (ComplaintId) => {
+        setPreviewComplaintid(ComplaintId)
     }
+    console.log(previewComplaintid)
     return (
         <div>
             <Complaints />
-            <ComplaintTable showhandler={previewComplaintHandler} />
-            {previewComplaint === null ? null : <PreviewComplaints complaint={previewComplaint} editable={false} />}
+            <ComplaintTable showhandler={previewComplaintHandler} userOnly={true} />
+            {previewComplaintid === null ? null : <PreviewComplaints complaintId={previewComplaintid} editable={false} />}
         </div>
     )
 }

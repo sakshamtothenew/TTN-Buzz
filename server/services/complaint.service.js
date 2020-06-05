@@ -1,6 +1,6 @@
 const { Complaints } = require("../model/Complaints.model");
 const { get_user_by_email } = require('./user.service')
-const {ObjectId} = require('../Utils/convertors')
+const { ObjectId } = require('../Utils/convertors')
 const get_complaints_by_id = (id) => {
   return new Promise((resolve, reject) => {
     Complaints.find({ _id: id })
@@ -24,7 +24,7 @@ const create_complaint = ({
   email,
   issueTitle,
   status,
-} , {
+}, {
   filename,
   path
 }) => {
@@ -35,12 +35,12 @@ const create_complaint = ({
         const userid = result._id
         const newComplaints = new Complaints({
           department: department,
-          createdBy: {userid : userid , name : name},
+          createdBy: { userid: userid, name: name },
           description,
           issueId: issueId,
           issueTitle: issueTitle,
           status: status,
-          image : {filename , path}
+          image: { filename, path }
         });
 
         newComplaints
@@ -62,24 +62,33 @@ const get_all_complaints = () => {
 };
 
 const update_complaint_by_id = (id, updation) => {
+  console.log(updation)
+  const Assigned_to = updation["Assigned_to"], estimated_time = updation["estimated_time"];
+  console.log(Assigned_to, estimated_time)
   return new Promise((resolve, reject) => {
-    Complaints.update({ _id: id }, { $set: { ...updation } })
+    Complaints.updateOne({ _id: id }, {
+      $set: {
+        Assigned_to: Assigned_to,
+        estimated_time: estimated_time
+      }
+    })
       .then((result) => resolve(result))
       .catch((err) => reject(err));
   });
 };
 
 const get_complaints_by_user = (id) => {
-  console.log(id)
+  
   return new Promise((resolve, reject) => {
-    Complaints.find({ "createdBy.userid" : ObjectId(id)  })
-      .then((result) =>{         
+    Complaints.find({ "createdBy.userid": ObjectId(id) })
+      .then((result) => {
         console.log(result)
         resolve(result)
       })
       .catch((err) => {
         console.log(err)
-        reject(err)});
+        reject(err)
+      });
   });
 };
 

@@ -18,8 +18,24 @@
     flex-wrap: wrap;
 }
 
-.metaInfo h5 {
+.metaInfo * {
     flex-basis : 50%;
     font-size: 17px;
     margin : 2% 0;
+}
+
+
+.editbtn {
+     position : relative;
+     left : 90%;
+     
+
+}
+
+.hide {
+    display : none
+}
+
+.show {
+    display : block
 }

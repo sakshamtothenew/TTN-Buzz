@@ -10,11 +10,18 @@ export const set_activities = (activityData) => {
     }
 }
 
+export const init_activities = () => {
+    return {
+        type: actionTypes.INIT_ACTIVITIES
+    }
+}
+
 
 
 export const get_activities = () => {
 
     return dispatch => {
+        dispatch(init_activities())
         axios.get('/activities/')
             .then(response => {
                 const stateObj = {}
@@ -25,9 +32,7 @@ export const get_activities = () => {
             })
             .catch(err => {
                 dispatch(actions.show_toast())
-                setTimeout(() => {
-                    dispatch(actions.hide_toast)
-                } , 5000)
+                dispatch(actions.hide_toast())
             })
 
     }

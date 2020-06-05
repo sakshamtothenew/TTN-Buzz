@@ -20,7 +20,7 @@ const ComplaintSchema = new Schema({
     required: true
   },
   Assigned_to: {
-    type: Schema.Types.ObjectId,
+    type: "String"
   },
   description: {
     type: String,
@@ -34,13 +34,20 @@ const ComplaintSchema = new Schema({
     type: Date,
     default: Date.now(),
   },
+  estimated_time: {
+    type: String,
+
+  },
   status: {
     type: String,
     enum: ["Resolved", "In-Progress", "Open"],
   },
-  image : {
-    type : Object
+  image: {
+    type: Object
   }
 });
+
+
+
 
 module.exports.Complaints = mongoose.model("Complaints", ComplaintSchema);

@@ -4,17 +4,19 @@ import ComplaintTable from '../MainDashboard/MainBody/MainContent/ArticleSection
 import { Route } from 'react-router-dom'
 const ResolveTable = (props) => {
 
-    const [previewComplaint, setPreviewComplaint] = useState({})
+    const [previewComplaintId, setPreviewComplaintId] = useState(null)
 
 
 
-    const previewComplaintHandler = (ComplaintObj) => {
-        setPreviewComplaint(ComplaintObj)
+    const previewComplaintHandler = (ComplaintId) => {
+        setPreviewComplaintId(ComplaintId)
     }
+
+    console.log(previewComplaintId)
     return (
         <div>
-            <ComplaintTable editable={props.editable} showhandler={previewComplaintHandler} />
-            {previewComplaint.issueId ? <PreviewComplaints complaint={previewComplaint} editable={true} /> : null}
+            <ComplaintTable editable={props.editable}  showhandler={previewComplaintHandler} />
+            {previewComplaintId ? <PreviewComplaints complaintId={previewComplaintId} editable={true} /> : null}
         </div>
     )
 

@@ -1,15 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, {  useEffect } from "react";
 import { ToastContainer, toast } from 'react-toastify';
+import { useSelector, useDispatch } from 'react-redux'
 import 'react-toastify/dist/ReactToastify.css';
-import axios from 'axios';
 import Wrapper from '../../../../UI/Wrapper/Wrapper'
 import classes from './LostnFound.module.css'
 import activityClasses from '../Activities/activity.module.css'
+import * as actions from '../../../../../../store/actions/index.actions'
 const LostnFound = () => {
 
-  const [lostnfounds, setlostnfounds] = useState([])
+  const dispatch = useDispatch();
+  const getValuables = () => dispatch(actions.get_valuables())
 
 
+  const lostnfounds = useSelector(state => state.valuables);
+  const toasts = useSelector(state => state.toasts)
+
+  if (toasts) {
+    toast.error(`error occured`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    })
+  }
   const dateConverter = (date) => {
     console.log(date);
     const month = date.split('-')[1];
@@ -21,22 +37,7 @@ const LostnFound = () => {
     }
   }
   useEffect(() => {
-    axios.get('/valuables')
-      .then(response => {
-        console.log(response.data)
-        setlostnfounds(response.data);
-      })
-      .catch(err => {
-        toast.error(`${err}`, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-      })
+    getValuables()
   }, [])
 
   const lostnfoundlist = lostnfounds.map((eachValuable) => {

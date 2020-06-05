@@ -12,7 +12,7 @@ const Input = (props) => {
           type={props.elementConfig.type}
           placeholder={props.elementConfig.placeholder}
           value={props.value}
-        
+
         />
       );
       break;
@@ -21,9 +21,9 @@ const Input = (props) => {
       const options = props.elementConfig.options.map((eachOption) => {
         return <option key={eachOption}>{eachOption}</option>;
       });
-      
-      inputElement = <select value = {props.value} onChange={props.changed}
-      
+
+      inputElement = <select value={props.value} onChange={props.changed}
+
       >   <option hidden>{props.value}</option>
         {options}</select>;
       break;
@@ -35,19 +35,29 @@ const Input = (props) => {
           onChange={props.changed}
           value={props.value}
           type={props.elementConfig.type}
-           disabled = {props.elementConfig.disabled}
-        
+          disabled={props.elementConfig.disabled}
+
         ></textarea>
       );
       break;
 
+    case "date":
+      inputElement = (
+        <input
+          type={props.elementConfig.type}
+          placeholder={props.elementConfig.placeholder}
+          value={props.value}
+          onChange={props.changed}
+        />
+      )
+        break;
     default:
       inputElement = null;
   }
-
+ console.log(props.classname)
   return (
-    <div className={[classes.inputdiv , classes[props.classname]].join(' ')}>
-     {props.label === ""? null : <label>{props.label}</label>}
+    <div className={[classes.inputdiv, classes[props.classname]].join(' ')}>
+      {props.label === "" ? null : <label>{props.label}</label>}
       {inputElement}
     </div>
   );

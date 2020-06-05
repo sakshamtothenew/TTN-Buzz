@@ -1,13 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Table } from "react-bootstrap";
 import Wrapper from '../../../../UI/Wrapper/Wrapper'
 import Input from '../../../../UI/Input/input'
-import axios from 'axios'
 import classes from './Complaint.module.css'
+import * as actions from '../../../../../../store/actions/index.actions'
 const ComplaintTable = (props) => {
+
+
+  const dispatch = useDispatch();
+  const getComplaints = (userid) => dispatch(actions.get_complaints(userid))
+  const setComplaints = (complaints) => dispatch(actions.set_complaints(complaints))
+  const toasts =  useSelector(state => state.toasts)
+  const complaints = useSelector(state => state.complaints);
+
+
   const User = useSelector(state => state.user.user)
   const [statusSelect, setStatusSelect] = useState({
     elementType: "select",
@@ -21,38 +30,28 @@ const ComplaintTable = (props) => {
     classname: "CTSelect"
   })
 
-  const [complaints, setComplaints] = useState({})
+  if (toasts) {
+    toast.error(`error occured`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    })
+  }
 
   useEffect(() => {
     if (User.user === null) {
       setComplaints("loading")
     }
     else {
-      let UserQuery = "";
-
-      axios.get('/complaints/user/' + User._id)
-        .then(response => {
-
-          const stateObj = {}
-          for (let i in response.data) {
-            stateObj[response.data[i]._id] = { ...response.data[i] };
-          }
-          console.log(stateObj)
-          setComplaints(stateObj)
-        })
-        .catch(err => {
-
-          toast.error(`${err}`, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
-        })
-
+     if(props.userOnly)
+      getComplaints(User._id)
+      else {
+        getComplaints()
+      }
     }
   }, [])
 
@@ -75,9 +74,9 @@ const ComplaintTable = (props) => {
 
       complaintList.push(<tr>
         <td>{eachComplaint.department}</td>
-        <td><button onClick={() => props.showhandler(eachComplaint)}>{eachComplaint.issueId}</button></td>
+        <td><button onClick={() => props.showhandler(eachComplaint._id)}>{eachComplaint.issueId}</button></td>
         {User.type === "Admin" && props.editable ? <td>{eachComplaint.createdBy.name}</td> : null}
-        < td > {eachComplaint.AssignedTo ? eachComplaint.AssignedTo : "UnAssigned"}</td >
+        < td > {eachComplaint.Assigned_to ? eachComplaint.Assigned_to : "UnAssigned"}</td >
         <td className={classes[eachComplaint.status]} >{
           User.type === "Admin" && props.editable ?
             <Input

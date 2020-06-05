@@ -1,5 +1,6 @@
 import * as actionTypes from './actionType'
 import axios from 'axios'
+import { show_toast, hide_toast } from './toasts.action'
 
 export const set_valuables = (valuables) => {
 
@@ -9,6 +10,12 @@ export const set_valuables = (valuables) => {
     }
 }
 
+export const init_valuables = () => {
+
+    return {
+        type: actionTypes.INIT_VALUABLES
+    }
+}
 
 export const get_valuables = () => {
 
@@ -17,6 +24,10 @@ export const get_valuables = () => {
         axios.get('/valuables')
             .then(response => {
                 dispatch(set_valuables(response.data))
+            })
+            .catch(err => {
+                dispatch(show_toast())
+                dispatch(hide_toast())
             })
     }
 }

@@ -6,6 +6,8 @@ const reducers = (state = {}, action) => {
 
         case (actiontype.SET_ACTIVITIES):
             return { ...action.activityData }
+        case (actiontype.INIT_ACTIVITIES):
+            return {}
         default:
             return state
     }
