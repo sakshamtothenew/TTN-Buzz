@@ -6,7 +6,7 @@ import Wrapper from "../../../../UI/Wrapper/Wrapper";
 import classes from "./activity.module.css";
 import { withRouter } from "react-router-dom";
 import * as actions from '../../../../../../store/actions/index.actions'
-
+import moment from 'moment'
 
 const Activities = (props) => {
 
@@ -20,7 +20,7 @@ const Activities = (props) => {
   const activities = useSelector(state => state.activities)
 
   if (toasts) {
-    console.log("toast called")
+
     toast.error(`error occured`, {
       position: "top-right",
       autoClose: 5000,
@@ -134,20 +134,36 @@ const Activities = (props) => {
     return state
   }
 
+  const dateConverter = (date) => {
+
+    const month = date.split('-')[1];
+    const day = date.split('-')[2].split('T')[0]
+    const year = date.split('-')[0]
+    const combinedDate = [year , month , day].join('')
+
+    const timedifference = moment(combinedDate , 'YYYYMMDD').fromNow()
+    console.log(timedifference)
+    return {
+      day: day,
+      month: month , 
+      timedifference : timedifference
+    }
+  }
+
   const allActivities = [];
 
   Object.keys(activities).forEach((eactActivity) => {
-
+    console.log(activities[eactActivity])
     let imagepath = activities[eactActivity].image.path;
 
     const path = imagepath.split('/');
     imagepath = ["", path[path.length - 2], path[path.length - 1]].join('/')
 
-
+    const { day, month , timedifference } = dateConverter(activities[eactActivity].createdAt)
     allActivities.push(<div className={classes.container}>
       <div className={classes.date}>
-        <p><span className={classes.dt}>15</span>
-          <span className={classes.slash}>/ </span>20</p>
+        <p><span className={classes.dt}>{day}</span>
+          <span className={classes.slash}>/ </span>{month}</p>
 
       </div>
       <div className={classes.content}>
@@ -156,9 +172,9 @@ const Activities = (props) => {
           <img src={process.env.PUBLIC_URL + imagepath} alt="img" />
         </div>
         <div className={classes.userInfo}>
-          <p className={classes.username}>saksham123
-          <span className={classes.email}>saksham5ssachdeva</span>
-            <span className={classes.time}>2h</span>
+          <p className={classes.username}>{activities[eactActivity].userDetails.name}
+            <span className={classes.email}>{activities[eactActivity].userDetails.email}</span>
+            <span className={classes.time}>{timedifference}</span>
           </p>
 
         </div>

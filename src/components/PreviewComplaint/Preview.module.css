@@ -24,14 +24,40 @@
     margin : 2% 0;
 }
 
+.metaInfo div h5{
+   color : rgb(161, 157, 157)
+   
+}
 
 .editbtn {
      position : relative;
-     left : 90%;
-     
+     left : 80%;
+     font-size: 15px;
+     padding: 1% 2%;
+     width : 100px;
+     color: #fff;
+     background-color: #eba91c; 
+     border: none;
+     border-radius: 5px;     
+    outline: none;
+}
+.savebtn {
+    position : relative;
+    left : 80%;
+    font-size: 15px;
+    padding: 1% 2%;
+    width : 100px;
+    color: #fff;
+    background-color: rgb(53, 184, 53) ;
+    border: none;
+    border-radius: 5px;     
+    outline: none;
 
 }
 
+.editbtn:focus , .savebtn:focus {
+    outline : none;
+}
 .hide {
     display : none
 }

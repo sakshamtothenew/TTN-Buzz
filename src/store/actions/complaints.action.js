@@ -22,6 +22,7 @@ export const update_complaints = (complaintObj) => {
         axios.put('/complaints/' + complaintObj._id, complaintObj)
             .then(result => {
                 console.log(result);
+                complaintObj.estimated_time = complaintObj.estimated_time.toString()
                 dispatch({
                     type: actionTypes.UPDATE_COMPLAINTS,
                     updatedObj: complaintObj

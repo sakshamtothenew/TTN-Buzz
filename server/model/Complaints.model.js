@@ -35,7 +35,7 @@ const ComplaintSchema = new Schema({
     default: Date.now(),
   },
   estimated_time: {
-    type: String,
+    type: Date,
 
   },
   status: {

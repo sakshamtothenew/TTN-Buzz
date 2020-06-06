@@ -27,3 +27,16 @@
     
 }
 
+.prevbtn {
+    background-color: transparent;
+    color : #faad05;
+    border : none;
+}
+
+.prevbtn:hover {
+     text-decoration: underline;
+}
+
+.prevbtn:focus {
+    outline : none;
+}

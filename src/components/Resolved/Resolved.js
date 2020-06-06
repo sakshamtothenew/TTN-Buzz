@@ -16,7 +16,11 @@ const ResolveTable = (props) => {
     return (
         <div>
             <ComplaintTable editable={props.editable}  showhandler={previewComplaintHandler} />
-            {previewComplaintId ? <PreviewComplaints complaintId={previewComplaintId} editable={true} /> : null}
+            {previewComplaintId ? <PreviewComplaints 
+            heading = "Preview Complaint (editable)"
+            complaintId={previewComplaintId} 
+            editable={true} /> : 
+            null}
         </div>
     )
 

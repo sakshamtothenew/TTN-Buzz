@@ -13,7 +13,7 @@ const ComplaintTable = (props) => {
   const dispatch = useDispatch();
   const getComplaints = (userid) => dispatch(actions.get_complaints(userid))
   const setComplaints = (complaints) => dispatch(actions.set_complaints(complaints))
-  const toasts =  useSelector(state => state.toasts)
+  const toasts = useSelector(state => state.toasts)
   const complaints = useSelector(state => state.complaints);
 
 
@@ -47,8 +47,8 @@ const ComplaintTable = (props) => {
       setComplaints("loading")
     }
     else {
-     if(props.userOnly)
-      getComplaints(User._id)
+      if (props.userOnly)
+        getComplaints(User._id)
       else {
         getComplaints()
       }
@@ -74,7 +74,7 @@ const ComplaintTable = (props) => {
 
       complaintList.push(<tr>
         <td>{eachComplaint.department}</td>
-        <td><button onClick={() => props.showhandler(eachComplaint._id)}>{eachComplaint.issueId}</button></td>
+        <td><button className = {classes.prevbtn} onClick={() => props.showhandler(eachComplaint._id)}>{eachComplaint.issueId}</button></td>
         {User.type === "Admin" && props.editable ? <td>{eachComplaint.createdBy.name}</td> : null}
         < td > {eachComplaint.Assigned_to ? eachComplaint.Assigned_to : "UnAssigned"}</td >
         <td className={classes[eachComplaint.status]} >{

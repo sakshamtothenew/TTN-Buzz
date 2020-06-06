@@ -16,7 +16,12 @@ const ComplaintPage = (props) => {
         <div>
             <Complaints />
             <ComplaintTable showhandler={previewComplaintHandler} userOnly={true} />
-            {previewComplaintid === null ? null : <PreviewComplaints complaintId={previewComplaintid} editable={false} />}
+            {previewComplaintid === null ?
+                null :
+                <PreviewComplaints
+                    heading = "Preview Complaint"
+                    complaintId={previewComplaintid}
+                    editable={false} />}
         </div>
     )
 }

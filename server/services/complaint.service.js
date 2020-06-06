@@ -64,12 +64,14 @@ const get_all_complaints = () => {
 const update_complaint_by_id = (id, updation) => {
   console.log(updation)
   const Assigned_to = updation["Assigned_to"], estimated_time = updation["estimated_time"];
+  const status = updation["status"]
   console.log(Assigned_to, estimated_time)
   return new Promise((resolve, reject) => {
     Complaints.updateOne({ _id: id }, {
       $set: {
         Assigned_to: Assigned_to,
-        estimated_time: estimated_time
+        estimated_time: estimated_time,
+        status : status
       }
     })
       .then((result) => resolve(result))
