@@ -5,6 +5,8 @@ import Input from '../MainDashboard/UI/Input/input'
 import { useSelector, useDispatch } from 'react-redux'
 import * as action from '../../store/actions/index.actions'
 import styles from '../MainDashboard/MainBody/MainContent/ArticleSection/Complaints/Complaint.module.css'
+import { checkValidity } from '../MainDashboard/MainBody/MainContent/Forms/Utility'
+import { toast } from 'react-toastify'
 const PreviewComplaints = (props) => {
 
   const [editable, seteditable] = useState(false);
@@ -14,9 +16,14 @@ const PreviewComplaints = (props) => {
       elementConfig: {
         placeholder: "Assigning To",
       },
+      validation: {
+        required: true,
+      },
       value: "",
       label: "",
       classname: "LFInput",
+      valid: false,
+      touched: false
     },
 
     ETR: {
@@ -25,10 +32,15 @@ const PreviewComplaints = (props) => {
         type: "date",
         placeholder: "Estimated time",
       },
+      validation: {
+        required: true,
+        isDate: true
+      },
       value: "",
       label: "",
       classname: "Date",
-
+      valid: false,
+      touched: false
     },
 
     status: {
@@ -38,39 +50,64 @@ const PreviewComplaints = (props) => {
         placeholder: "Status",
         options: ["Open", "InProgress", "Resolved"],
       },
+      validation: {
+        required: true,
+        checkOptions: true
+      },
       value: "select status",
       label: "",
-      classname: "CTSelect"
+      classname: "CTSelect",
+      valid: false,
+      touched: false
     }
   })
+  const [formIsValid, setFormisValid] = useState(false)
   const complaints = useSelector(state => state.complaints)
   const displayComplaint = { ...complaints[props.complaintId] }
 
-  console.log(displayComplaint)
+
   const dispatch = useDispatch()
 
   const updateComplaints = (complaintObj) => dispatch(action.update_complaints(complaintObj))
 
   const editHandler = () => {
+
     seteditable(true)
+
+
   }
   const updateComplaintHandler = () => {
-    const updatedObj = {
-      _id: displayComplaint._id,
-      Assigned_to: inputField["AssignedTo"].value,
-      estimated_time: new Date(inputField['ETR'].value),
-      status: inputField["status"].value
+    if (!formIsValid) {
+      toast.error("formisInvalid")
     }
-    updateComplaints(updatedObj);
-    seteditable(false);
+    else {
+      const updatedObj = {
+        _id: displayComplaint._id,
+        Assigned_to: inputField["AssignedTo"].value,
+        estimated_time: new Date(inputField['ETR'].value),
+        status: inputField["status"].value
+      }
+      updateComplaints(updatedObj);
+      seteditable(false);
+    }
+
   }
 
   const inputChangeHandler = (event, inputIdentifier) => {
-    console.log(event.target.value)
     const currstate = { ...inputField };
     const changeInput = { ...currstate[inputIdentifier] };
     changeInput.value = event.target.value;
+    changeInput.touched = true;
+    changeInput.valid = checkValidity(changeInput.value, changeInput.validation,
+      changeInput.elementConfig.options ? changeInput.elementConfig.options : undefined)
+      console.log(changeInput.valid)
     currstate[inputIdentifier] = changeInput;
+    let formIsvalid = true
+    for (let i in currstate) {
+      formIsvalid = currstate[i].valid && formIsvalid
+    }
+    console.log(formIsvalid)
+    setFormisValid(formIsvalid);
     setInputFields(currstate);
   }
 
@@ -94,6 +131,8 @@ const PreviewComplaints = (props) => {
               elementConfig={inputField["status"].elementConfig}
               label={inputField["status"].label}
               classname={inputField["status"].classname}
+              invalid={!inputField["status"].valid}
+              touched={inputField["status"].touched}
               value={inputField["status"].value}
               changed={(event) => inputChangeHandler(event, "status")}
             /> :
@@ -116,6 +155,8 @@ const PreviewComplaints = (props) => {
                 elementConfig={inputField["AssignedTo"].elementConfig}
                 label={inputField["AssignedTo"].label}
                 value={inputField["AssignedTo"].value}
+                invalid={!inputField["AssignedTo"].valid}
+                touched={inputField["AssignedTo"].touched}
                 classname={inputField["AssignedTo"].classname}
                 changed={(event) => inputChangeHandler(event, "AssignedTo")} />
               :
@@ -130,6 +171,8 @@ const PreviewComplaints = (props) => {
                 elementConfig={inputField["ETR"].elementConfig}
                 label={inputField["ETR"].label}
                 value={inputField["ETR"].value}
+                invalid={!inputField["ETR"].valid}
+                touched={inputField["ETR"].touched}
                 changed={(event) => inputChangeHandler(event, "ETR")}
                 classname={inputField["ETR"].classname}
               /> :

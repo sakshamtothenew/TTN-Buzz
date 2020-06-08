@@ -17,10 +17,11 @@ mongoose.connect(
   }
 );
 
+require('./Config/CloudinaryConfig')
 app.use(
   cookieSession({
-    maxAge : 30*24*60*60*1000,
-    keys : ['thisisverystrongkey']
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+    keys: ['thisisverystrongkey']
   })
 )
 
@@ -34,7 +35,7 @@ app.use("/user", require("./routes/user.routes"));
 app.use("/activities", require("./routes/activity.routes"));
 app.use("/complaints", require("./routes/complaints.routes"));
 app.use("/valuables", require("./routes/valuable.routes"));
-app.use('/auth' , require('./routes/auth.routes'))
+app.use('/auth', require('./routes/auth.routes'))
 
 
 app.listen(5000, () => {

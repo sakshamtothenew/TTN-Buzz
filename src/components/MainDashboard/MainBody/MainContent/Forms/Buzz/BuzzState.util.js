@@ -6,11 +6,16 @@ export const Activity_Buzz = {
       placeholder: "Please Select Category First...",
       disabled: true,
     },
+    validation : {
+      required : true
+    },
     value: "",
     label: "",
-   
     classname: "Activity",
+    valid: false,
+    touched: false
   },
+  
 };
 
 export const Valuable_Buzz = {
@@ -19,10 +24,15 @@ export const Valuable_Buzz = {
     elementConfig: {
       placeholder: "type",
       options: ["Lost", "Found"],
-    }, 
+    },
+    validation: {
+      required: true
+    },
     value: "category",
     label: "Category",
     classname: "LFSelect",
+    valid: false,
+    touched : false
   },
   type: {
     elementType: "select",
@@ -38,9 +48,15 @@ export const Valuable_Buzz = {
         "others",
       ],
     },
+    validation: {
+      required: true
+    },
     value: "item Type",
     label: "Item type",
     classname: "LFSelect",
+    valid: false,
+    touched: false
+
   },
   email: {
     elementType: "input",
@@ -48,6 +64,12 @@ export const Valuable_Buzz = {
       type: "text",
       placeholder: "Email",
     },
+    validation: {
+      isEmail: true,
+      required: true
+    },
+    valid: false,
+    touched: false,
     value: "",
     label: "Your Email",
     classname: "LFInput",
@@ -59,9 +81,14 @@ export const Valuable_Buzz = {
       type: "textarea",
       placeholder: "Description..",
     },
+    validation: {
+      required: true,
+    },
     value: "",
     label: "item describe",
     classname: "LFTextarea",
+    valid: false,
+    touched: false
   },
 
 };
@@ -73,7 +100,13 @@ export const Buzz_category = {
     placeholder: "Category",
     options: ["Activity", "Lost & Found"],
   },
+  validation: {
+    required: true
+  },
   value: "Category",
   label: "",
   classname: "CTSelect",
+  valid: false,
+  touched: false,
+  formIsValid: false
 };

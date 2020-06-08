@@ -35,6 +35,7 @@ export const update_complaints = (complaintObj) => {
     }
 }
 
+
 export const get_complaints = (userid) => {
 
     return dispatch => {
@@ -60,5 +61,25 @@ export const get_complaints = (userid) => {
     }
 
 
+
+}
+
+
+export const post_complaints = (formData) => {
+    return dispatch => {
+        dispatch(actions.show_toast("success" , "creating Complaint.."))
+        setTimeout(() => {
+            dispatch(actions.hide_toast())
+        },1000)
+        axios.post('/complaints/', formData)
+            .then(response => {
+                dispatch(get_complaints())
+
+            })
+            .catch(err => {
+                dispatch(actions.show_toast())
+                dispatch(actions.hide_toast())
+            })
+    }
 }
 

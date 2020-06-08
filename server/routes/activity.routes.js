@@ -2,6 +2,7 @@ const route = require("express").Router();
 const {
   getAllActivities,
   getAllActivitiesByUserId,
+  getActivityById,
   createActivities,
   updateActivitiesById,
   deleteActivities,
@@ -15,9 +16,11 @@ const verifyAuth = require('../middlewares/verifyAuthentication')
 const { upload } = require("../Config/Multer.config");
 route.get("/", verifyAuth, getAllActivities);
 
-route.get("/:userid", getAllActivitiesByUserId);
+route.get("/user/:userid", getAllActivitiesByUserId);
 
-route.post("/", verifyAuth ,  upload.single("img"), createActivities);
+route.get('/:id', getActivityById)
+
+route.post("/", verifyAuth, upload.single("img"), createActivities);
 
 route.put("/update/:id", updateActivitiesById);
 

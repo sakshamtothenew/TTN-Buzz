@@ -19,9 +19,9 @@ const Activities = (props) => {
   const toasts = useSelector(state => state.toasts)
   const activities = useSelector(state => state.activities)
 
-  if (toasts) {
-
-    toast.error(`error occured`, {
+  if (toasts.show) {
+      console.log(toasts.message)
+    toast.success(`${toasts.message}`, {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -33,7 +33,7 @@ const Activities = (props) => {
 
   }
 
-  console.log(user)
+
 
   useEffect(() => {
 
@@ -86,7 +86,7 @@ const Activities = (props) => {
       }
     }
     activity[post_id] = state;
-    console.log(state)
+
 
 
 
@@ -96,7 +96,7 @@ const Activities = (props) => {
 
 
   const Unlike = (state) => {
-    console.log(state.actionDetails)
+
     state.actionDetails.likeCount -= 1;
     state.actionDetails.value = null
     return state
@@ -139,44 +139,35 @@ const Activities = (props) => {
     const month = date.split('-')[1];
     const day = date.split('-')[2].split('T')[0]
     const year = date.split('-')[0]
-    const combinedDate = [year , month , day].join('')
+    const combinedDate = [year, month, day].join('')
 
-    const timedifference = moment(combinedDate , 'YYYYMMDD').fromNow()
-    console.log(timedifference)
+    const timedifference = moment(combinedDate, 'YYYYMMDD').fromNow()
+
     return {
       day: day,
-      month: month , 
-      timedifference : timedifference
+      month: month,
+      timedifference: timedifference
     }
   }
 
   const allActivities = [];
 
   Object.keys(activities).forEach((eactActivity) => {
-    console.log(activities[eactActivity])
-    let imagepath = activities[eactActivity].image.path;
-
-    const path = imagepath.split('/');
-    imagepath = ["", path[path.length - 2], path[path.length - 1]].join('/')
-
-    const { day, month , timedifference } = dateConverter(activities[eactActivity].createdAt)
+    const { day, month, timedifference } = dateConverter(activities[eactActivity].createdAt)
     allActivities.push(<div className={classes.container}>
       <div className={classes.date}>
         <p><span className={classes.dt}>{day}</span>
           <span className={classes.slash}>/ </span>{month}</p>
-
       </div>
       <div className={classes.content}>
-
         <div className={classes.imagediv}>
-          <img src={process.env.PUBLIC_URL + imagepath} alt="img" />
+          <img src={activities[eactActivity].image['secure_url']} alt="img" />
         </div>
         <div className={classes.userInfo}>
           <p className={classes.username}>{activities[eactActivity].userDetails.name}
             <span className={classes.email}>{activities[eactActivity].userDetails.email}</span>
             <span className={classes.time}>{timedifference}</span>
           </p>
-
         </div>
         <div className={classes.caption}>
           <p>{activities[eactActivity].content}</p>

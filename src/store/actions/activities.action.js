@@ -1,6 +1,7 @@
 import * as actionTypes from './actionType'
 import * as actions from './index.actions'
 import axios from 'axios'
+import { show_toast, hide_toast } from './toasts.action'
 
 export const set_activities = (activityData) => {
 
@@ -15,7 +16,6 @@ export const init_activities = () => {
         type: actionTypes.INIT_ACTIVITIES
     }
 }
-
 
 
 export const get_activities = () => {
@@ -38,24 +38,65 @@ export const get_activities = () => {
     }
 }
 
+export const update_activities = (activity) => {
+    return dispatch => {
+
+        axios.get('/activities/' + activity._id)
+            .then((result) => {
+                console.log("this is resulting")
+                console.log(result)
+                dispatch({
+                    type: actionTypes.UPDATE_ACTIVITIES,
+                    activity: result.data[0]
+                })
+            })
+
+    }
+
+}
+
+
+export const post_activities = (formData) => {
+
+    return dispatch => {
+        dispatch(actions.show_toast("success", "Posting Buzz, Please Wait..."))
+
+        setTimeout(() => {
+            dispatch(actions.hide_toast())
+        }, 1000)
+        axios.post('/activities/', formData)
+            .then(response => {
+                console.log(response.data)
+                dispatch(actions.show_toast("success", "Post Created sucessfully.."))
+                dispatch(actions.hide_toast())
+                dispatch(update_activities(response.data))
+            })
+            .catch(err => {
+                dispatch(actions.show_toast("error", err))
+                dispatch(actions.hide_toast())
+            })
+
+    }
+}
+
 
 export const make_actions = (method, state, requestBody) => {
     return dispatch => {
         if (method === 'PUT') {
             axios.put(`/activities/actions`, requestBody)
                 .then(response => {
-                    console.log(response.data)
                     dispatch(set_activities(state))
                 })
         }
         else {
             axios.delete(`/activities/actions/${requestBody.user}/${requestBody.post_id}`)
                 .then(response => {
-                    console.log(response.data)
+
                     dispatch(set_activities(state))
                 })
                 .catch(err => {
-                    console.log(err)
+                    dispatch(show_toast())
+                    dispatch(hide_toast())
                 })
         }
     }

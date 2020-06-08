@@ -30,8 +30,8 @@ const ComplaintTable = (props) => {
     classname: "CTSelect"
   })
 
-  if (toasts) {
-    toast.error(`error occured`, {
+  if (toasts.show) {
+    toast.error(toasts.message, {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,

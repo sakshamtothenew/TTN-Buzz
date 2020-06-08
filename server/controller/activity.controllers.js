@@ -1,6 +1,7 @@
 const {
   get_all_activities,
   get_all_activities_by_userid,
+  get_activity_by_id,
   create_activities,
   delete_activities,
   update_activities_by_id,
@@ -9,7 +10,7 @@ const {
   delete_actions
 } = require("../services/activity.service");
 
-
+const cloudinary = require('cloudinary');
 
 const getAllActivities = (req, res) => {
   get_all_activities()
@@ -23,18 +24,33 @@ const getAllActivitiesByUserId = (req, res) => {
     .catch((err) => res.send(err));
 };
 
+const getActivityById = (req , res) => {
+      get_activity_by_id(req.params.id)
+        .then(result => res.send(result))
+        .catch(err => res.send(err))
+}
 const createActivities = (req, res) => {
-  
-  console.log(req.file)
-  create_activities(req.body , req.file)
-    .then((result) => {
+  if (req.file) {
+    cloudinary.v2.uploader.upload(req.file.path)
+      .then(result => {
+        req.file = result
+        console.log("this is req.file" , req.file)
+        
+        create_activities(req.body, req.file)
+          .then((result) => {
+            res.send(result);
+          })
+          .catch((err) => {
+            res.status(400)
+            res.send(err);
+          });
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
 
-      res.send(result);
-    })
-    .catch((err) => {
-  
-      res.send(err);
-    });
+
 };
 
 const updateActivitiesById = (req, res) => {
@@ -49,40 +65,40 @@ const deleteActivities = (req, res) => {
     .catch((err) => res.send(err));
 };
 
-const deleteAll = (req , res) => {
+const deleteAll = (req, res) => {
 
-   delete_all()
-   .then(result => res.send(result))
-   .catch(err => res.send(err))
+  delete_all()
+    .then(result => res.send(result))
+    .catch(err => res.send(err))
 }
 
-const updateActions = (req , res) => {
+const updateActions = (req, res) => {
 
   const post_id = req.body.post_id;
   const user = req.body.user;
   const value = req.body.value;
-  console.log("it came here too")
-  update_actions(post_id , user , value)
-  .then(result => res.send(result))
-  .catch(err => {
-    res.status(500)
-    res.send(err);
-  })
+  update_actions(post_id, user, value)
+    .then(result => res.send(result))
+    .catch(err => {
+      res.status(500)
+      res.send(err);
+    })
 
 }
 
-const deleteAction = (req , res) => {
+const deleteAction = (req, res) => {
   const user = req.params.user;
   const post = req.params.post
-   delete_actions(user , post)
-   .then(response => res.send(response))
-   .catch(err => {
-     res.status(500)
-     res.send(err)
-   })
+  delete_actions(user, post)
+    .then(response => res.send(response))
+    .catch(err => {
+      res.status(500)
+      res.send(err)
+    })
 }
 module.exports = {
   getAllActivities,
+  getActivityById,
   getAllActivitiesByUserId,
   createActivities,
   updateActivitiesById,

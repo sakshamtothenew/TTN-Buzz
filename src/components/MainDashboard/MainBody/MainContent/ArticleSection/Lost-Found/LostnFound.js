@@ -15,16 +15,9 @@ const LostnFound = () => {
   const lostnfounds = useSelector(state => state.valuables);
   const toasts = useSelector(state => state.toasts)
 
-  if (toasts) {
-    toast.error(`error occured`, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    })
+  if (toasts.show) {
+
+    toast.error(toasts.message)
   }
   const dateConverter = (date) => {
     console.log(date);
@@ -41,10 +34,8 @@ const LostnFound = () => {
   }, [])
 
   const lostnfoundlist = lostnfounds.map((eachValuable) => {
-    let imagepath = eachValuable.image.path;
-    const path = imagepath.split('/');
-    imagepath = ["", path[path.length - 2], path[path.length - 1]].join('/')
 
+    console.log(eachValuable)
     let { day, month } = dateConverter(eachValuable.createdDate)
     return (<div className={classes.container}>
       <div className={[activityClasses.date, classes.date].join(' ')}>
@@ -60,7 +51,7 @@ const LostnFound = () => {
           </div>
 
         </div>
-        <img className={classes.img} src={process.env.PUBLIC_URL + imagepath} alt="itemImage" />
+        <img className={classes.img} src={eachValuable.image["secure_url"]} alt="itemImage" />
         <p className={classes.description}>{eachValuable.description}</p>
       </div>
       {/* <div onClick={infohandler} className={classes.contactInfo}>

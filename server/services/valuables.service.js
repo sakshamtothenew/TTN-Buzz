@@ -38,7 +38,7 @@ const add_valuables = ({
 },
   {
     filename,
-    path
+    secure_url
   }
 ) => {
   return new Promise((resolve, reject) => {
@@ -54,7 +54,7 @@ const add_valuables = ({
           type: type,
           image: {
             filename,
-            path
+            secure_url
           }
         });
 

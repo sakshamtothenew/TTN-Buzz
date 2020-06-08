@@ -1,12 +1,14 @@
 .Activity textarea{
-  width: 96%;
-  height: 100px;
+  width: 100%;
+  height: 150px;
   border: none;
-  background: transparent;
   resize: none;
   outline: none;
 }
 
+.Activity textarea:disabled {
+  background-color: inherit;
+}
 .inputdiv {
   width: 100%;
   margin : 1% 0;
@@ -90,3 +92,11 @@ label {
   padding : 2%
 }
 
+.valid {
+   background-color: inhert;
+}
+
+.invalid {
+  background-color: rgba(223, 137, 137, 0.705);
+  border : 1px solid salmon;
+}

@@ -31,3 +31,25 @@ export const get_valuables = () => {
             })
     }
 }
+
+
+export const post_valuables = (formData) => {
+
+    return dispatch => {
+        dispatch(show_toast("success", "Creating , Please Wait"))
+        setTimeout(() => {
+            dispatch(hide_toast())
+        }, 1000)
+        axios.post('/valuables/', formData)
+            .then(response => {
+                console.log(response.data)
+                dispatch(show_toast("success", "Post Created"))
+                dispatch(hide_toast())
+                dispatch(get_valuables())
+            })
+            .catch(err => {
+                dispatch(show_toast("error", err))
+                dispatch(hide_toast())
+            })
+    }
+}

@@ -6,6 +6,7 @@ const {
   update_complaint_by_id,
   create_complaint,
 } = require("../services/complaint.service");
+const cloudinary = require('cloudinary')
 const getComplaintsById = (req, res) => {
   get_complaints_by_id(req.params.id)
     .then((result) => res.send(result))
@@ -19,14 +20,25 @@ const getComplaintsByStatus = (req, res) => {
 };
 
 const createComplaint = (req, res) => {
+  if (req.file) {
+    cloudinary.v2.uploader.upload(req.file.path)
+      .then(result => {
+        req.file = result
+        console.log("this is req.file", req.file)
 
-  create_complaint(req.body, req.file)
-    .then((result) => res.send(result))
-    .catch((err) => {
-      res.status(400)
-      res.send(err)
-    }
-    );
+        create_complaint(req.body, req.file)
+          .then((result) => {
+            res.send(result);
+          })
+          .catch((err) => {
+            res.status(400)
+            res.send(err);
+          });
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
 };
 
 const getAllComplaints = (req, res) => {

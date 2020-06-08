@@ -6,6 +6,8 @@ const {
   delete_valuables_by_id,
 } = require("../services/valuables.service");
 
+const cloudinary = require('cloudinary')
+
 const getAllValuable = (req, res) => {
   get_all_valuables()
     .then((result) => res.send(result))
@@ -19,16 +21,30 @@ const getValuableById = (req, res) => {
 };
 
 const addValuables = (req, res) => {
-console.log(req.body)
+  console.log(req.body)
+  if (req.file) {
+    cloudinary.v2.uploader.upload(req.file.path)
+      .then(result => {
+        req.file = result
+        console.log("this is req.file", req.file)
 
-  add_valuables(req.body , req.file)
-    .then((result) => res.send(result))
-    .catch((err) => {
-      console.log(err)
-      res.status(400)
-      res.send(err);
-    });
-};
+        add_valuables(req.body, req.file)
+          .then((result) => {
+            console.log(result)
+            res.send(result);
+          })
+          .catch((err) => {
+            console.log(err)
+            res.status(400)
+            res.send(err);
+          });
+      })
+      .catch(err => {
+        console.log(err)
+      });
+  }
+}
+
 
 const updateValuablesById = (req, res) => {
   update_valuables_by_id(req.params.id, req.body)

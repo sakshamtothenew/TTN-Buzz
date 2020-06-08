@@ -26,7 +26,7 @@ const create_complaint = ({
   status,
 }, {
   filename,
-  path
+  secure_url
 }) => {
   return new Promise((resolve, reject) => {
     get_user_by_email(email)
@@ -40,7 +40,7 @@ const create_complaint = ({
           issueId: issueId,
           issueTitle: issueTitle,
           status: status,
-          image: { filename, path }
+          image: { filename, secure_url }
         });
 
         newComplaints

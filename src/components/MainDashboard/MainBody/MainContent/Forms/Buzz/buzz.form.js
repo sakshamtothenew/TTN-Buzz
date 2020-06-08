@@ -1,26 +1,51 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from 'react-redux'
 import * as BuzzState from "./BuzzState.util";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import classes from "./buzz.module.css";
 import Input from "../../../../UI/Input/input";
 import Wrapper from "../../../../UI/Wrapper/Wrapper";
 import ImgUpld from "../../../../UI/imageIcon/Imageicon";
-import axios from "axios";
+import * as actions from '../../../../../../store/actions/index.actions'
+import { checkValidity } from '../Utility'
+
 
 const ActivityForm = (props) => {
-  console.log(BuzzState.Activity_Buzz)
+
   const [BuzzForm, setBuzzForm] = useState(BuzzState.Activity_Buzz);
   const [attachmentPath, setAttachmentPath] = useState(null);
-  const [categoryValue, setCategoryValue] = useState(
-    BuzzState.Buzz_category.value
-  );
+  const [formIsValid, setFormisValid] = useState(false);
+  const [categoryValue, setCategoryValue] = useState(BuzzState.Buzz_category.value);
+  const dispatch = useDispatch();
+  const save_activities = (formData) => dispatch(actions.post_activities(formData))
+  const save_valuables = (formData) => dispatch(actions.post_valuables(formData))
 
+  const User = useSelector(state => state.user.user)
+  const BuzzObj = {
+    "Activity": {
+      initialState: BuzzState.Activity_Buzz,
+      action: save_activities
+    },
+    "Lost & Found": {
+      initialState: BuzzState.Valuable_Buzz,
+      action: save_valuables
+    }
+  }
   const inputChangeHandler = (event, inputIdentifier) => {
     const currstate = { ...BuzzForm };
     const changeInput = { ...currstate[inputIdentifier] };
+    changeInput.touched = true;
     changeInput.value = event.target.value;
+    changeInput.valid = checkValidity(changeInput.value, changeInput.validation)
     currstate[inputIdentifier] = changeInput;
+
+    let formIsvalid = true;
+    for (let i in currstate) {
+      formIsvalid = currstate[i].valid && formIsvalid;
+    }
+
+    setFormisValid(formIsvalid)
     setBuzzForm(currstate);
   };
 
@@ -43,66 +68,29 @@ const ActivityForm = (props) => {
 
   const imageattachmentHandler = (event) => {
     console.log(event.target.files[0]);
-
     setAttachmentPath(event.target.files[0]);
   };
 
+
+
+
   const SubmitHandler = (event) => {
     event.preventDefault();
-
-    const formData = new FormData();
-
-    formData.append('img', attachmentPath)
-
-
-    if (categoryValue === "Activity") {
-
-
+    if (!formIsValid) {
+      toast.error('form is invalid');
+    }
+    else {
+      const formData = new FormData();
+      formData.append('img', attachmentPath)
+      formData.append('email', User.email)
       Object.keys(BuzzForm).forEach((keys) => {
         formData.append(keys, BuzzForm[keys].value)
       });
-
-      formData.append("email", "saksham.sachdeva@tothenew.com");
-
-      axios
-        .post("/activities", formData)
-        .then((result) => {
-          if (result.status === 200)
-            toast.success('New Activity Created', {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            });
-        });
-
-    } else if (categoryValue === "Lost & Found") {
-
-
-      Object.keys(BuzzForm).forEach((keys) => {
-
-        formData.append(keys, BuzzForm[keys].value)
-      });
-
-      axios
-        .post('http://localhost:5000/valuables', formData)
-        .then(result => console.log(result))
-
-    } else {
-      toast.error('Please Choose Category', {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      setBuzzForm(BuzzObj[categoryValue].initialState)
+      BuzzObj[categoryValue].action(formData)
     }
   };
+
 
 
 
@@ -113,6 +101,8 @@ const ActivityForm = (props) => {
         type={BuzzForm[keys].elementType}
         key={keys}
         elementConfig={BuzzForm[keys].elementConfig}
+        invalid={!BuzzForm[keys].valid}
+        touched={BuzzForm[keys].touched}
         label={BuzzForm[keys].label}
         changed={(event) => inputChangeHandler(event, keys)}
         classname={BuzzForm[keys].classname}
@@ -133,7 +123,7 @@ const ActivityForm = (props) => {
   );
 
   return (
-    <div className={classes.Formdiv}>
+    <div className={classes.Formdiv} >
       <Wrapper heading="Create Buzz">
         <form onSubmit={(event) => SubmitHandler(event)} className={classes.buzzForm}>
           <div className={classes.inputFields}>{formBody}</div>
@@ -148,7 +138,7 @@ const ActivityForm = (props) => {
           </div>
         </form>
       </Wrapper>
-    </div>
+    </div >
   );
 };
 
