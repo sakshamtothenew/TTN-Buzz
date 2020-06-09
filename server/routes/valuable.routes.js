@@ -7,15 +7,17 @@ const {
   deleteValuablesById,
 } = require("../controller/valuable.controllers");
 
+const { checkValuableValidation } = require('../middlewares/inputValidations')
+
 const verifyAuth = require('../middlewares/verifyAuthentication')
 
 const { upload } = require('../Config/Multer.config')
 
-route.get("/", verifyAuth ,  getAllValuable);
+route.get("/", verifyAuth, getAllValuable);
 
 route.get("/:id", getValuableById);
 
-route.post("/", verifyAuth ,  upload.single('img'), addValuables);
+route.post("/", verifyAuth, upload.single('img'), checkValuableValidation, addValuables);
 
 route.put("/:id", updateValuablesById);
 

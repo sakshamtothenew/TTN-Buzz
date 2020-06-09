@@ -4,13 +4,13 @@ const bodyParser = require("body-parser");
 const cors = require('cors')
 const cookieSession = require('cookie-session')
 const passport = require('passport')
-
+require('dotenv').config()
 require('./Config/passport-google.config')
 
 const app = express();
 
 mongoose.connect(
-  "mongodb://localhost:27017/TTN-Buzz",
+  process.env.MONGO_URI,
   { useNewUrlParser: true, useUnifiedTopology: true },
   () => {
     console.log("mongo connection created ..");
@@ -20,8 +20,8 @@ mongoose.connect(
 require('./Config/CloudinaryConfig')
 app.use(
   cookieSession({
-    maxAge: 30 * 24 * 60 * 60 * 1000,
-    keys: ['thisisverystrongkey']
+    maxAge: process.env.COOKIE_MAX_AGE,
+    keys: [process.env.COOKIE_SECRET]
   })
 )
 
@@ -38,6 +38,6 @@ app.use("/valuables", require("./routes/valuable.routes"));
 app.use('/auth', require('./routes/auth.routes'))
 
 
-app.listen(5000, () => {
-  console.log("app is listening at port 5000...");
+app.listen(process.env.PORT || 5000, () => {
+  console.log("app is listening at port", process.env.PORT);
 });

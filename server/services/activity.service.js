@@ -23,7 +23,6 @@ const get_all_activities = () => {
               result[i].actionDetails = { ...actionDetails }
             })
             .catch(err => {
-              console.log(err)
               reject(err)
             })
         }
@@ -48,15 +47,12 @@ const get_activity_by_id = (id) => {
       { $unwind: "$userDetails" },
     ])
       .then(async (result) => {
-        console.log("this is from result============================")
-        console.log(result)
         for (let i in result) {
           await get_action_count(result[i]._id, result[i].userDetails._id)
             .then(actionDetails => {
               result[i].actionDetails = { ...actionDetails }
             })
             .catch(err => {
-              console.log(err)
               reject(err)
             })
         }
@@ -84,7 +80,7 @@ const create_activities = (
     secure_url
   }) => {
 
-  console.log("this is user email", email)
+
   return new Promise((resolve, reject) => {
 
     let UserId = null;
@@ -103,7 +99,6 @@ const create_activities = (
           .save()
           .then((result) => resolve(result))
           .catch((err) => {
-            console.log(err);
             reject(err);
           });
       })

@@ -11,6 +11,8 @@ const {
 
 const verifyAuth = require('../middlewares/verifyAuthentication')
 
+const { checkComplaintValidation } = require('../middlewares/inputValidations')
+
 
 const { upload } = require('../Config/Multer.config')
 
@@ -18,9 +20,9 @@ route.get("/:id", getComplaintsById);
 
 route.get("/status/:status", getComplaintsByStatus);
 
-route.post("/", verifyAuth , upload.single("img"), createComplaint);
+route.post("/", verifyAuth, upload.single("img"), checkComplaintValidation, createComplaint);
 
-route.get("/user/:id", verifyAuth , getComplaintsByUserId);
+route.get("/user/:id", verifyAuth, getComplaintsByUserId);
 
 route.get("/", getAllComplaints);
 

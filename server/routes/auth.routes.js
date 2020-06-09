@@ -3,24 +3,23 @@ const passport = require('passport')
 
 
 
-route.get('/google' , passport.authenticate('google' ,
- {scope : ['email' , 'profile']}))
+route.get('/google', passport.authenticate('google',
+    { scope: ['email', 'profile'] }))
 
 
 
-route.get('/google/callback' , passport.authenticate('google') ,(req , res) => {
+route.get('/google/callback', passport.authenticate('google'), (req, res) => {
 
-    res.redirect('http://localhost:3000/auth/setUser')
+    res.redirect(process.env.CLIENT_URL + 'auth/setUser')
 })
 
 
-route.get('/getuser' , (req , res) => {
-    console.log(req.user)
-     res.send(req.user);
+route.get('/getuser', (req, res) => {
+    res.send(req.user);
 })
 
-route.get('/logout' , (req , res) => {
+route.get('/logout', (req, res) => {
     req.logout();
-    res.redirect('http://localhost:3000/')
+    res.redirect(process.env.CLIENT_URL)
 })
 module.exports = route 

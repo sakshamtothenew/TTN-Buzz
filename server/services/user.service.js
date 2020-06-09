@@ -1,5 +1,5 @@
 const { User } = require("../model/User.model");
-const {ObjectId} = require('../Utils/convertors')
+const { ObjectId } = require('../Utils/convertors')
 
 const add_user = ({ type, email, name }) => {
   return new Promise((resolve, reject) => {
@@ -32,16 +32,14 @@ const get_all_users = () => {
   });
 };
 
-const update_user_by_id = (id , updation) => {
+const update_user_by_id = (id, updation) => {
   return new Promise((resolve, reject) => {
-    console.log(updation)
-    console.log(id)
-     User.findOneAndUpdate({_id : ObjectId(id)} , {$set : {type : updation.type}})
-     .then(result => resolve(result))
-     .catch(err => reject(err))
+    User.findOneAndUpdate({ _id: ObjectId(id) }, { $set: { type: updation.type } })
+      .then(result => resolve(result))
+      .catch(err => reject(err))
 
   })
-    
+
 };
 
 const get_user_by_email = (email) => {

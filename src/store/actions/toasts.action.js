@@ -1,27 +1,24 @@
 import * as actionTypes from './actionType'
 
+export const show_toast = (type, message) => {
 
-
-export const show_toast = (type , message) => {
-
-    return {
-        type: actionTypes.SHOW_TOAST,
-        toast : {
-            show : true ,
-            message,
-            type
-        }
+  return {
+    type: actionTypes.SHOW_TOAST,
+    toast: {
+      show: true,
+      message,
+      type
     }
+  }
 }
 
 export const hide_toast = () => {
 
-
-    return {
-        type: actionTypes.HIDE_TOAST,
-        toast : {
-            show : false
-        }
+  return {
+    type: actionTypes.HIDE_TOAST,
+    toast: {
+      show: false
     }
+  }
 
 }

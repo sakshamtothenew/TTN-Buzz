@@ -24,31 +24,29 @@ const getAllActivitiesByUserId = (req, res) => {
     .catch((err) => res.send(err));
 };
 
-const getActivityById = (req , res) => {
-      get_activity_by_id(req.params.id)
-        .then(result => res.send(result))
-        .catch(err => res.send(err))
+const getActivityById = (req, res) => {
+  get_activity_by_id(req.params.id)
+    .then(result => res.send(result))
+    .catch(err => res.send(err))
 }
-const createActivities = (req, res) => {
+const createActivities = async (req, res) => {
+
   if (req.file) {
-    cloudinary.v2.uploader.upload(req.file.path)
-      .then(result => {
-        req.file = result
-        console.log("this is req.file" , req.file)
-        
-        create_activities(req.body, req.file)
-          .then((result) => {
-            res.send(result);
-          })
-          .catch((err) => {
-            res.status(400)
-            res.send(err);
-          });
-      })
-      .catch(err => {
-        console.log(err)
-      })
+    req.file = await cloudinary.v2.uploader.upload(req.file.path)
   }
+  else {
+    req.file = { filename: null, secure_url: null }
+  }
+
+  create_activities(req.body, req.file)
+    .then((result) => {
+      console.log(result)
+      res.send(result);
+    })
+    .catch((err) => {
+      res.status(400)
+      res.send(err);
+    });
 
 
 };

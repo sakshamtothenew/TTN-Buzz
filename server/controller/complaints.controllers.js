@@ -19,26 +19,24 @@ const getComplaintsByStatus = (req, res) => {
     .catch((err) => res.send(err));
 };
 
-const createComplaint = (req, res) => {
+const createComplaint = async (req, res) => {
+  
   if (req.file) {
-    cloudinary.v2.uploader.upload(req.file.path)
-      .then(result => {
-        req.file = result
-        console.log("this is req.file", req.file)
-
-        create_complaint(req.body, req.file)
-          .then((result) => {
-            res.send(result);
-          })
-          .catch((err) => {
-            res.status(400)
-            res.send(err);
-          });
-      })
-      .catch(err => {
-        console.log(err)
-      })
+    req.file = await cloudinary.v2.uploader.upload(req.file.path)
   }
+  else {
+    req.file = {filename  : null , secure_url : null}
+  }
+  
+  create_complaint(req.body, req.file)
+  .then((result) => {
+    console.log(result)
+    res.send(result);
+  })
+  .catch((err) => {
+    res.status(400)
+    res.send(err);
+  });
 };
 
 const getAllComplaints = (req, res) => {
@@ -54,7 +52,6 @@ const updateComplaintById = (req, res) => {
 };
 
 const getComplaintsByUserId = (req, res) => {
-  console.log(req.params.id)
   get_complaints_by_user(req.params.id)
     .then((result) => res.send(result))
     .catch((err) => res.send(err));

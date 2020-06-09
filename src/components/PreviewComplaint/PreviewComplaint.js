@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import classes from './Preview.module.css'
-import Wrapper from '../MainDashboard/UI/Wrapper/Wrapper'
-import Input from '../MainDashboard/UI/Input/input'
+import Wrapper from '../UI/Wrapper/Wrapper'
+import Input from '../UI/Input/input'
 import { useSelector, useDispatch } from 'react-redux'
 import * as action from '../../store/actions/index.actions'
-import styles from '../MainDashboard/MainBody/MainContent/ArticleSection/Complaints/Complaint.module.css'
-import { checkValidity } from '../MainDashboard/MainBody/MainContent/Forms/Utility'
+import styles from '../Complaints/Complaint.module.css'
+import { checkValidity } from '../MainBody/MainContent/Forms/Utility'
 import { toast } from 'react-toastify'
 const PreviewComplaints = (props) => {
 
@@ -65,17 +65,14 @@ const PreviewComplaints = (props) => {
   const complaints = useSelector(state => state.complaints)
   const displayComplaint = { ...complaints[props.complaintId] }
 
-
   const dispatch = useDispatch()
 
   const updateComplaints = (complaintObj) => dispatch(action.update_complaints(complaintObj))
 
   const editHandler = () => {
-
     seteditable(true)
-
-
   }
+
   const updateComplaintHandler = () => {
     if (!formIsValid) {
       toast.error("formisInvalid")
@@ -90,7 +87,6 @@ const PreviewComplaints = (props) => {
       updateComplaints(updatedObj);
       seteditable(false);
     }
-
   }
 
   const inputChangeHandler = (event, inputIdentifier) => {
@@ -100,18 +96,15 @@ const PreviewComplaints = (props) => {
     changeInput.touched = true;
     changeInput.valid = checkValidity(changeInput.value, changeInput.validation,
       changeInput.elementConfig.options ? changeInput.elementConfig.options : undefined)
-      console.log(changeInput.valid)
     currstate[inputIdentifier] = changeInput;
     let formIsvalid = true
     for (let i in currstate) {
       formIsvalid = currstate[i].valid && formIsvalid
     }
-    console.log(formIsvalid)
     setFormisValid(formIsvalid);
     setInputFields(currstate);
   }
 
-  console.log(displayComplaint.Assigned_to)
 
   return (
     <Wrapper heading={props.heading}>

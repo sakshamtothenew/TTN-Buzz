@@ -1,0 +1,56 @@
+.Open  {
+    color :  red;
+    cursor: pointer;
+}
+.InProgress  {
+    color : blue;
+    cursor: pointer;
+}
+.Resolved {
+    color : green;
+    cursor: pointer;
+}
+
+.Open select {
+    color : red;
+    cursor: pointer;
+}
+
+
+.InProgress select{
+    color : blue;
+    cursor: pointer;
+}
+
+.Resolved select {
+    color : green;
+    cursor: pointer;
+}
+
+.tableBody td , th {
+    text-align: center;
+    padding : 1% 5% ;
+    font-size: 14px;
+    
+}
+
+.prevbtn {
+    background-color: transparent;
+    color : #faad05;
+    border : none;
+}
+
+.prevbtn:hover {
+     text-decoration: underline;
+}
+
+.prevbtn:focus {
+    outline : none;
+}
+
+.downicon {
+    position : relative ;
+     top : -20px;
+     left : 50px;
+     color : #faad05;     
+}

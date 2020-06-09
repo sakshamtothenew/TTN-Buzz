@@ -13,6 +13,8 @@ const {
 
 const verifyAuth = require('../middlewares/verifyAuthentication')
 
+const { checkActivityValidation } = require('../middlewares/inputValidations')
+
 const { upload } = require("../Config/Multer.config");
 route.get("/", verifyAuth, getAllActivities);
 
@@ -20,7 +22,7 @@ route.get("/user/:userid", getAllActivitiesByUserId);
 
 route.get('/:id', getActivityById)
 
-route.post("/", verifyAuth, upload.single("img"), createActivities);
+route.post("/", verifyAuth, upload.single("img"), checkActivityValidation, createActivities);
 
 route.put("/update/:id", updateActivitiesById);
 

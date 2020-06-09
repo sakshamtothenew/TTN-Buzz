@@ -62,16 +62,14 @@ const get_all_complaints = () => {
 };
 
 const update_complaint_by_id = (id, updation) => {
-  console.log(updation)
   const Assigned_to = updation["Assigned_to"], estimated_time = updation["estimated_time"];
   const status = updation["status"]
-  console.log(Assigned_to, estimated_time)
   return new Promise((resolve, reject) => {
     Complaints.updateOne({ _id: id }, {
       $set: {
         Assigned_to: Assigned_to,
         estimated_time: estimated_time,
-        status : status
+        status: status
       }
     })
       .then((result) => resolve(result))
@@ -80,15 +78,13 @@ const update_complaint_by_id = (id, updation) => {
 };
 
 const get_complaints_by_user = (id) => {
-  
+
   return new Promise((resolve, reject) => {
     Complaints.find({ "createdBy.userid": ObjectId(id) })
       .then((result) => {
-        console.log(result)
         resolve(result)
       })
       .catch((err) => {
-        console.log(err)
         reject(err)
       });
   });

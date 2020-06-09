@@ -7,7 +7,6 @@ const reducer = (state = [], action) => {
             return action.valuableData
         case (actionTypes.INIT_VALUABLES):
             return []
-
         default:
             return state
     }

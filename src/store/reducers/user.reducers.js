@@ -9,7 +9,6 @@ const reducers = (state = inititalState , action) => {
     switch(action.type) {
 
         case(actionTypes.SET_USERS):
-            console.log(action.userDetails)
             return {
                 ...state ,
                 user : action.userDetails ,
