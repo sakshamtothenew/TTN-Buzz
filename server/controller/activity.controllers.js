@@ -12,6 +12,8 @@ const {
 
 const cloudinary = require('cloudinary');
 
+
+
 const getAllActivities = (req, res) => {
   get_all_activities()
     .then((result) => res.send(result))
@@ -54,7 +56,9 @@ const createActivities = async (req, res) => {
 const updateActivitiesById = (req, res) => {
   update_activities_by_id(req.params.id, req.body)
     .then((result) => res.send(result))
-    .catch((err) => res.send(err));
+    .catch((err) => {
+      res.status(500)
+      res.send(err)});
 };
 
 const deleteActivities = (req, res) => {
@@ -67,7 +71,9 @@ const deleteAll = (req, res) => {
 
   delete_all()
     .then(result => res.send(result))
-    .catch(err => res.send(err))
+    .catch(err => {
+      res.status(500)
+      res.send(err)})
 }
 
 const updateActions = (req, res) => {
