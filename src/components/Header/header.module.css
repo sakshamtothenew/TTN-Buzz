@@ -20,6 +20,12 @@
 
 }
 
+.logout::after {
+     content: '\f2f5';
+     font-family:  "FontAwesome";
+     color : #faad05;
+     margin-left : 5px;
+}
 .logout a {
     color : #faad05;
     font-size : 17px;
@@ -31,6 +37,8 @@
      padding : 2%;
      height :  40vh;
      background : url('../../assets/banner2.jpg') center center ;
+     display: flex;
+     align-items: flex-end;
      
  }
  
@@ -40,9 +48,35 @@
      
  }
  .bannerText {
-     position : relative;
-     top : 50%;
     color : white;    
     width : 45%;
     font-size: 35px;
+ }
+
+ @media (max-width : 900px) {
+
+    .bannerText {
+        width : 50%;
+        font-size : 30px;
+    }
+ }
+
+ @media (max-width : 700px) {
+     .bannerText {
+        width : 75%;
+     }
+     .logout {
+         left : 85%
+     }
+ }
+
+ @media (max-width : 500px) {
+     .bannerText {
+         width : 100%;
+     }
+     .logout {
+         left : 75%;
+         top : 10px;
+     }
+   
  }

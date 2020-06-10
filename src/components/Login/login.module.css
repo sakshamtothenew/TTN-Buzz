@@ -33,3 +33,35 @@
     width : 80%;
     margin : 0 auto;
 }
+
+
+@media (max-width : 900px) {
+
+    .loginDiv {
+        width : 50%;
+        left : 25%;
+    }
+
+.loginDiv img {
+    height : 60%;
+    width : 50%;
+    
+}
+
+}
+
+@media (max-width : 500px) {
+
+    .loginDiv {
+        width : 70%;
+        left : 15%;
+    }
+
+}
+
+@media (max-width : 400px) {
+
+    .loginDiv a{ 
+        font-size : 15px
+    }
+}

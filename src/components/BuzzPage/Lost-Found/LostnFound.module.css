@@ -83,3 +83,19 @@
 .hide p {
     display : none
 }
+
+
+
+@media (max-width : 450px) {
+
+    .container {
+        justify-content: center;
+    }
+
+    .header h2 {
+        font-size : 25px
+    }
+    .content {
+        flex-basis : 100%;
+    }
+}

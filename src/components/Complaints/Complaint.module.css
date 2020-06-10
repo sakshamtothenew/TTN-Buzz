@@ -54,3 +54,27 @@
      left : 50px;
      color : #faad05;     
 }
+
+@media (max-width : 700px) {
+
+    .tableBody td , th {
+        padding : 1% 2%;
+    }
+
+    table {
+        zoom: 75%;
+    }
+    .downicon {
+        left : 45px;
+    }
+}
+
+@media (max-width : 500px) {
+    table {
+        zoom : 60%;
+        
+    }
+.tableBody td , th {
+    font-size: 17px;
+}
+}

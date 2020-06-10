@@ -9,7 +9,7 @@ const Header = () => {
         <div className={classes.logo}>
           <img src={ttnlogo} alt="ttnlogo"/>
         </div>
-        <div className={classes.logout}><a href="/auth/logout">logout <i class="fas fa-sign-out-alt"></i></a></div>
+        <div className={classes.logout}><a href="/auth/logout">logout</a></div>
       </div>
       <div className={classes.banner}>
         <h2 className={classes.bannerText}>

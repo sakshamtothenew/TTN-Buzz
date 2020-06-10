@@ -39,3 +39,36 @@
     box-shadow: 0px 11px 20px #1425401A;
 
 }
+
+.ActiveStyle {
+    font-weight: "bold";
+    color: "#faad05"
+}
+
+@media (max-width : 1000px)
+{
+    .NavBar {
+        display: flex;
+        justify-content: center;
+        margin: 2% 0 4% 0;
+    }
+    .righticon:before {
+        display: none;
+    }
+    .navElement {
+        flex-basis: 30%;
+        border-right : 1px solid rgb(190, 187, 187);
+        font-size : 17px;
+        padding : 2% 2%;
+    }
+    .navElement:first-child {
+
+        border-radius : 5px 0px 0 5px ;
+        box-shadow: none
+    }
+    .navElement:last-child {
+        border-radius: 0 0 5px 5px;
+        box-shadow: none;
+        border-right : none
+    }
+}

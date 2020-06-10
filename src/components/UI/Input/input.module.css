@@ -101,3 +101,13 @@ label {
   background-color: rgba(223, 137, 137, 0.705);
   border : 1px solid salmon;
 }
+
+@media (max-width : 500px) {
+  .LFInput {
+    flex-basis: 100%;
+  }
+
+  .LFSelect {
+    flex-basis: 100%;
+  }
+}

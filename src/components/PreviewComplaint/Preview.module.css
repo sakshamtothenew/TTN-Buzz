@@ -65,3 +65,13 @@
 .show {
     display : block
 }
+
+@media (max-width : 500px) {
+    .editbtn {
+        width : 70px
+    }
+
+    .savebtn {
+        width : 70px
+    }
+}
