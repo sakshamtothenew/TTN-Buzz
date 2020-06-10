@@ -15,8 +15,9 @@ const ComplaintTable = (props) => {
   const toasts = useSelector(state => state.toasts)
   const complaints = useSelector(state => state.complaints);
   const updateComplaints = (complaintObj) => dispatch(actions.update_complaints(complaintObj))
-
   const User = useSelector(state => state.user.user)
+
+  const [sorting, setSorting] = useState({ field: null, order: -1 })
   const [statusSelect, setStatusSelect] = useState({
     elementType: "select",
     elementConfig: {
@@ -50,6 +51,12 @@ const ComplaintTable = (props) => {
     }
   }, [])
 
+  const sortComplaints = (field, order) => {
+
+    setSorting({ field: field, order: order })
+
+  }
+
   console.log(complaints)
 
   const statusChangedHandler = (event, ComplaintIdentifier) => {
@@ -65,9 +72,23 @@ const ComplaintTable = (props) => {
   }
 
   let complaintList = [];
+  let sortedComplaints = [];
   if (typeof complaints === "object") {
-    Object.keys(complaints).forEach((keys) => {
-      const eachComplaint = complaints[keys];
+
+    sortedComplaints = Object.keys(complaints)
+    sortedComplaints.sort((a, b) => {
+      if (complaints[a][sorting.field])
+        if (complaints[a][sorting.field] > complaints[b][sorting.field]) {
+          return 1 * sorting.order
+        }
+        else {
+          return -1 * sorting.order
+        }
+    })
+
+    for (let i in sortedComplaints) {
+      const eachComplaint = complaints[sortedComplaints[i]]
+      console.log(eachComplaint.createdBy.name)
       complaintList.push(<tr>
         <td>{eachComplaint.department}</td>
         <td><button className={classes.prevbtn} onClick={() => props.showhandler(eachComplaint._id)}>{eachComplaint.issueId}</button></td>
@@ -82,14 +103,14 @@ const ComplaintTable = (props) => {
                 label={statusSelect.label}
                 classname={statusSelect.classname}
                 value={eachComplaint.status}
-                changed={(event) => statusChangedHandler(event, keys)}
+                changed={(event) => statusChangedHandler(event, sortedComplaints[i])}
               />
-              <i className = {"fa fa-angle-down " + classes.downicon}></i>
+              <i className={"fa fa-angle-down " + classes.downicon}></i>
             </React.Fragment>
             :
             eachComplaint.status}</td>
       </tr >)
-    })
+    }
   }
   else {
     complaintList = "Loading..."
@@ -100,11 +121,16 @@ const ComplaintTable = (props) => {
       <Table bordered hover size="sm">
         <thead>
           <tr>
-            <th>Department</th>
+            <th onClick={() => sortComplaints("department", (-1 * sorting.order))}>Department
+            <i className="fas fa-sort"></i>
+            </th>
             <th>Issue Id</th>
             {User.type === "Admin" && props.editable ? <th>Locked By</th> : null}
             <th>Assigned To</th>
-            <th>Status</th>
+            <th onClick={() => sortComplaints("status", (-1 * sorting.order))}>Status
+            <i className="fas fa-sort"></i>
+
+            </th>
           </tr>
         </thead>
         <tbody className={classes.tableBody}>
