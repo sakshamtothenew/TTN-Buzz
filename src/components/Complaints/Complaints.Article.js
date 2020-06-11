@@ -57,7 +57,7 @@ const ComplaintTable = (props) => {
 
   }
 
-  console.log(complaints)
+
 
   const statusChangedHandler = (event, ComplaintIdentifier) => {
     const currComplaints = { ...complaints }
@@ -81,14 +81,16 @@ const ComplaintTable = (props) => {
         if (complaints[a][sorting.field] > complaints[b][sorting.field]) {
           return 1 * sorting.order
         }
-        else {
+        else if (complaints[a][sorting.field] < complaints[b][sorting.field]) {
           return -1 * sorting.order
+        }
+        else {
+          return 0
         }
     })
 
     for (let i in sortedComplaints) {
       const eachComplaint = complaints[sortedComplaints[i]]
-      console.log(eachComplaint.createdBy.name)
       complaintList.push(<tr>
         <td>{eachComplaint.department}</td>
         <td><button className={classes.prevbtn} onClick={() => props.showhandler(eachComplaint._id)}>{eachComplaint.issueId}</button></td>
@@ -118,25 +120,27 @@ const ComplaintTable = (props) => {
 
   return (
     <Wrapper heading="Your Complaints">
-      <Table bordered hover size="sm">
-        <thead>
-          <tr>
-            <th onClick={() => sortComplaints("department", (-1 * sorting.order))}>Department
+      <div className = {classes.container}>
+        <Table bordered hover size="sm">
+          <thead>
+            <tr>
+              <th onClick={() => sortComplaints("department", (-1 * sorting.order))}>Department
             <i className="fas fa-sort"></i>
-            </th>
-            <th>Issue Id</th>
-            {User.type === "Admin" && props.editable ? <th>Locked By</th> : null}
-            <th>Assigned To</th>
-            <th onClick={() => sortComplaints("status", (-1 * sorting.order))}>Status
+              </th>
+              <th>Issue Id</th>
+              {User.type === "Admin" && props.editable ? <th>Locked By</th> : null}
+              <th>Assigned To</th>
+              <th onClick={() => sortComplaints("status", (-1 * sorting.order))}>Status
             <i className="fas fa-sort"></i>
 
-            </th>
-          </tr>
-        </thead>
-        <tbody className={classes.tableBody}>
-          {complaintList}
-        </tbody>
-      </Table>
+              </th>
+            </tr>
+          </thead>
+          <tbody className={classes.tableBody}>
+            {complaintList}
+          </tbody>
+        </Table>
+      </div>
       <ToastContainer />
     </Wrapper>
   );

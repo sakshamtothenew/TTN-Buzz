@@ -27,10 +27,20 @@ const NavBar = () => {
       </div>
       {User.type === "Admin" ? <div className={classes.navElement}>
         <NavLink to='/home/Resolved' activeStyle={activeStyle}><span>Resolved</span>
-        <i className={"fa fa-angle-right " + classes.righticon} aria-hidden="true"></i>
+          <i className={"fa fa-angle-right " + classes.righticon} aria-hidden="true"></i>
         </NavLink>
       </div> : null}
+      <div className={classes.footer}>
+        <p className={classes.copyright}>&copy; 2020 TO THE NEW DIGITAL</p>
+        <div className={classes.contactInfo}>
+          <p><NavLink to="/About">About</NavLink></p>
+          <p><NavLink to="/Contact">Help</NavLink></p>
+        </div>
+      </div>
     </div>
+
+
+
   );
 };
 export default NavBar;

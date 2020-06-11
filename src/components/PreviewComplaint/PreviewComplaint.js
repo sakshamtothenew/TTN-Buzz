@@ -7,6 +7,7 @@ import * as action from '../../store/actions/index.actions'
 import styles from '../Complaints/Complaint.module.css'
 import { checkValidity } from '../MainBody/MainContent/Forms/Utility'
 import { toast } from 'react-toastify'
+import moment from 'moment'
 const PreviewComplaints = (props) => {
 
   const [editable, seteditable] = useState(false);
@@ -104,7 +105,9 @@ const PreviewComplaints = (props) => {
     setFormisValid(formIsvalid);
     setInputFields(currstate);
   }
-
+   
+  const date = moment(displayComplaint.estimated_time).format('llll')
+  const locked_date = moment(displayComplaint.createdAt).format('llll')
 
   return (
     <Wrapper heading={props.heading}>
@@ -138,7 +141,7 @@ const PreviewComplaints = (props) => {
           </div>
           <div>
             <h5>Locked On:</h5>
-            <p>{displayComplaint.createdAt}</p>
+            <p>{locked_date}</p>
           </div>
 
           <div>
@@ -170,7 +173,7 @@ const PreviewComplaints = (props) => {
                 classname={inputField["ETR"].classname}
               /> :
               <p>{displayComplaint.estimated_time ?
-                displayComplaint.estimated_time :
+                date :
                 "UnAssigned"}</p>}
           </div>
         </div>

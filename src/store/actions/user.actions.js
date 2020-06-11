@@ -19,10 +19,11 @@ export const setUser = () => {
     dispatch(getUsers())
     axios.get('/auth/getuser')
       .then(response => {
+       
         dispatch(saveUsers(response.data))
       })
       .catch(err => {
-        console.log(err)
+       
       })
   }
 }

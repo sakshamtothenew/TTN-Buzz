@@ -30,7 +30,7 @@ const createComplaint = async (req, res) => {
   
   create_complaint(req.body, req.file)
   .then((result) => {
-    console.log(result)
+   
     res.send(result);
   })
   .catch((err) => {

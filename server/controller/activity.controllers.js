@@ -42,7 +42,6 @@ const createActivities = async (req, res) => {
 
   create_activities(req.body, req.file)
     .then((result) => {
-      console.log(result)
       res.send(result);
     })
     .catch((err) => {

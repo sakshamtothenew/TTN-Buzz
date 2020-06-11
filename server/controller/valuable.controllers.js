@@ -31,7 +31,6 @@ const addValuables = async (req, res) => {
 
   add_valuables(req.body, req.file)
     .then((result) => {
-      console.log(result)
       res.send(result);
     })
     .catch((err) => {

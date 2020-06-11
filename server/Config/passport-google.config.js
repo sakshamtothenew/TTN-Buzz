@@ -37,7 +37,8 @@ passport.use(
             type: "Employee",
             email: email._json.email,
             name: email._json.name,
-            token: newToken
+            token: newToken,
+            picture: email._json.picture
           }).save()
             .then(newuser => {
               done(null, newuser)

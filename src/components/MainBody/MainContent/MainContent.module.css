@@ -2,3 +2,29 @@
 
     flex-basis : 60%;
 }
+
+@media (max-width : 1000px)
+{
+    .MainContent {
+       width : 70%;
+       align-self: center;
+    }
+
+}
+
+@media (max-width : 840px) 
+{
+    .MainContent {
+        width : 80%;
+        align-self: center;
+     }
+}
+
+@media (max-width : 700px) 
+{
+    .MainContent {
+        width : 100%;
+        align-self: center;
+     }
+
+}

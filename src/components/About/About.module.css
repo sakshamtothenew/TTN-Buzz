@@ -1,0 +1,52 @@
+.banner {
+    background: url('../../assets/book-chapter-six-5834.jpg') center center/cover no-repeat;
+    height : 70vh
+
+}
+
+.tint {
+    background-color: rgba(0, 0, 0, 0.712);
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tint h1{
+
+    color : #fff;
+    font-size: 50px;
+
+}
+
+.content {
+    position: relative;
+    top : -70px;
+    display: flex;
+    margin : 0 2%;
+    justify-content: space-evenly;
+}
+
+
+.card {
+    flex-basis : 35%;
+    padding : 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+   box-shadow:  10px 10px 30px 5px rgba(0,0,0,0.75);
+    background-color: #fff;
+  
+  }
+
+  .card h3 {
+      font-size: 35px;
+      margin-bottom : 3% ;
+      color : rgb(151, 150, 150)
+  }
+
+  .card p {
+      font-size : 14px;
+      text-align: justify;
+  }

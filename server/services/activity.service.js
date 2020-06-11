@@ -157,7 +157,6 @@ const get_action_count = async (post_id, user) => {
             if (!likeCount) {
               actionDetails.likeCount = 0;
             }
-
             actionDetails.likeCount = likeCount
 
             Action.count({ post_id: post_id, value: "Dislike" })

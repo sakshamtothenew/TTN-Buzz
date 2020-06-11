@@ -19,16 +19,16 @@ export const update_complaints = (complaintObj) => {
   return dispatch => {
     axios.put('/complaints/' + complaintObj._id, complaintObj)
       .then(result => {
-        if(complaintObj.estimated_time)
-        complaintObj.estimated_time = complaintObj.estimated_time.toString()
-        
+        if (complaintObj.estimated_time)
+          complaintObj.estimated_time = complaintObj.estimated_time.toString()
+
         dispatch({
           type: actionTypes.UPDATE_COMPLAINTS,
           updatedObj: complaintObj
         })
       })
       .catch(err => {
-        dispatch(actions.show_toast("error" , err))
+        dispatch(actions.show_toast("error", err))
         dispatch(actions.hide_toast())
       })
   }
@@ -71,7 +71,7 @@ export const post_complaints = (formData) => {
       .then(response => {
         dispatch(actions.show_toast("success", "Complaint Locked!!"))
         dispatch(actions.hide_toast())
-        dispatch(get_complaints())
+        dispatch(get_complaints(response.data.createdBy.userid))
       })
       .catch(err => {
         dispatch(actions.show_toast("error", err))
