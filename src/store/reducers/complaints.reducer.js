@@ -12,6 +12,7 @@ const reducer = (state = {}, action) => {
             return {}
         case (actionTypes.UPDATE_COMPLAINTS):
             state[action.updatedObj._id] = { ...state[action.updatedObj._id], ...action.updatedObj }
+            console.log(state)
             return { ...state }
 
         default:

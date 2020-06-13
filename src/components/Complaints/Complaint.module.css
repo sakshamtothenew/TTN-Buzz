@@ -1,3 +1,7 @@
+.container {
+    overflow-x: scroll;
+    margin-bottom: 3%;
+}
 .Open  {
     color :  red;
     cursor: pointer;
@@ -60,13 +64,8 @@
     .tableBody td , th {
         padding : 1% 2%;
     }
-    .container {
-        overflow-x: scroll;
-    }
+   
 
-    table {
-        zoom: 75%;
-    }
     .downicon {
         left : 45px;
     }

@@ -55,6 +55,21 @@
 
 }
 
+.closebtn {
+    position : relative;
+    left : 90%;
+    top : -35px;
+    background: none;
+    color : orange;
+    border : none;
+
+}
+
+
+.closebtn:focus {
+    outline : none;
+}
+
 .editbtn:focus , .savebtn:focus {
     outline : none;
 }

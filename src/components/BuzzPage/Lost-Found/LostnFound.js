@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import { useSelector, useDispatch } from 'react-redux'
 import 'react-toastify/dist/ReactToastify.css';
@@ -9,7 +9,7 @@ import * as actions from '../../../store/actions/index.actions'
 
 const LostnFound = () => {
   const dispatch = useDispatch();
-  const getValuables = () => dispatch(actions.get_valuables())
+  const getValuables = useCallback(() => dispatch(actions.get_valuables()), [dispatch])
   const lostnfounds = useSelector(state => state.valuables);
   const toasts = useSelector(state => state.toasts)
 
@@ -32,7 +32,7 @@ const LostnFound = () => {
 
   useEffect(() => {
     getValuables()
-  }, [])
+  }, [getValuables])
 
   const lostnfoundlist = lostnfounds.map((eachValuable) => {
 

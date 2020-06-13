@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useSelector, useDispatch } from 'react-redux'
@@ -10,15 +10,17 @@ import * as actions from '../../store/actions/index.actions'
 const ComplaintTable = (props) => {
 
   const dispatch = useDispatch();
-  const getComplaints = (userid) => dispatch(actions.get_complaints(userid))
-  const setComplaints = (complaints) => dispatch(actions.set_complaints(complaints))
+  const getComplaints = useCallback((userid) => dispatch(actions.get_complaints(userid)), [dispatch])
+  const setComplaints = useCallback((complaints) => dispatch(actions.set_complaints(complaints)), [dispatch])
   const toasts = useSelector(state => state.toasts)
   const complaints = useSelector(state => state.complaints);
   const updateComplaints = (complaintObj) => dispatch(actions.update_complaints(complaintObj))
   const User = useSelector(state => state.user.user)
 
   const [sorting, setSorting] = useState({ field: null, order: -1 })
-  const [statusSelect, setStatusSelect] = useState({
+  // const [statusSelect, setStatusSelect] = useState()
+
+  const statusSelect = {
     elementType: "select",
     elementConfig: {
       type: "text",
@@ -28,7 +30,7 @@ const ComplaintTable = (props) => {
     value: "",
     label: "",
     classname: "CTSelect"
-  })
+  }
 
   if (toasts.show) {
     if (toasts.type === "error")
@@ -49,7 +51,7 @@ const ComplaintTable = (props) => {
         getComplaints()
       }
     }
-  }, [])
+  }, [setComplaints, getComplaints, User._id, props.userOnly, User.user])
 
   const sortComplaints = (field, order) => {
 
@@ -64,9 +66,13 @@ const ComplaintTable = (props) => {
     const changedComplaint = { ...currComplaints[ComplaintIdentifier] }
     changedComplaint.status = event.target.value;
     currComplaints[ComplaintIdentifier] = changedComplaint;
+    let Assigned = changedComplaint["Assigned_to"] ? changedComplaint["Assigned_to"] : null;
+    let estimated_time = changedComplaint["estimated_time"] ? changedComplaint["estimated_time"] : null
     updateComplaints({
       _id: changedComplaint._id,
-      status: event.target.value
+      status: event.target.value,
+      Assigned_to: Assigned,
+      estimated_time: estimated_time
     })
     setComplaints(currComplaints);
   }
@@ -84,14 +90,13 @@ const ComplaintTable = (props) => {
         else if (complaints[a][sorting.field] < complaints[b][sorting.field]) {
           return -1 * sorting.order
         }
-        else {
-          return 0
-        }
+      return 0
+
     })
 
     for (let i in sortedComplaints) {
       const eachComplaint = complaints[sortedComplaints[i]]
-      complaintList.push(<tr>
+      complaintList.push(<tr key={eachComplaint._id}>
         <td>{eachComplaint.department}</td>
         <td><button className={classes.prevbtn} onClick={() => props.showhandler(eachComplaint._id)}>{eachComplaint.issueId}</button></td>
         {User.type === "Admin" && props.editable ? <td>{eachComplaint.createdBy.name}</td> : null}
@@ -120,7 +125,7 @@ const ComplaintTable = (props) => {
 
   return (
     <Wrapper heading="Your Complaints">
-      <div className = {classes.container}>
+      <div className={classes.container}>
         <Table bordered hover size="sm">
           <thead>
             <tr>

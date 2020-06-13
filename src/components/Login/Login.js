@@ -13,8 +13,8 @@ const Login = () => {
             <div className={classes.loginDiv}>
                 <img src = {ttnlogo}  alt="ttnlogo"/>
                 <p>Create your own buzz</p>
-                <a href = "/auth/google" class="btn btn-block btn-social btn-google">
-                    <span class="fa fa-google"></span> Sign in with google
+                <a href = "/auth/google" className="btn btn-block btn-social btn-google">
+                    <span className="fa fa-google"></span> Sign in with google
                 </a>
             </div>
         </React.Fragment>

@@ -1,5 +1,6 @@
 
-.NavBar {
+
+.container {
     flex-basis : 40%;  
     height : 100%;
 }
@@ -54,6 +55,10 @@
 
 }
 
+
+.footer1 {
+    display: none;
+}
 .contactInfo {
     display: flex;
     width : 30%;
@@ -71,10 +76,14 @@
 
 @media (max-width : 1000px)
 {
-    .NavBar {
-        display: flex;
+    .container {
         justify-content: center;
         margin: 2% 0 4% 0;
+    }
+    .NavBar {
+        display: flex;
+        justify-content: stretch;
+        /* margin: 2% 0 4% 0; */
     }
     .righticon:before {
         display: none;
@@ -90,9 +99,21 @@
         border-radius : 5px 0px 0 5px ;
         box-shadow: none
     }
-    .navElement:last-child {
+    .navElement:nth-child(3){
         border-radius: 0 0 5px 5px;
         box-shadow: none;
         border-right : none
+    }
+
+    .footer {
+        display: none;
+    }
+    .footer1 {
+        display: block;
+        margin : 3% auto;
+        width: 100%;
+        display : flex;
+        justify-content: space-between;
+    
     }
 }

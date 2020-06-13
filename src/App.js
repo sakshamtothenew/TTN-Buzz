@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect , useCallback} from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import MainDashboard from './components/MainDashboard/MainDashboard';
 import { Switch, Route, Redirect } from 'react-router-dom'
@@ -12,11 +12,11 @@ const App = () => {
 
   const dispatch = useDispatch();
 
-  const setUser = () => dispatch(actions.setUser())
+  const setUser = useCallback(() => dispatch(actions.setUser()) , [dispatch])
 
   useEffect(() => {
     setUser()
-  }, [])
+  }, [setUser])
 
   const User = useSelector(state => state.user.user)
 

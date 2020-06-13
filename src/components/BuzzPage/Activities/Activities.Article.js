@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useSelector, useDispatch } from 'react-redux'
@@ -12,7 +12,7 @@ const Activities = (props) => {
 
   const dispatch = useDispatch();
 
-  const getActivities = () => dispatch(actions.get_activities());
+  const getActivities = useCallback(() => dispatch(actions.get_activities()) , [dispatch]);
   const makeChanges = (method, state, requestBody) => dispatch(actions.make_actions(method, state, requestBody))
 
   const user = useSelector(state => state.user.user)
@@ -30,7 +30,7 @@ const Activities = (props) => {
 
   useEffect(() => {
     getActivities();
-  }, [])
+  }, [getActivities ])
 
   const onlikehandler = (action, post_id) => {
     const requestBody = {
@@ -38,15 +38,15 @@ const Activities = (props) => {
       user: user._id,
       post_id: post_id
     }
-    let actionid = null;
+    // let actionid = null;
     let activity = { ...activities };
     let state = { ...activity[post_id] }
     let method = null;
-    if (action == "Like") {
+    if (action === "Like") {
       if (state.actionDetails.value === "Like") {
         state = Unlike(state);
         method = "DELETE"
-        actionid = state.actionDetails._id
+        // actionid = state.actionDetails._id
       }
       else {
         if (state.actionDetails.value === "Dislike") {
@@ -63,7 +63,7 @@ const Activities = (props) => {
       if (state.actionDetails.value === "Dislike") {
         state = undoDislike(state)
         method = "DELETE"
-        actionid = state.actionDetails._id
+        // actionid = state.actionDetails._id
       }
       else {
         if (state.actionDetails.value === "Like") {
@@ -140,8 +140,8 @@ const Activities = (props) => {
 
   Object.keys(activities).forEach((eactActivity) => {
     const { day, month, timedifference } = dateConverter(activities[eactActivity].createdAt)
-    allActivities.push(<div className={classes.container}>
-      <div className={classes.date}>
+    allActivities.push(<div className={classes.container} key={activities[eactActivity]._id}>
+      <div className={classes.date} >
         <p><span className={classes.dt}>{day}</span>
           <span className={classes.slash}>/ </span>{month}</p>
       </div>

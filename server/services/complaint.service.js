@@ -62,6 +62,8 @@ const get_all_complaints = () => {
 };
 
 const update_complaint_by_id = (id, updation) => {
+  
+
   const Assigned_to = updation["Assigned_to"], estimated_time = updation["estimated_time"];
   const status = updation["status"]
   return new Promise((resolve, reject) => {

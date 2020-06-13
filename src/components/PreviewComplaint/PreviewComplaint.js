@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import classes from './Preview.module.css'
 import Wrapper from '../UI/Wrapper/Wrapper'
 import Input from '../UI/Input/input'
@@ -62,6 +62,11 @@ const PreviewComplaints = (props) => {
       touched: false
     }
   })
+
+  useEffect(() => {
+    seteditable(false)
+  }, [props.complaintId])
+
   const [formIsValid, setFormisValid] = useState(false)
   const complaints = useSelector(state => state.complaints)
   const displayComplaint = { ...complaints[props.complaintId] }
@@ -70,9 +75,49 @@ const PreviewComplaints = (props) => {
 
   const updateComplaints = (complaintObj) => dispatch(action.update_complaints(complaintObj))
 
+
+  const setInitialInputState = () => {
+    let currstate = { ...inputField };
+    let Assigned = { ...currstate["AssignedTo"] }
+    let estimated = { ...currstate["ETR"] }
+    let status = { ...currstate["status"] }
+    Assigned.value = "";
+    estimated.value = "";
+    status.value = "select status"
+    currstate["AssignedTo"] = Assigned
+    currstate["ETR"] = estimated
+    currstate["status"] = status;
+    console.log(currstate)
+    setInputFields(currstate)
+    console.log(inputField)
+  }
+
   const editHandler = () => {
+
+    console.log(inputField)
+    let currstate = { ...inputField };
+    let Assigned = { ...currstate["AssignedTo"] }
+    let estimated = { ...currstate["ETR"] }
+    let status = { ...currstate["status"] }
+    if (displayComplaint.Assigned_to) {
+      Assigned.value = displayComplaint.Assigned_to;
+      Assigned.valid = true
+    }
+    if (displayComplaint["estimated_time"]) {
+      estimated.value = displayComplaint["estimated_time"]
+      estimated.valid = true
+    }
+    status.value = displayComplaint.status
+    status.valid = true
+    currstate["AssignedTo"] = Assigned
+    currstate["ETR"] = estimated
+    currstate["status"] = status;
+    updateValidation(currstate)
+    setInputFields(currstate)
     seteditable(true)
   }
+
+
 
   const updateComplaintHandler = () => {
     if (!formIsValid) {
@@ -86,8 +131,17 @@ const PreviewComplaints = (props) => {
         status: inputField["status"].value
       }
       updateComplaints(updatedObj);
+      setInitialInputState();
       seteditable(false);
     }
+  }
+
+  const updateValidation = (currstate) => {
+    let formIsvalid = true
+    for (let i in currstate) {
+      formIsvalid = currstate[i].valid && formIsvalid
+    }
+    setFormisValid(formIsvalid);
   }
 
   const inputChangeHandler = (event, inputIdentifier) => {
@@ -98,19 +152,18 @@ const PreviewComplaints = (props) => {
     changeInput.valid = checkValidity(changeInput.value, changeInput.validation,
       changeInput.elementConfig.options ? changeInput.elementConfig.options : undefined)
     currstate[inputIdentifier] = changeInput;
-    let formIsvalid = true
-    for (let i in currstate) {
-      formIsvalid = currstate[i].valid && formIsvalid
-    }
-    setFormisValid(formIsvalid);
+    updateValidation(currstate)
     setInputFields(currstate);
   }
-   
+
   const date = moment(displayComplaint.estimated_time).format('llll')
   const locked_date = moment(displayComplaint.createdAt).format('llll')
 
   return (
     <Wrapper heading={props.heading}>
+      <button onClick={() => props.previewComplaintHandler(undefined)} className={classes.closebtn}>
+        <i class="fas fa-times"></i>
+      </button>
       <div className={classes.container}>
         <button
           onClick={editable ? updateComplaintHandler : editHandler}

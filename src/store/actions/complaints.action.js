@@ -21,7 +21,7 @@ export const update_complaints = (complaintObj) => {
       .then(result => {
         if (complaintObj.estimated_time)
           complaintObj.estimated_time = complaintObj.estimated_time.toString()
-
+          console.log(complaintObj)
         dispatch({
           type: actionTypes.UPDATE_COMPLAINTS,
           updatedObj: complaintObj
