@@ -87,14 +87,12 @@ const PreviewComplaints = (props) => {
     currstate["AssignedTo"] = Assigned
     currstate["ETR"] = estimated
     currstate["status"] = status;
-    console.log(currstate)
     setInputFields(currstate)
-    console.log(inputField)
+
   }
 
   const editHandler = () => {
 
-    console.log(inputField)
     let currstate = { ...inputField };
     let Assigned = { ...currstate["AssignedTo"] }
     let estimated = { ...currstate["ETR"] }
@@ -162,7 +160,7 @@ const PreviewComplaints = (props) => {
   return (
     <Wrapper heading={props.heading}>
       <button onClick={() => props.previewComplaintHandler(undefined)} className={classes.closebtn}>
-        <i class="fas fa-times"></i>
+        <i className="fas fa-times"></i>
       </button>
       <div className={classes.container}>
         <button
