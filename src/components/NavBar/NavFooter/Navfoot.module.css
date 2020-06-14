@@ -1,0 +1,14 @@
+.contactInfo {
+    display: flex;
+    width : 30%;
+    justify-content: space-evenly;
+    
+}
+
+.copyright {
+    font-size: 11px;
+    color : rgb(182, 177, 177)
+}
+.contactInfo p {
+    font-size: 13px;
+}

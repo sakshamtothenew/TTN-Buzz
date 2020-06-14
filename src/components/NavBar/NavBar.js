@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from 'react-redux'
 import { NavLink } from "react-router-dom";
 import classes from './Navbar.module.css'
+import NavFooter from "./NavFooter/NavFooter";
 
 const NavBar = () => {
 
@@ -32,23 +33,14 @@ const NavBar = () => {
           </NavLink>
         </div> : null}
         <div className={classes.footer}>
-          <p className={classes.copyright}>&copy; 2020 TO THE NEW DIGITAL</p>
-          <div className={classes.contactInfo}>
-            <p><NavLink to="/About">About</NavLink></p>
-            <p><NavLink to="/Contact">Help</NavLink></p>
-          </div>
-        </div>
+          <NavFooter />
+        
       </div>
-      <div className={classes.footer1}>
-        <p className={classes.copyright}>&copy; 2020 TO THE NEW DIGITAL</p>
-        <div className={classes.contactInfo}>
-          <p><NavLink to="/About">About</NavLink></p>
-          <p><NavLink to="/Contact">Help</NavLink></p>
-        </div>
-        </div>
-      </div>
-
-
+    </div>
+    <div className={classes.footer1}>
+      <NavFooter />
+    </div>
+      </div >
 
   );
 };
