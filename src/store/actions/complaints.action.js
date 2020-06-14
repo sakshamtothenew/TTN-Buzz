@@ -21,7 +21,6 @@ export const update_complaints = (complaintObj) => {
       .then(result => {
         if (complaintObj.estimated_time)
           complaintObj.estimated_time = complaintObj.estimated_time.toString()
-          console.log(complaintObj)
         dispatch({
           type: actionTypes.UPDATE_COMPLAINTS,
           updatedObj: complaintObj
@@ -43,7 +42,6 @@ export const get_complaints = (userid) => {
     }
     axios.get(Url)
       .then(response => {
-
         const stateObj = {}
         for (let i in response.data) {
           stateObj[response.data[i]._id] = { ...response.data[i] };

@@ -46,7 +46,7 @@ const Activities = (props) => {
       if (state.actionDetails.value === "Like") {
         state = Unlike(state);
         method = "DELETE"
-        // actionid = state.actionDetails._id
+       
       }
       else {
         if (state.actionDetails.value === "Dislike") {
@@ -63,7 +63,7 @@ const Activities = (props) => {
       if (state.actionDetails.value === "Dislike") {
         state = undoDislike(state)
         method = "DELETE"
-        // actionid = state.actionDetails._id
+        
       }
       else {
         if (state.actionDetails.value === "Like") {

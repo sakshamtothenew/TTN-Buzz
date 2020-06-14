@@ -6,7 +6,7 @@ const AboutUs = () => {
   return (
     <div className={classes.conatiner}>
       <div className={classes.banner}>
-        <div className = {classes.tint}>
+        <div className={classes.tint}>
           <h1>About Us</h1>
         </div>
       </div>
@@ -26,7 +26,6 @@ const AboutUs = () => {
             Lorem Ipsum is simply dummy text of the printing and typesetting industry.
              Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
               when an unknown printer took a galley of type and scrambled it to make a type
-              
           </p>
         </div>
       </div>

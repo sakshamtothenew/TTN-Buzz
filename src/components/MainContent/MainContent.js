@@ -2,9 +2,9 @@ import React from "react";
 import { Route, Switch, Redirect, withRouter } from "react-router-dom";
 import { useSelector } from 'react-redux'
 import classes from "./MainContent.module.css";
-import BuzzPage from '../../BuzzPage/BuzzPage'
-import ComplaintPage from "../../Complaints/ComplaintsPage";
-import ResolveTable from "../../Resolved/Resolved";
+import BuzzPage from '../BuzzPage/BuzzPage'
+import ComplaintPage from "../Complaints/ComplaintsPage";
+import ResolveTable from "../Resolved/Resolved";
 
 
 const MainContent = (props) => {

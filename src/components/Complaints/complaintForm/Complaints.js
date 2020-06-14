@@ -6,7 +6,7 @@ import Input from "../../UI/Input/input";
 import classes from "./Complaint.module.css";
 import Wrapper from "../../UI/Wrapper/Wrapper";
 import ImgUpld from "../../UI/imageIcon/Imageicon";
-import { checkValidity } from '../../MainBody/MainContent/Forms/Utility'
+import { checkValidity } from '../../../Util/Utility'
 import * as actions from '../../../store/actions/index.actions'
 import { useDispatch } from "react-redux";
 import {Complaint_Form} from './complaint.util'

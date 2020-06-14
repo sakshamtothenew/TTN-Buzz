@@ -1,6 +1,6 @@
 import React from 'react'
-import NavBar from './NavBar/NavBar'
-import MainContent from './MainContent/MainContent'
+import NavBar from '../NavBar/NavBar'
+import MainContent from '../MainContent/MainContent'
 import classes from './mainbody.module.css'
 
 const MainBody = (props) => {
@@ -12,6 +12,5 @@ const MainBody = (props) => {
         </div>
     )
 }
-
 
 export default MainBody;

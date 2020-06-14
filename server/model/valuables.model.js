@@ -26,12 +26,9 @@ const valuablesSchema = new Schema({
         enum: ["Electronics", "Wallets", "File/Doc", "Jewellery", "Kid", "Accessory", "others"],
         required: true
     },
-    image : {
-        type : Object,
+    image: {
+        type: Object,
     }
-
 })
-
-
 
 module.exports.valuables = mongoose.model("valuables", valuablesSchema);

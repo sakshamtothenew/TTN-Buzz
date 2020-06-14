@@ -9,7 +9,6 @@ route.get('/google', passport.authenticate('google',
 
 
 route.get('/google/callback', passport.authenticate('google'), (req, res) => {
-
     res.redirect(process.env.CLIENT_URL + 'auth/setUser')
 })
 

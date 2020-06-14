@@ -26,11 +26,9 @@ const createComplaint = async (req, res) => {
   }
   else {
     req.file = {filename  : null , secure_url : null}
-  }
-  
+  } 
   create_complaint(req.body, req.file)
   .then((result) => {
-   
     res.send(result);
   })
   .catch((err) => {

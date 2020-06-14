@@ -2,17 +2,13 @@ const multer = require('multer')
 
 const storage = multer.diskStorage({
   filename: function (req, file, cb) {
-  
-    if(file)
 
-    {
-     
+    if (file) {
       cb(null, Date.now() + file.originalname)
     }
     else {
-      cb({message : "not found"} , null)
+      cb({ message: "not found" }, null)
     }
-   
   }
 });
 

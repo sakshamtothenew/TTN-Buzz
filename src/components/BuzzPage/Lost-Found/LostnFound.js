@@ -37,7 +37,7 @@ const LostnFound = () => {
   const lostnfoundlist = lostnfounds.map((eachValuable) => {
 
     let { day, month } = dateConverter(eachValuable.createdDate)
-    return (<div className={classes.container}>
+    return (<div className={classes.container} key={eachValuable._id}>
       <div className={[activityClasses.date, classes.date].join(' ')}>
         <p><span className={activityClasses.dt}>{day}</span>
           <span className={activityClasses.slash}>/ </span>{month}</p>

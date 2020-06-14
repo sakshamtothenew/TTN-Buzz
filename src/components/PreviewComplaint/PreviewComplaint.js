@@ -5,7 +5,7 @@ import Input from '../UI/Input/input'
 import { useSelector, useDispatch } from 'react-redux'
 import * as action from '../../store/actions/index.actions'
 import styles from '../Complaints/Complaint.module.css'
-import { checkValidity } from '../MainBody/MainContent/Forms/Utility'
+import { checkValidity } from '../../Util/Utility'
 import { toast } from 'react-toastify'
 import moment from 'moment'
 const PreviewComplaints = (props) => {

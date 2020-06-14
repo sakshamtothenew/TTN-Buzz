@@ -8,7 +8,7 @@ import Input from "../../UI/Input/input";
 import Wrapper from "../../UI/Wrapper/Wrapper";
 import ImgUpld from "../../UI/imageIcon/Imageicon";
 import * as actions from '../../../store/actions/index.actions'
-import { checkValidity } from '../../MainBody/MainContent/Forms/Utility'
+import { checkValidity } from '../../../Util/Utility'
 
 
 const ActivityForm = (props) => {
@@ -32,6 +32,7 @@ const ActivityForm = (props) => {
       action: save_valuables
     }
   }
+
   const inputChangeHandler = (event, inputIdentifier) => {
     const currstate = { ...BuzzForm };
     const changeInput = { ...currstate[inputIdentifier] };

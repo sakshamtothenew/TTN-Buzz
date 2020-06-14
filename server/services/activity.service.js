@@ -1,7 +1,7 @@
 const { Activity } = require("../model/Activity.model");
 const { get_user_by_email } = require("./user.service");
 const { Action } = require('../model/actions.model')
-const {ObjectId}   =  require('../Utils/convertors')
+const { ObjectId } = require('../Utils/convertors')
 const get_all_activities = () => {
   return new Promise((reject, resolve) => {
 

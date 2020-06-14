@@ -66,6 +66,10 @@
     
 }
 
+.submitbtn:focus {
+  outline: none;
+}
+
 .submitbtn:hover {
   outline : transparent
 }

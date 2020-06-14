@@ -12,8 +12,6 @@ const {
 
 const cloudinary = require('cloudinary');
 
-
-
 const getAllActivities = (req, res) => {
   get_all_activities()
     .then((result) => res.send(result))
@@ -48,8 +46,6 @@ const createActivities = async (req, res) => {
       res.status(400)
       res.send(err);
     });
-
-
 };
 
 const updateActivitiesById = (req, res) => {

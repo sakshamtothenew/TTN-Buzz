@@ -47,7 +47,4 @@ const ComplaintSchema = new Schema({
   }
 });
 
-
-
-
 module.exports.Complaints = mongoose.model("Complaints", ComplaintSchema);

@@ -12,16 +12,12 @@ const checkComplaintValidation = (req, res, next) => {
 
 		if (req.body.description === "" || req.body.department === "") {
 			isvalid = false;
-
 			messages.push("description or department is null")
-
 		}
 		if (req.body.email) {
 			isvalid = req.body.email.split('@')[1].split('.')[0] === 'tothenew';
-
 			messages.push("email is not valid")
 		}
-
 	}
 	if (isvalid) {
 		next()
