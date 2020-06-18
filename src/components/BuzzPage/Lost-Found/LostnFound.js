@@ -34,6 +34,15 @@ const LostnFound = () => {
     getValuables()
   }, [getValuables])
 
+    lostnfounds.sort((a , b) => {
+      if(a.createdDate < b.createdDate)
+      {
+        return 1
+      }
+      else {
+        return -1
+      }
+    })
   const lostnfoundlist = lostnfounds.map((eachValuable) => {
 
     let { day, month } = dateConverter(eachValuable.createdDate)

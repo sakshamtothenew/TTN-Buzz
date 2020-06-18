@@ -29,7 +29,22 @@ const checkComplaintValidation = (req, res, next) => {
 }
 
 
+const checkUpdateComplaintValidation = (req, res, next) => {
 
+	const estimated_date = new Date(req.body.estimated_time);
+	const currddate = new Date();
+
+	if (estimated_date < currddate) {
+		res.status(400)
+		res.send("date is invalid can't")
+		// next(new Error('something went Wrong'))
+	}
+	else {
+		next();
+	}
+
+
+}
 const checkActivityValidation = (req, res, next) => {
 	let isvalid = true;
 	const messages = [];
@@ -111,5 +126,6 @@ function isEmpty(obj) {
 module.exports = {
 	checkComplaintValidation,
 	checkActivityValidation,
-	checkValuableValidation
+	checkValuableValidation,
+	checkUpdateComplaintValidation
 }

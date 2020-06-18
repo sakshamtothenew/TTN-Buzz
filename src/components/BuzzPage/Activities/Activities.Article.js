@@ -12,7 +12,7 @@ const Activities = (props) => {
 
   const dispatch = useDispatch();
 
-  const getActivities = useCallback(() => dispatch(actions.get_activities()) , [dispatch]);
+  const getActivities = useCallback(() => dispatch(actions.get_activities()), [dispatch]);
   const makeChanges = (method, state, requestBody) => dispatch(actions.make_actions(method, state, requestBody))
 
   const user = useSelector(state => state.user.user)
@@ -30,7 +30,7 @@ const Activities = (props) => {
 
   useEffect(() => {
     getActivities();
-  }, [getActivities ])
+  }, [getActivities])
 
   const onlikehandler = (action, post_id) => {
     const requestBody = {
@@ -46,7 +46,7 @@ const Activities = (props) => {
       if (state.actionDetails.value === "Like") {
         state = Unlike(state);
         method = "DELETE"
-       
+
       }
       else {
         if (state.actionDetails.value === "Dislike") {
@@ -63,7 +63,7 @@ const Activities = (props) => {
       if (state.actionDetails.value === "Dislike") {
         state = undoDislike(state)
         method = "DELETE"
-        
+
       }
       else {
         if (state.actionDetails.value === "Like") {
@@ -138,39 +138,50 @@ const Activities = (props) => {
 
   const allActivities = [];
 
-  Object.keys(activities).forEach((eactActivity) => {
-    const { day, month, timedifference } = dateConverter(activities[eactActivity].createdAt)
-    allActivities.push(<div className={classes.container} key={activities[eactActivity]._id}>
+  const sortedActivities = Object.keys(activities)
+
+  sortedActivities.sort((a, b) => {
+    if (activities[a].createdAt < activities[b].createdAt) {
+      return 1
+    }
+    else {
+      return -1
+    }
+
+  })
+  sortedActivities.forEach((eachActivity) => {
+    const { day, month, timedifference } = dateConverter(activities[eachActivity].createdAt)
+    allActivities.push(<div className={classes.container} key={activities[eachActivity]._id}>
       <div className={classes.date} >
         <p><span className={classes.dt}>{day}</span>
           <span className={classes.slash}>/ </span>{month}</p>
       </div>
       <div className={classes.content}>
 
-        {activities[eactActivity].image['secure_url'] ?
+        {activities[eachActivity].image['secure_url'] ?
           <div className={classes.imagediv}>
-            <img src={activities[eactActivity].image['secure_url']} alt="img" />  </div> :
+            <img src={activities[eachActivity].image['secure_url']} alt="img" />  </div> :
           null
         }
 
         <div className={classes.userInfo}>
-          <p className={classes.username}>{activities[eactActivity].userDetails.name}
-            <span className={classes.email}>{activities[eactActivity].userDetails.email}</span>
+          <p className={classes.username}>{activities[eachActivity].userDetails.name}
+            <span className={classes.email}>{activities[eachActivity].userDetails.email}</span>
             <span className={classes.time}>{timedifference}</span>
           </p>
         </div>
         <div className={classes.caption}>
-          <p>{activities[eactActivity].content}</p>
+          <p>{activities[eachActivity].content}</p>
         </div>
         <div className={classes.like}>
-          <p>{activities[eactActivity].actionDetails.likeCount}</p>
-          <button className={[classes.likebtn, (activities[eactActivity].actionDetails.value === "Like" ? classes.orange : classes.gray)].join(' ')}
-            onClick={() => onlikehandler("Like", activities[eactActivity]._id)}>
+          <p>{activities[eachActivity].actionDetails.likeCount}</p>
+          <button className={[classes.likebtn, (activities[eachActivity].actionDetails.value === "Like" ? classes.orange : classes.gray)].join(' ')}
+            onClick={() => onlikehandler("Like", activities[eachActivity]._id)}>
             <i className="fas fa-thumbs-up"></i>
           </button>
-          <p>{activities[eactActivity].actionDetails.dislikeCount}</p>
-          <button className={[classes.likebtn, (activities[eactActivity].actionDetails.value === "Dislike" ? classes.orange : classes.gray)].join(' ')}
-            onClick={() => onlikehandler("Dislike", activities[eactActivity]._id)}>
+          <p>{activities[eachActivity].actionDetails.dislikeCount}</p>
+          <button className={[classes.likebtn, (activities[eachActivity].actionDetails.value === "Dislike" ? classes.orange : classes.gray)].join(' ')}
+            onClick={() => onlikehandler("Dislike", activities[eachActivity]._id)}>
             <i className="fas fa-thumbs-down"></i>
           </button>
         </div>

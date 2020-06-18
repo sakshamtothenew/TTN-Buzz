@@ -26,8 +26,9 @@ export const update_complaints = (complaintObj) => {
           updatedObj: complaintObj
         })
       })
-      .catch(err => {
-        dispatch(actions.show_toast("error", err))
+      .catch((err) => {
+        console.log(JSON.stringify(err.response.data))
+        dispatch(actions.show_toast("error", err.response.data))
         dispatch(actions.hide_toast())
       })
   }

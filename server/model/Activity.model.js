@@ -17,7 +17,6 @@ const ActivitySchema = new Schema({
     },
     image: {
         type: Object,
-
     },
     lastUpdated: {
         type: Date,

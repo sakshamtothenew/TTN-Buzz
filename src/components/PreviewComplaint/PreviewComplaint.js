@@ -57,7 +57,7 @@ const PreviewComplaints = (props) => {
       },
       value: "select status",
       label: "",
-      classname: "CTSelect",
+      classname: "PCSelect",
       valid: false,
       touched: false
     }

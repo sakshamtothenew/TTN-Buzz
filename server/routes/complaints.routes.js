@@ -11,7 +11,7 @@ const {
 
 const verifyAuth = require('../middlewares/verifyAuthentication')
 
-const { checkComplaintValidation } = require('../middlewares/inputValidations')
+const { checkComplaintValidation, checkUpdateComplaintValidation } = require('../middlewares/inputValidations')
 
 
 const { upload } = require('../Config/Multer.config')
@@ -26,6 +26,6 @@ route.get("/user/:id", verifyAuth, getComplaintsByUserId);
 
 route.get("/", getAllComplaints);
 
-route.put("/:id", updateComplaintById);
+route.put("/:id", checkUpdateComplaintValidation, updateComplaintById);
 
 module.exports = route;

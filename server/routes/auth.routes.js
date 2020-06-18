@@ -22,3 +22,4 @@ route.get('/logout', (req, res) => {
     res.redirect(process.env.CLIENT_URL)
 })
 module.exports = route 
+  

@@ -64,7 +64,19 @@ label {
   padding: 2% ;
   background-color: transparent;
   width: 90%;
- 
+  outline: none;
+  color: #797474;
+  font-size: 15px;
+}
+
+.PCSelect {
+  width : 50%;
+}
+
+.PCSelect select {
+  padding: 2% ;
+  background-color: transparent;
+  width: 90%;
   outline: none;
   color: #797474;
   font-size: 15px;
