@@ -53,13 +53,31 @@ const create_complaint = ({
   });
 };
 
-const get_all_complaints = () => {
+const get_all_complaints = (page, limit) => {
   return new Promise((resolve, reject) => {
-    Complaints.find()
+    const skip = (page - 1) * limit;
+    Complaints.find().skip(skip).limit(limit)
       .then((result) => resolve(result))
       .catch((err) => reject(err));
   });
 };
+
+const get_Complaint_count = (userid) => {
+
+  return new Promise((resolve, reject) => {
+    let query = null;
+    if (userid) {
+      query = { "createdBy.userid": ObjectId(userid) }
+    }
+    Complaints.count(query)
+      .then((result) => {
+        resolve({ count: result })
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
 
 const update_complaint_by_id = (id, updation) => {
 
@@ -102,4 +120,5 @@ module.exports = {
   get_all_complaints,
   update_complaint_by_id,
   create_complaint,
+  get_Complaint_count
 };

@@ -34,6 +34,23 @@ export const update_complaints = (complaintObj) => {
   }
 }
 
+export const get_complaint_count = (userid) => {
+  return dispatch => {
+    let Url = '/complaints/count/all'
+
+    if(userid) {
+      Url = "/complaints/count/user/" + userid;
+    }
+    axios.get(Url)
+    .then(response => {
+        console.log(response.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+}
+
 export const get_complaints = (userid) => {
   return dispatch => {
     dispatch(init_complaints())

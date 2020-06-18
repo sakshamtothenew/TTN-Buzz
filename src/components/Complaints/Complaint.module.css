@@ -59,6 +59,10 @@
      color : #faad05;     
 }
 
+.pages {
+    display: flex;
+    justify-content: center;
+}
 @media (max-width : 1000px) {
     .container{
         overflow-x: scroll;

@@ -1,0 +1,12 @@
+.page {
+    height: 40px;
+    width: 45px;
+    background-color: #dbd8d8;
+    color : orange;
+    display: flex;
+    justify-content: center;
+    border: 1px solid saddlebrown;
+    align-items: center;
+    cursor: pointer;
+}
+

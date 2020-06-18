@@ -7,6 +7,7 @@ const {
   createComplaint,
   updateComplaintById,
   getComplaintsByUserId,
+  getComplaintCount
 } = require("../controller/complaints.controllers");
 
 const verifyAuth = require('../middlewares/verifyAuthentication')
@@ -23,6 +24,10 @@ route.get("/status/:status", getComplaintsByStatus);
 route.post("/", verifyAuth, upload.single("img"), checkComplaintValidation, createComplaint);
 
 route.get("/user/:id", verifyAuth, getComplaintsByUserId);
+
+route.get("/count/user/:userid" , verifyAuth , getComplaintCount)
+
+route.get('/count/all' , verifyAuth , getComplaintCount)
 
 route.get("/", getAllComplaints);
 

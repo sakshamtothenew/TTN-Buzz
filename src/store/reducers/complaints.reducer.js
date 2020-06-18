@@ -2,16 +2,16 @@ import * as actionTypes from '../actions/actionType'
 
 
 
-const reducer = (state = {}, action) => {
+const reducer = (state = { data : {} , count : 0}, action) => {
 
     switch (action.type) {
 
         case (actionTypes.SET_COMPLAINTS):
-            return { ...action.complaints }
+            return { data :  action.complaints  , ...state}
         case (actionTypes.INIT_COMPLAINTS):
-            return {}
+            return {...state}
         case (actionTypes.UPDATE_COMPLAINTS):
-            state[action.updatedObj._id] = { ...state[action.updatedObj._id], ...action.updatedObj }
+            state.data[action.updatedObj._id] = { ...state.data[action.updatedObj._id], ...action.updatedObj }
             console.log(state)
             return { ...state }
 

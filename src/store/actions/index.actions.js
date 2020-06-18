@@ -13,7 +13,8 @@ export {
    get_complaints,
    set_complaints,
    update_complaints,
-   post_complaints
+   post_complaints,
+   get_complaint_count
 } from './complaints.action'
 
 export {

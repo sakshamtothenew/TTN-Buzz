@@ -7,13 +7,15 @@ import Wrapper from '../UI/Wrapper/Wrapper'
 import Input from '../UI/Input/input'
 import classes from './Complaint.module.css'
 import * as actions from '../../store/actions/index.actions'
+import Page from "../UI/Pages/Pages";
 const ComplaintTable = (props) => {
 
   const dispatch = useDispatch();
   const getComplaints = useCallback((userid) => dispatch(actions.get_complaints(userid)), [dispatch])
   const setComplaints = useCallback((complaints) => dispatch(actions.set_complaints(complaints)), [dispatch])
+  const getComplaintCount = useCallback((userid) => dispatch(actions.get_complaint_count(userid)))
   const toasts = useSelector(state => state.toasts)
-  const complaints = useSelector(state => state.complaints);
+  const complaints = useSelector(state => state.complaints.data);
   const updateComplaints = (complaintObj) => dispatch(actions.update_complaints(complaintObj))
   const User = useSelector(state => state.user.user)
 
@@ -46,8 +48,10 @@ const ComplaintTable = (props) => {
     }
     else {
       if (props.userOnly)
-        getComplaints(User._id)
+       { getComplaintCount(User._id)
+        getComplaints(User._id)}
       else {
+        getComplaintCount()
         getComplaints()
       }
     }
@@ -145,6 +149,12 @@ const ComplaintTable = (props) => {
             {complaintList}
           </tbody>
         </Table>
+      </div>
+      <div className = {classes.pages}>
+      <Page  pageNo = {1} />
+      <Page  pageNo = {2} />
+      <Page  pageNo = {3} />
+      <Page  pageNo = {4} />
       </div>
       <ToastContainer />
     </Wrapper>
