@@ -7,7 +7,9 @@ const {
   create_complaint,
   get_Complaint_count
 } = require("../services/complaint.service");
+
 const cloudinary = require('cloudinary')
+
 const getComplaintsById = (req, res) => {
   get_complaints_by_id(req.params.id)
     .then((result) => res.send(result))
@@ -52,9 +54,13 @@ const getComplaintCount = (req, res) => {
 }
 
 const getAllComplaints = (req, res) => {
-  get_all_complaints()
+  const pageNo = req.params.pageNo
+  get_all_complaints(pageNo)
     .then((result) => res.send(result))
-    .catch((err) => res.send(err));
+    .catch((err) => {
+      res.status(400)
+      res.send(err)
+    });
 };
 
 const updateComplaintById = (req, res) => {
@@ -64,7 +70,8 @@ const updateComplaintById = (req, res) => {
 };
 
 const getComplaintsByUserId = (req, res) => {
-  get_complaints_by_user(req.params.id)
+  const pageNo = req.params.pageNo
+  get_complaints_by_user(req.params.id, pageNo)
     .then((result) => res.send(result))
     .catch((err) => res.send(err));
 };

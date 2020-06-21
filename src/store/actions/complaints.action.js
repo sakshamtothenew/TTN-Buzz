@@ -38,26 +38,36 @@ export const get_complaint_count = (userid) => {
   return dispatch => {
     let Url = '/complaints/count/all'
 
-    if(userid) {
+    if (userid) {
       Url = "/complaints/count/user/" + userid;
     }
     axios.get(Url)
-    .then(response => {
-        console.log(response.data)
-    })
-    .catch(err => {
-      console.log(err)
-    })
+      .then(response => {
+        dispatch({
+          type: actionTypes.SET_COMPLAINT_COUNT,
+          count: response.data.count
+        })
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
 }
 
-export const get_complaints = (userid) => {
+export const get_complaints = (pageNo, userid) => {
+ 
   return dispatch => {
     dispatch(init_complaints())
     let Url = '/complaints/'
     if (userid) {
-      Url += 'user/' + userid
+     
+      Url += 'user/' + userid + '/' + pageNo
     }
+    else {
+       Url+= "all/" + pageNo
+    }
+  
+  console.log(Url)
     axios.get(Url)
       .then(response => {
         const stateObj = {}

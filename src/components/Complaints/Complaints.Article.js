@@ -11,15 +11,16 @@ import Page from "../UI/Pages/Pages";
 const ComplaintTable = (props) => {
 
   const dispatch = useDispatch();
-  const getComplaints = useCallback((userid) => dispatch(actions.get_complaints(userid)), [dispatch])
+  const getComplaints = useCallback((pageno, userid) => dispatch(actions.get_complaints(pageno, userid)), [dispatch])
   const setComplaints = useCallback((complaints) => dispatch(actions.set_complaints(complaints)), [dispatch])
-  const getComplaintCount = useCallback((userid) => dispatch(actions.get_complaint_count(userid)))
+  const getComplaintCount = useCallback((userid) => dispatch(actions.get_complaint_count(userid)), [dispatch])
   const toasts = useSelector(state => state.toasts)
   const complaints = useSelector(state => state.complaints.data);
   const updateComplaints = (complaintObj) => dispatch(actions.update_complaints(complaintObj))
   const User = useSelector(state => state.user.user)
-
+  const complaintCount = useSelector(state => state.complaints.count)
   const [sorting, setSorting] = useState({ field: null, order: -1 })
+
   // const [statusSelect, setStatusSelect] = useState()
 
   const statusSelect = {
@@ -47,15 +48,17 @@ const ComplaintTable = (props) => {
       setComplaints("loading")
     }
     else {
-      if (props.userOnly)
-       { getComplaintCount(User._id)
-        getComplaints(User._id)}
+      if (props.userOnly) {
+        getComplaintCount(User._id)
+        getComplaints(1, User._id)
+      }
       else {
+
         getComplaintCount()
-        getComplaints()
+        getComplaints(1)
       }
     }
-  }, [setComplaints, getComplaints, User._id, props.userOnly, User.user])
+  }, [setComplaints, getComplaints, User._id, props.userOnly, User.user, getComplaintCount])
 
   const sortComplaints = (field, order) => {
 
@@ -63,7 +66,12 @@ const ComplaintTable = (props) => {
 
   }
 
+  const pageChangeHandler = (pageNo) => {
+    props.userOnly ?
+      getComplaints(pageNo, User._id) :
+      getComplaints(pageNo)
 
+  }
 
   const statusChangedHandler = (event, ComplaintIdentifier) => {
     const currComplaints = { ...complaints }
@@ -80,6 +88,7 @@ const ComplaintTable = (props) => {
     })
     setComplaints(currComplaints);
   }
+
 
   let complaintList = [];
   let sortedComplaints = [];
@@ -127,6 +136,11 @@ const ComplaintTable = (props) => {
     complaintList = "Loading..."
   }
 
+  let pages = []
+  for (let i = 1; i <= Math.ceil(complaintCount / 7); i++) {
+
+    pages.push(<Page pageNo={i} pageChange={() => pageChangeHandler(i)} />)
+  }
   return (
     <Wrapper heading="Your Complaints">
       <div className={classes.container}>
@@ -150,11 +164,8 @@ const ComplaintTable = (props) => {
           </tbody>
         </Table>
       </div>
-      <div className = {classes.pages}>
-      <Page  pageNo = {1} />
-      <Page  pageNo = {2} />
-      <Page  pageNo = {3} />
-      <Page  pageNo = {4} />
+      <div className={classes.pages}>
+        {pages}
       </div>
       <ToastContainer />
     </Wrapper>

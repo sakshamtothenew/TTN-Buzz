@@ -4,7 +4,7 @@ const Page = (props) => {
 
 
     return (
-        <div className={classes.page}><span>{props.pageNo}</span></div>
+        <div onClick = {props.pageChange} className={classes.page}><span>{props.pageNo}</span></div>
     )
 }
 

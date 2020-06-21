@@ -23,13 +23,13 @@ route.get("/status/:status", getComplaintsByStatus);
 
 route.post("/", verifyAuth, upload.single("img"), checkComplaintValidation, createComplaint);
 
-route.get("/user/:id", verifyAuth, getComplaintsByUserId);
+route.get("/user/:id/:pageNo", verifyAuth, getComplaintsByUserId);
 
 route.get("/count/user/:userid" , verifyAuth , getComplaintCount)
 
 route.get('/count/all' , verifyAuth , getComplaintCount)
 
-route.get("/", getAllComplaints);
+route.get("/all/:pageNo", getAllComplaints);
 
 route.put("/:id", checkUpdateComplaintValidation, updateComplaintById);
 

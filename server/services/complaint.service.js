@@ -53,12 +53,19 @@ const create_complaint = ({
   });
 };
 
-const get_all_complaints = (page, limit) => {
+const get_all_complaints = (page) => {
+  
+  const limits = 7;
+  const skips = (page - 1) * limits
   return new Promise((resolve, reject) => {
-    const skip = (page - 1) * limit;
-    Complaints.find().skip(skip).limit(limit)
-      .then((result) => resolve(result))
-      .catch((err) => reject(err));
+
+    Complaints.find().skip(skips).limit(limits)
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((err) => {
+        reject(err)
+      });
   });
 };
 
@@ -97,10 +104,13 @@ const update_complaint_by_id = (id, updation) => {
   });
 };
 
-const get_complaints_by_user = (id) => {
-
+const get_complaints_by_user = (id, pageNo) => {
+  const limits = 7;
+  const skips = (pageNo - 1) * limits
   return new Promise((resolve, reject) => {
     Complaints.find({ "createdBy.userid": ObjectId(id) })
+      .skip(skips)
+      .limit(limits)
       .then((result) => {
         resolve(result)
       })

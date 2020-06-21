@@ -68,13 +68,15 @@ const PreviewComplaints = (props) => {
   }, [props.complaintId])
 
   const [formIsValid, setFormisValid] = useState(false)
-  const complaints = useSelector(state => state.complaints)
-  const displayComplaint = { ...complaints[props.complaintId] }
+  const complaints = useSelector(state => state.complaints.data)
+
+  let displayComplaint = null
+  if (Object.keys(complaints).length !== 0)
+    displayComplaint = { ...complaints[props.complaintId] }
 
   const dispatch = useDispatch()
 
   const updateComplaints = (complaintObj) => dispatch(action.update_complaints(complaintObj))
-
 
   const setInitialInputState = () => {
     let currstate = { ...inputField };
@@ -92,7 +94,6 @@ const PreviewComplaints = (props) => {
   }
 
   const editHandler = () => {
-
     let currstate = { ...inputField };
     let Assigned = { ...currstate["AssignedTo"] }
     let estimated = { ...currstate["ETR"] }
@@ -154,88 +155,104 @@ const PreviewComplaints = (props) => {
     setInputFields(currstate);
   }
 
-  const date = moment(displayComplaint.estimated_time).format('llll')
-  const locked_date = moment(displayComplaint.createdAt).format('llll')
+  let preview = (<Wrapper>
+    <span className={classes.defaultText}>
+      Please Select A Complaint
+      </span>
+  </Wrapper>)
+
+  if (Object.keys(displayComplaint).length !== 0) {
+    const date = moment(displayComplaint.estimated_time).format('llll')
+    const locked_date = moment(displayComplaint.createdAt).format('llll')
+
+    preview = (
+
+      <Wrapper heading={props.heading}>
+        <button onClick={() => props.previewComplaintHandler(undefined)} className={classes.closebtn}>
+          <i className="fas fa-times"></i>
+        </button>
+        <div className={classes.container}>
+          <button
+            onClick={editable ? updateComplaintHandler : editHandler}
+            className={[editable ? classes.savebtn : classes.editbtn
+              , props.editable ? classes.show : classes.hide].join(' ')}>
+            {editable ? "Save" : "Edit"}
+          </button>
+          <h1 className={classes.issueid}>#{displayComplaint.issueId}</h1>
+          <h2 className={classes.issueTitle}>{displayComplaint.issueTitle}</h2>
+          <div className={styles[displayComplaint.status]}>
+            {editable ?
+              <Input
+                type={inputField["status"].elementType}
+                elementConfig={inputField["status"].elementConfig}
+                label={inputField["status"].label}
+                classname={inputField["status"].classname}
+                invalid={!inputField["status"].valid}
+                touched={inputField["status"].touched}
+                value={inputField["status"].value}
+                changed={(event) => inputChangeHandler(event, "status")}
+              /> :
+              <h5>{displayComplaint.status}</h5>}
+          </div>
+          <div className={classes.metaInfo}>
+            <div>
+              <h5>Locked By:</h5>
+              <p>{displayComplaint.createdBy.name}</p>
+            </div>
+            <div>
+              <h5>Locked On:</h5>
+              <p>{locked_date}</p>
+            </div>
+
+            <div>
+              <h5>Assigned To:</h5>
+              {editable ?
+                <Input type={inputField["AssignedTo"].elementType}
+                  elementConfig={inputField["AssignedTo"].elementConfig}
+                  label={inputField["AssignedTo"].label}
+                  value={inputField["AssignedTo"].value}
+                  invalid={!inputField["AssignedTo"].valid}
+                  touched={inputField["AssignedTo"].touched}
+                  classname={inputField["AssignedTo"].classname}
+                  changed={(event) => inputChangeHandler(event, "AssignedTo")} />
+                :
+                <p>{displayComplaint.Assigned_to ?
+                  displayComplaint.Assigned_to :
+                  "UnAssigned"}</p>
+              }</div>
+            <div>
+              <h5>Estimated Resolve Date </h5>
+              {editable ?
+                <Input type={inputField["ETR"].elementType}
+                  elementConfig={inputField["ETR"].elementConfig}
+                  label={inputField["ETR"].label}
+                  value={inputField["ETR"].value}
+                  invalid={!inputField["ETR"].valid}
+                  touched={inputField["ETR"].touched}
+                  changed={(event) => inputChangeHandler(event, "ETR")}
+                  classname={inputField["ETR"].classname}
+                /> :
+                <p>{displayComplaint.estimated_time ?
+                  date :
+                  "UnAssigned"}</p>}
+            </div>
+          </div>
+          <div>
+            <h5>Complaint description:</h5>
+            <p>{displayComplaint.description}</p>
+          </div>
+
+        </div>
+      </Wrapper>
+
+    )
+  }
+
 
   return (
-    <Wrapper heading={props.heading}>
-      <button onClick={() => props.previewComplaintHandler(undefined)} className={classes.closebtn}>
-        <i className="fas fa-times"></i>
-      </button>
-      <div className={classes.container}>
-        <button
-          onClick={editable ? updateComplaintHandler : editHandler}
-          className={[editable ? classes.savebtn : classes.editbtn
-            , props.editable ? classes.show : classes.hide].join(' ')}>
-          {editable ? "Save" : "Edit"}
-        </button>
-        <h1 className={classes.issueid}>#{displayComplaint.issueId}</h1>
-        <h2 className={classes.issueTitle}>{displayComplaint.issueTitle}</h2>
-        <div className={styles[displayComplaint.status]}>
-          {editable ?
-            <Input
-              type={inputField["status"].elementType}
-              elementConfig={inputField["status"].elementConfig}
-              label={inputField["status"].label}
-              classname={inputField["status"].classname}
-              invalid={!inputField["status"].valid}
-              touched={inputField["status"].touched}
-              value={inputField["status"].value}
-              changed={(event) => inputChangeHandler(event, "status")}
-            /> :
-            <h5>{displayComplaint.status}</h5>}
-        </div>
-        <div className={classes.metaInfo}>
-          <div>
-            <h5>Locked By:</h5>
-            <p>{displayComplaint.createdBy.name}</p>
-          </div>
-          <div>
-            <h5>Locked On:</h5>
-            <p>{locked_date}</p>
-          </div>
-
-          <div>
-            <h5>Assigned To:</h5>
-            {editable ?
-              <Input type={inputField["AssignedTo"].elementType}
-                elementConfig={inputField["AssignedTo"].elementConfig}
-                label={inputField["AssignedTo"].label}
-                value={inputField["AssignedTo"].value}
-                invalid={!inputField["AssignedTo"].valid}
-                touched={inputField["AssignedTo"].touched}
-                classname={inputField["AssignedTo"].classname}
-                changed={(event) => inputChangeHandler(event, "AssignedTo")} />
-              :
-              <p>{displayComplaint.Assigned_to ?
-                displayComplaint.Assigned_to :
-                "UnAssigned"}</p>
-            }</div>
-          <div>
-            <h5>Estimated Resolve Date </h5>
-            {editable ?
-              <Input type={inputField["ETR"].elementType}
-                elementConfig={inputField["ETR"].elementConfig}
-                label={inputField["ETR"].label}
-                value={inputField["ETR"].value}
-                invalid={!inputField["ETR"].valid}
-                touched={inputField["ETR"].touched}
-                changed={(event) => inputChangeHandler(event, "ETR")}
-                classname={inputField["ETR"].classname}
-              /> :
-              <p>{displayComplaint.estimated_time ?
-                date :
-                "UnAssigned"}</p>}
-          </div>
-        </div>
-        <div>
-          <h5>Complaint description:</h5>
-          <p>{displayComplaint.description}</p>
-        </div>
-
-      </div>
-    </Wrapper>
-  )
+    <div className={classes.outerContainer}>
+      {preview}
+    </div>)
 }
 
 
