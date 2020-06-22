@@ -55,19 +55,18 @@ export const get_complaint_count = (userid) => {
 }
 
 export const get_complaints = (pageNo, userid) => {
- 
+
   return dispatch => {
     dispatch(init_complaints())
     let Url = '/complaints/'
     if (userid) {
-     
+
       Url += 'user/' + userid + '/' + pageNo
     }
     else {
-       Url+= "all/" + pageNo
+      Url += "all/" + pageNo
     }
-  
-  console.log(Url)
+
     axios.get(Url)
       .then(response => {
         const stateObj = {}

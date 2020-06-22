@@ -139,7 +139,7 @@ const ComplaintTable = (props) => {
   let pages = []
   for (let i = 1; i <= Math.ceil(complaintCount / 7); i++) {
 
-    pages.push(<Page pageNo={i} pageChange={() => pageChangeHandler(i)} />)
+    pages.push(<Page key = {i} pageNo={i} pageChange={() => pageChangeHandler(i)} />)
   }
   return (
     <Wrapper heading="Your Complaints">

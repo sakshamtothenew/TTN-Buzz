@@ -1,10 +1,11 @@
+
+require('dotenv').config()
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require('cors')
 const cookieSession = require('cookie-session')
 const passport = require('passport')
-require('dotenv').config()
 require('./Config/passport-google.config')
 
 const app = express();
