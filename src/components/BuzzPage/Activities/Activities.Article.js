@@ -9,6 +9,7 @@ import { withRouter } from "react-router-dom";
 import * as actions from '../../../store/actions/index.actions'
 import { checkValidity } from '../../../Util/Utility'
 import moment from 'moment'
+import BuzzModal from "../BuzzModal/BuzzModal";
 
 const Activities = (props) => {
 

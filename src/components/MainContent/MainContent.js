@@ -6,7 +6,6 @@ import BuzzPage from '../BuzzPage/BuzzPage'
 import ComplaintPage from "../Complaints/ComplaintsPage";
 import ResolveTable from "../Resolved/Resolved";
 
-
 const MainContent = (props) => {
 
   const User = useSelector(state => state.user.user)
