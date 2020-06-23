@@ -1,18 +1,40 @@
 const { Activity } = require("../model/Activity.model");
+const { Comments } = require('../model/Comments.model')
 const { get_user_by_email } = require("./user.service");
 const { Action } = require('../model/actions.model')
 const { ObjectId } = require('../Utils/convertors')
+
 const get_all_activities = () => {
   return new Promise((reject, resolve) => {
 
     Activity.aggregate([
       {
         $lookup: {
+          from: "comments",
+          let: { postid: "$_id" },
+          pipeline: [{ $match: { $expr: { $eq: ["$post_id", "$$postid"] } } },
+          { $limit: 3 },
+          {
+            $lookup: {
+              from: "users",
+              let: { userid: "$pushed_by" },
+              pipeline: [{ $match: { $expr: { $eq: ["$_id", "$$userid"] } } }],
+              as: "commentUser"
+            }
+          },
+          { $unwind: "$commentUser" }
+          ],
+          as: "comments"
+        }
+      },
+      {
+        $lookup: {
           from: "users",
           localField: "createdBy",
           foreignField: "_id",
           as: "userDetails"
-        }
+        },
+
       },
       { $unwind: "$userDetails" },
     ])
@@ -23,12 +45,16 @@ const get_all_activities = () => {
               result[i].actionDetails = { ...actionDetails }
             })
             .catch(err => {
+              console.log(err)
               reject(err)
             })
         }
         resolve(result)
       })
-      .catch(err => reject(err))
+      .catch(err => {
+        console.log(err)
+        reject(err)
+      })
   });
 };
 
@@ -60,8 +86,43 @@ const get_activity_by_id = (id) => {
       })
       .catch(err => reject(err))
   });
-
 }
+
+const get_comments_by_postid = (postId) => {
+  return new Promise((resolve, reject) => {
+    Comment.find({ post_id: postId })
+      .then(result => {
+        resolve(result)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
+const create_comment_on_post = ({ content, pushed_by, post_id, parent }) => {
+  return new Promise((resolve, reject) => {
+
+
+    post_id = ObjectId(post_id)
+    Activity.findOneAndUpdate({ _id: post_id }, { $inc: { comments_count: 1 } })
+      .then((result) => {
+        const newComment = new Comments({
+          content,
+          pushed_by,
+          post_id,
+          parent
+        })
+
+        newComment
+          .save()
+          .then(result => resolve(result))
+      })
+      .catch(err => reject(err))
+
+  })
+}
+
 const get_all_activities_by_userid = (userId) => {
   return new Promise((resolve, reject) => {
     Activity.find({ createdBy: userId })
@@ -207,6 +268,8 @@ module.exports = {
   get_all_activities,
   get_all_activities_by_userid,
   get_activity_by_id,
+  get_comments_by_postid,
+  create_comment_on_post,
   create_activities,
   delete_activities,
   update_activities_by_id,
@@ -214,3 +277,7 @@ module.exports = {
   update_actions,
   delete_actions
 };
+
+
+
+

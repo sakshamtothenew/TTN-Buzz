@@ -15,11 +15,19 @@ export const init_activities = () => {
   }
 }
 
+export const set_comments = (comments) => {
+  return {
+    type: actionTypes.POST_COMMENTS,
+    comments: comments
+  }
+}
+
 export const get_activities = () => {
   return dispatch => {
     dispatch(init_activities())
     axios.get('/activities/')
       .then(response => {
+        console.log(response.data)
         const stateObj = {}
         for (let i in response.data) {
           stateObj[response.data[i]._id] = { ...response.data[i] };
@@ -66,6 +74,7 @@ export const post_activities = (formData) => {
   }
 }
 
+
 export const make_actions = (method, state, requestBody) => {
   return dispatch => {
     if (method === 'PUT') {
@@ -84,5 +93,19 @@ export const make_actions = (method, state, requestBody) => {
           dispatch(hide_toast())
         })
     }
+  }
+}
+
+export const post_comments = (data) => {
+
+  return dispatch => {
+    const postId = data.post_id
+    axios.post('/activities/comment/' + postId, data)
+      .then(response => {
+        dispatch(get_activities())
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
 }

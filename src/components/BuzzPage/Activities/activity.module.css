@@ -1,12 +1,44 @@
 .container {
     display : flex;
-    padding : 2%;
-    border-bottom : 1px solid #ebe3e3
+    padding : 2% 0  0 2%;
+    border-bottom : 1px solid #ebe3e3;
+    background-color: #fff;
+    margin-bottom: 5%;
 
+}
+
+.commentSection {
+    border : 1px solid #ebe3e3;
+    height : 100%;
+    display: flex;
+    align-items: center;
+}
+
+
+.eachComment {
+  font-size:  11px;
+  display: block;
+  color : #817d7d;
+  line-height: 20px;
+}
+.eachComment strong {
+    color : black;
+}
+.comments {
+    margin : 2% 0;
+}
+
+.comments h6 {
+    font-size : 14px;
+}
+
+.comments p {
+    font-size : 12px;
 }
 .outercontainer {
     height : 700px;
     overflow-y: scroll;
+    background-color: #f2f2f2;
 }
 
 
@@ -122,7 +154,22 @@
     
 }
 
-.likebtn:focus {
+.postButton {
+   
+    background: none;
+    border : none;
+    color : #0095f6;
+    font-weight: bold;
+    margin-right : 1%;
+    
+}
+
+.postButton:disabled {
+    color : #78b9e4;
+}
+
+
+.likebtn:focus , .postButton:focus {
     outline: none;
 }
 .orange {

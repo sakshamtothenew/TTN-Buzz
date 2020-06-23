@@ -2,6 +2,8 @@ const {
   get_all_activities,
   get_all_activities_by_userid,
   get_activity_by_id,
+  get_comments_by_postid,
+  create_comment_on_post,
   create_activities,
   delete_activities,
   update_activities_by_id,
@@ -14,8 +16,12 @@ const cloudinary = require('cloudinary');
 
 const getAllActivities = (req, res) => {
   get_all_activities()
-    .then((result) => res.send(result))
-    .catch((err) => res.send(err));
+    .then((result) =>{
+      console.log(result)
+    res.send(result)})
+    .catch((err) => {
+      console.log(err)
+      res.send(err)});
 };
 
 const getAllActivitiesByUserId = (req, res) => {
@@ -48,12 +54,37 @@ const createActivities = async (req, res) => {
     });
 };
 
+
+const createComment = (req, res) => {
+  console.log(req.body)
+  create_comment_on_post(req.body)
+
+    .then(result => {
+      res.send(result)
+    })
+    .catch(err => {
+      res.status(400)
+      res.send(err)
+    })
+}
+
+const getComment = (req, res) => {
+  const post_id = req.params.postId;
+  get_comments_by_postid(post_id)
+    .then(result => res.send(result))
+    .catch(err => {
+      res.status(400)
+      res.send(err)
+    })
+}
+
 const updateActivitiesById = (req, res) => {
   update_activities_by_id(req.params.id, req.body)
     .then((result) => res.send(result))
     .catch((err) => {
       res.status(500)
-      res.send(err)});
+      res.send(err)
+    });
 };
 
 const deleteActivities = (req, res) => {
@@ -68,7 +99,8 @@ const deleteAll = (req, res) => {
     .then(result => res.send(result))
     .catch(err => {
       res.status(500)
-      res.send(err)})
+      res.send(err)
+    })
 }
 
 const updateActions = (req, res) => {
@@ -100,6 +132,8 @@ module.exports = {
   getActivityById,
   getAllActivitiesByUserId,
   createActivities,
+  getComment,
+  createComment,
   updateActivitiesById,
   deleteActivities,
   deleteAll,

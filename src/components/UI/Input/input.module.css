@@ -114,6 +114,15 @@ label {
   border : 1px solid salmon;
 }
 
+.Comment textarea {
+  width: 80%;
+  height: 50px;
+  border: none;
+  resize: none;
+  outline: none;
+}
+
+
 @media (max-width : 500px) {
   .LFInput {
     flex-basis: 100%;

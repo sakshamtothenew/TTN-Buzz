@@ -4,6 +4,8 @@ const {
   getAllActivitiesByUserId,
   getActivityById,
   createActivities,
+  getComment,
+  createComment,
   updateActivitiesById,
   deleteActivities,
   deleteAll,
@@ -23,6 +25,10 @@ route.get("/user/:userid", getAllActivitiesByUserId);
 route.get('/:id', getActivityById)
 
 route.post("/", verifyAuth, upload.single("img"), checkActivityValidation, createActivities);
+
+route.get('/comment/:postId', verifyAuth, getComment)
+
+route.post('/comment/:postId' , verifyAuth , createComment)
 
 route.put("/update/:id", updateActivitiesById);
 

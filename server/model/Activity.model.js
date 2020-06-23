@@ -18,6 +18,10 @@ const ActivitySchema = new Schema({
     image: {
         type: Object,
     },
+    comments_count: {
+        type: Number,
+        default : 0
+    },
     lastUpdated: {
         type: Date,
         default: Date.now()

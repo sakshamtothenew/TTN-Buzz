@@ -6,7 +6,8 @@ export {
 export {
    make_actions,
    get_activities,
-   post_activities
+   post_activities,
+   post_comments
 } from './activities.action'
 
 export {

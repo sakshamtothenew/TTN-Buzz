@@ -1,11 +1,13 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useSelector, useDispatch } from 'react-redux'
 import Wrapper from "../../UI/Wrapper/Wrapper";
+import Input from '../../UI/Input/input'
 import classes from "./activity.module.css";
 import { withRouter } from "react-router-dom";
 import * as actions from '../../../store/actions/index.actions'
+import { checkValidity } from '../../../Util/Utility'
 import moment from 'moment'
 
 const Activities = (props) => {
@@ -14,10 +16,13 @@ const Activities = (props) => {
 
   const getActivities = useCallback(() => dispatch(actions.get_activities()), [dispatch]);
   const makeChanges = (method, state, requestBody) => dispatch(actions.make_actions(method, state, requestBody))
-
+  const post_comments = (data) => dispatch(actions.post_comments(data))
   const user = useSelector(state => state.user.user)
   const toasts = useSelector(state => state.toasts)
   const activities = useSelector(state => state.activities)
+
+  const [commentInput, setCommentInput] = useState(null)
+
 
   if (toasts.show) {
     if (toasts.type === "error") {
@@ -28,17 +33,41 @@ const Activities = (props) => {
     }
   }
 
+  const inputObj = {
+    elementType: "textarea",
+    elementConfig: {
+      type: "textarea",
+      placeholder: "Add Comment..",
+    },
+    validation: {
+      required: true
+    },
+    value: "",
+    label: "",
+    classname: "Comment",
+    valid: false,
+    touched: false
+  }
+
   useEffect(() => {
     getActivities();
   }, [getActivities])
 
+  useEffect(() => {
+    let commentInputArray = {}
+    Object.keys(activities).forEach((keys) => {
+      commentInputArray[keys] = { ...inputObj }
+
+    })
+    setCommentInput(commentInputArray)
+  }, [activities])
   const onlikehandler = (action, post_id) => {
     const requestBody = {
       value: action,
       user: user._id,
       post_id: post_id
     }
-    // let actionid = null;
+
     let activity = { ...activities };
     let state = { ...activity[post_id] }
     let method = null;
@@ -120,6 +149,26 @@ const Activities = (props) => {
     return state
   }
 
+  const commentChangedHandler = (event, inputIdentifier) => {
+    const currstate = { ...commentInput };
+    const currStateInput = { ...currstate[inputIdentifier] }
+
+    currStateInput.value = event.target.value;
+    currStateInput.valid = checkValidity(currStateInput.value, currStateInput.validation)
+    currstate[inputIdentifier] = currStateInput;
+    setCommentInput(currstate)
+  }
+
+
+  const postCommentHandler = (event, inputIdentifier) => {
+
+    const commentPostData = {};
+    commentPostData.content = commentInput[inputIdentifier].value
+    commentPostData.post_id = activities[inputIdentifier]._id;
+    commentPostData.pushed_by = user._id
+    post_comments(commentPostData);
+  }
+
   const dateConverter = (date) => {
 
     const month = date.split('-')[1];
@@ -149,8 +198,17 @@ const Activities = (props) => {
     }
 
   })
+
   sortedActivities.forEach((eachActivity) => {
     const { day, month, timedifference } = dateConverter(activities[eachActivity].createdAt)
+
+    const comments = activities[eachActivity].comments.map(eachComment => {
+
+      return (
+        <p className={classes.eachComment}><strong>{eachComment.commentUser.name} </strong>{eachComment.content}</p>
+      )
+    })
+
     allActivities.push(<div className={classes.container} key={activities[eachActivity]._id}>
       <div className={classes.date} >
         <p><span className={classes.dt}>{day}</span>
@@ -185,7 +243,24 @@ const Activities = (props) => {
             <i className="fas fa-thumbs-down"></i>
           </button>
         </div>
+        <div className={classes.comments}>
+          <h6>Comment</h6>
+          {activities[eachActivity].comments_count > 3 ?
+            <p>view all {activities[eachActivity].comments_count} comments</p> : null}
+          {comments.length > 0 ? comments : <p>no Comments</p>}
+        </div>
+        {commentInput !== null && Object.keys(commentInput).length !== 0 ? <div className={classes.commentSection}> <Input type={commentInput[eachActivity].elementType}
+          elementConfig={commentInput[eachActivity].elementConfig}
+          label={commentInput[eachActivity].label}
+          changed={(event) => commentChangedHandler(event, eachActivity)}
+          classname={commentInput[eachActivity].classname}
+          value={commentInput[eachActivity].value}
+        />
+          <button disabled={!commentInput[eachActivity].valid} onClick={(event) => postCommentHandler(event, eachActivity)} className={classes.postButton}>Post</button>
+        </div> : null
+        }
       </div>
+
     </div>)
   })
 
@@ -193,6 +268,7 @@ const Activities = (props) => {
     <Wrapper heading="Recent Buzz">
       <div className={classes.outercontainer}>
         {allActivities}
+
       </div>
       <ToastContainer />
     </Wrapper>
