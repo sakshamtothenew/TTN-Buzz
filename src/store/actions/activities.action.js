@@ -125,6 +125,10 @@ export const get_replies = (comment_id) => {
     axios.get('/activities/comment/replies/' + comment_id)
       .then(response => {
         console.log(response.data)
+        dispatch({
+          type: actionTypes.UPDATE_MODAL_ACTIVITY,
+          replies: response.data
+        })
       })
       .catch(err => {
         console.log(err)

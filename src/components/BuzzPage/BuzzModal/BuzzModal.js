@@ -54,7 +54,7 @@ const BuzzModal = (props) => {
     }
 
 
-    const viewrepliesHandler = (event , commentId) => {
+    const viewrepliesHandler = (event, commentId) => {
         get_replies(commentId)
     }
     const postCommentHandler = () => {
@@ -88,7 +88,9 @@ const BuzzModal = (props) => {
                         <strong>{eachComment.commentUser.name} </strong>
                         {eachComment.content}
                     </p>
-
+                    {eachComment.replies ? eachComment.replies.map((eachreply) => {
+                        return (<p>{eachreply.content}</p>)
+                    }) : null}
                     <button onClick={(event) => replyCommentHandler(event, eachComment._id)}
                         className={classes.reply}>Reply</button>
 

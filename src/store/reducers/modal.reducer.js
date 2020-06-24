@@ -19,6 +19,20 @@ const reducers = (state = initialState, action) => {
                 ...state,
                 show: action.show
             }
+        case (actionTypes.UPDATE_MODAL_ACTIVITY):
+            const activityState = { ...state.activity }
+            const comments = [...activityState.comments]
+
+            for (let i in comments) {
+                if (comments[i]._id === action.replies[0].parent) {
+
+                    activityState.comments[i].replies = [...action.replies]
+                }
+            }
+            return {
+                ...state,
+                activity: activityState
+            }
         default:
             return { ...state }
     }
