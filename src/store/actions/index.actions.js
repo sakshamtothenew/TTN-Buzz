@@ -7,7 +7,10 @@ export {
    make_actions,
    get_activities,
    post_activities,
-   post_comments
+   post_comments,
+   set_modal_state,
+   close_modal,
+   get_replies
 } from './activities.action'
 
 export {

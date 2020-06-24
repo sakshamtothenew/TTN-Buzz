@@ -5,6 +5,7 @@ const {
   getActivityById,
   createActivities,
   getComment,
+  getCommentReplies,
   createComment,
   updateActivitiesById,
   deleteActivities,
@@ -28,7 +29,9 @@ route.post("/", verifyAuth, upload.single("img"), checkActivityValidation, creat
 
 route.get('/comment/:postId', verifyAuth, getComment)
 
-route.post('/comment/:postId' , verifyAuth , createComment)
+route.get('/comment/replies/:commentid', verifyAuth, getCommentReplies)
+
+route.post('/comment/:postId', verifyAuth, createComment)
 
 route.put("/update/:id", updateActivitiesById);
 

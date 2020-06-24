@@ -4,6 +4,7 @@ const {
   get_activity_by_id,
   get_comments_by_postid,
   create_comment_on_post,
+  get_comment_replies,
   create_activities,
   delete_activities,
   update_activities_by_id,
@@ -13,15 +14,16 @@ const {
 } = require("../services/activity.service");
 
 const cloudinary = require('cloudinary');
+const { default: Axios } = require("axios");
 
 const getAllActivities = (req, res) => {
   get_all_activities()
-    .then((result) =>{
-      console.log(result)
-    res.send(result)})
+    .then((result) => {
+      res.send(result)
+    })
     .catch((err) => {
-      console.log(err)
-      res.send(err)});
+      res.send(err)
+    });
 };
 
 const getAllActivitiesByUserId = (req, res) => {
@@ -54,6 +56,18 @@ const createActivities = async (req, res) => {
     });
 };
 
+const getCommentReplies = (req, res) => {
+  get_comment_replies(req.params.commentid)
+    .then(result => {
+      console.log(result)
+      res.send(result)
+    })
+    .catch(err => {
+      console.log(err)
+      console.log(err)
+
+    })
+}
 
 const createComment = (req, res) => {
   console.log(req.body)
@@ -134,6 +148,7 @@ module.exports = {
   createActivities,
   getComment,
   createComment,
+  getCommentReplies,
   updateActivitiesById,
   deleteActivities,
   deleteAll,

@@ -16,7 +16,7 @@ const MainDashboard = () => {
 
     return (
         <div className={classes.mainBody}>
-            {/* <BuzzModal /> */}
+            <BuzzModal />
             <Header />
             <MainBody />
         </div>

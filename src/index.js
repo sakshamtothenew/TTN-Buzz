@@ -7,6 +7,7 @@ import userReducers from './store/reducers/user.reducers'
 import activitiesReducer from './store/reducers/activities.reducer'
 import complaintReducer from './store/reducers/complaints.reducer'
 import valuableReducer from './store/reducers/valuables.reducer'
+import modalReducer from './store/reducers/modal.reducer'
 import toastReducer from './store/reducers/toast.reducer'
 import thunk from 'redux-thunk'
 import './index.css';
@@ -22,7 +23,8 @@ const rootReducer = combineReducers({
   activities: activitiesReducer,
   complaints: complaintReducer,
   valuables: valuableReducer,
-  toasts: toastReducer
+  toasts: toastReducer,
+  modal: modalReducer
 })
 const store = createStore(rootReducer,
   Enhancers(

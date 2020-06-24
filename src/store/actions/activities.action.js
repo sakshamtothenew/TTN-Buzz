@@ -96,6 +96,41 @@ export const make_actions = (method, state, requestBody) => {
   }
 }
 
+export const set_modal_state = (activity_id) => {
+  return dispatch => {
+    axios.get('/activities/' + activity_id)
+      .then(response => {
+        console.log(response.data)
+        dispatch({
+          type: actionTypes.SET_MODAL_STATE,
+          activity: response.data[0]
+        })
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+}
+
+
+export const close_modal = (activityId) => {
+  return {
+    type: actionTypes.CLOSE_MODAL,
+    show: false
+  }
+}
+
+export const get_replies = (comment_id) => {
+  return dispatch => {
+    axios.get('/activities/comment/replies/' + comment_id)
+      .then(response => {
+        console.log(response.data)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+}
 export const post_comments = (data) => {
 
   return dispatch => {

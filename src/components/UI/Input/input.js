@@ -2,7 +2,7 @@ import React from "react";
 import classes from "./input.module.css";
 
 
-const Input = (props) => {
+const Input = React.forwardRef((props, ref) => {
   let inputElement = null;
   switch (props.type) {
     case "input":
@@ -23,16 +23,16 @@ const Input = (props) => {
       });
 
       inputElement = (
-     
-          <select
-            style ={{display : "inline-block"}}
-            value={props.value}
-            onChange={props.changed}
-            className={props.touched && props.invalid ? classes.invalid : classes.valid}>
-            <option hidden>{props.value}</option>
-            {options}
-          </select>
-  
+
+        <select
+          style={{ display: "inline-block" }}
+          value={props.value}
+          onChange={props.changed}
+          className={props.touched && props.invalid ? classes.invalid : classes.valid}>
+          <option hidden>{props.value}</option>
+          {options}
+        </select>
+
       );
       break;
 
@@ -43,6 +43,7 @@ const Input = (props) => {
           onChange={props.changed}
           value={props.value}
           type={props.elementConfig.type}
+          ref={ref}
           disabled={props.elementConfig.disabled}
           className={props.touched && props.invalid ? classes.invalid : classes.valid}
 
@@ -71,6 +72,6 @@ const Input = (props) => {
       {inputElement}
     </div>
   );
-};
+});
 
 export default Input;

@@ -18,6 +18,7 @@ const Activities = (props) => {
   const getActivities = useCallback(() => dispatch(actions.get_activities()), [dispatch]);
   const makeChanges = (method, state, requestBody) => dispatch(actions.make_actions(method, state, requestBody))
   const post_comments = (data) => dispatch(actions.post_comments(data))
+  const set_modal_state = (id) => dispatch(actions.set_modal_state(id))
   const user = useSelector(state => state.user.user)
   const toasts = useSelector(state => state.toasts)
   const activities = useSelector(state => state.activities)
@@ -160,6 +161,10 @@ const Activities = (props) => {
     setCommentInput(currstate)
   }
 
+  const viewFullPostHandler = (event, activityId) => {
+    console.log(activityId)
+    set_modal_state(activityId)
+  }
 
   const postCommentHandler = (event, inputIdentifier) => {
 
@@ -247,16 +252,17 @@ const Activities = (props) => {
         <div className={classes.comments}>
           <h6>Comment</h6>
           {activities[eachActivity].comments_count > 3 ?
-            <p>view all {activities[eachActivity].comments_count} comments</p> : null}
+            <p onClick={(event) => viewFullPostHandler(event, eachActivity)}>view all {activities[eachActivity].comments_count} comments</p> : null}
           {comments.length > 0 ? comments : <p>no Comments</p>}
         </div>
-        {commentInput !== null && Object.keys(commentInput).length !== 0 ? <div className={classes.commentSection}> <Input type={commentInput[eachActivity].elementType}
-          elementConfig={commentInput[eachActivity].elementConfig}
-          label={commentInput[eachActivity].label}
-          changed={(event) => commentChangedHandler(event, eachActivity)}
-          classname={commentInput[eachActivity].classname}
-          value={commentInput[eachActivity].value}
-        />
+        {commentInput !== null && Object.keys(commentInput).length !== 0 ? <div className={classes.commentSection}>
+          <Input type={commentInput[eachActivity].elementType}
+            elementConfig={commentInput[eachActivity].elementConfig}
+            label={commentInput[eachActivity].label}
+            changed={(event) => commentChangedHandler(event, eachActivity)}
+            classname={commentInput[eachActivity].classname}
+            value={commentInput[eachActivity].value}
+          />
           <button disabled={!commentInput[eachActivity].valid} onClick={(event) => postCommentHandler(event, eachActivity)} className={classes.postButton}>Post</button>
         </div> : null
         }
@@ -269,7 +275,6 @@ const Activities = (props) => {
     <Wrapper heading="Recent Buzz">
       <div className={classes.outercontainer}>
         {allActivities}
-
       </div>
       <ToastContainer />
     </Wrapper>
