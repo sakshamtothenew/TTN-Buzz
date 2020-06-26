@@ -84,7 +84,8 @@ const createComment = (req, res) => {
 
 const getComment = (req, res) => {
   const post_id = req.params.postId;
-  get_comments_by_postid(post_id)
+  const pageno = req.query.pageno;
+  get_comments_by_postid(post_id, pageno)
     .then(result => res.send(result))
     .catch(err => {
       res.status(400)

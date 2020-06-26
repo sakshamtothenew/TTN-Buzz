@@ -6,7 +6,6 @@ import * as actions from '../../../store/actions/index.actions'
 import Input from '../../UI/Input/input'
 import { checkValidity } from '../../../Util/Utility'
 import styles from '../Activities/activity.module.css'
-import { set } from 'mongoose'
 
 const BuzzModal = (props) => {
 
@@ -31,15 +30,17 @@ const BuzzModal = (props) => {
     const post_comments = (data) => dispatch(actions.post_comments(data))
     const setModal = (activityId) => dispatch(actions.set_modal_state(activityId))
     const get_replies = (commentId) => dispatch(actions.get_replies(commentId))
+    const get_paginated_comments = (activityId, pageno) => dispatch(actions.getPaginatedcomments(activityId, pageno))
     const show = useSelector(state => state.modal.show)
     const user = useSelector(state => state.user.user)
     const activity = useSelector(state => state.modal.activity)
     const [replyid, setreplyid] = useState(null)
     const [commentInput, setCommentInput] = useState(inputObj)
+    const [pageno, setPageNo] = useState(2);
 
     useEffect(() => {
-
-    }, [])
+        setPageNo(2);
+    }, [show])
 
 
     const buzzCloseHandle = () => {
@@ -71,6 +72,11 @@ const BuzzModal = (props) => {
         setreplyid(null)
 
     }
+
+    const getPaginatedComment = (activityId) => {
+        get_paginated_comments(activityId, pageno)
+        setPageNo(pageno + 1)
+    }
     const ref = React.createRef();
     const replyCommentHandler = (event, comment_id) => {
         setreplyid(comment_id)
@@ -89,16 +95,17 @@ const BuzzModal = (props) => {
                         {eachComment.content}
                     </p>
                     {eachComment.replies ? eachComment.replies.map((eachreply) => {
-                        return (<p>{eachreply.content}</p>)
+                        return (<p className={classes.eachReply}><strong>{eachreply.replyUser.name} </strong>{eachreply.content}</p>)
                     }) : null}
                     <button onClick={(event) => replyCommentHandler(event, eachComment._id)}
                         className={classes.reply}>Reply</button>
 
-                    {eachComment.commentRepliesCount.length > 0 ?
+                    {!eachComment.replies ? eachComment.commentRepliesCount.length > 0 ?
                         eachComment.commentRepliesCount[0].count > 0 ?
                             <p onClick={(event) => viewrepliesHandler(event, eachComment._id)}
                                 className={classes.repliesCount}>-----view {eachComment.commentRepliesCount[0].count} replies</p> :
                             null :
+                        null :
                         null}
                 </div>
             )
@@ -120,7 +127,7 @@ const BuzzModal = (props) => {
                     </div>
                     <div className={classes.comments}>
                         {comments.length > 0 ? comments : <span>no comments</span>}
-                        <p>--View More Comments--</p>
+                        <p onClick={() => getPaginatedComment(activity._id)} >--View More Comments--</p>
                     </div>
                     <div className={classes.commentInputSection}>
                         <Input type={commentInput.elementType}

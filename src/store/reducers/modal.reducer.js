@@ -20,18 +20,31 @@ const reducers = (state = initialState, action) => {
                 show: action.show
             }
         case (actionTypes.UPDATE_MODAL_ACTIVITY):
-            const activityState = { ...state.activity }
-            const comments = [...activityState.comments]
+            {
+                const activityState = { ...state.activity }
+                const comments = [...activityState.comments]
 
-            for (let i in comments) {
-                if (comments[i]._id === action.replies[0].parent) {
+                for (let i in comments) {
+                    if (comments[i]._id === action.replies[0].parent) {
 
-                    activityState.comments[i].replies = [...action.replies]
+                        activityState.comments[i].replies = [...action.replies]
+                    }
+                }
+                return {
+                    ...state,
+                    activity: activityState
                 }
             }
-            return {
-                ...state,
-                activity: activityState
+        case (actionTypes.UPDATE_PAGINATED_COMMENTS):
+            {
+                const activityState = { ...state.activity }
+                // activityState.comments.concat(action.comments)
+                const comments = [...activityState.comments, ...action.comments]
+                activityState.comments = comments
+                return {
+                    ...state,
+                    activity: activityState
+                }
             }
         default:
             return { ...state }

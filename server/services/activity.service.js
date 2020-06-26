@@ -117,10 +117,35 @@ const get_activity_by_id = (id) => {
   });
 }
 
-const get_comments_by_postid = (postId) => {
+const get_comments_by_postid = (postId, pageNo) => {
   return new Promise((resolve, reject) => {
-    Comment.find({ post_id: postId })
+    const limit = 7;
+    const skips = (pageNo - 1) * limit
+    Comments.aggregate([
+      { $match: { post_id: ObjectId(postId) } },
+      { $skip: skips },
+      { $limit: limit },
+      {
+        $lookup: {
+          from: "comments",
+          let: { parent: "$_id" },
+          pipeline: [{ $match: { $expr: { $eq: ["$parent", "$$parent"] } } },
+          { $group: { _id: null, count: { $sum: 1 } } }],
+          as: "commentRepliesCount"
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          let: { userid: "$pushed_by" },
+          pipeline: [{ $match: { $expr: { $eq: ["$_id", "$$userid"] } } }],
+          as: "commentUser"
+        },
+      },
+      { $unwind: "$commentUser" }
+    ])
       .then(result => {
+        console.log("comments", result)
         resolve(result)
       })
       .catch(err => {
@@ -132,7 +157,6 @@ const get_comments_by_postid = (postId) => {
 const create_comment_on_post = ({ content, pushed_by, post_id, parent }) => {
   return new Promise((resolve, reject) => {
 
-    console.log("==================================================", parent, "=================================================")
     post_id = ObjectId(post_id)
     Activity.findOneAndUpdate({ _id: post_id }, { $inc: { comments_count: 1 } })
       .then((result) => {
@@ -154,7 +178,20 @@ const create_comment_on_post = ({ content, pushed_by, post_id, parent }) => {
 
 const get_comment_replies = (commentid) => {
   return new Promise((resolve, reject) => {
-    Comments.find({ parent: ObjectId(commentid) })
+    Comments.aggregate([
+      { $match: { parent: ObjectId(commentid) } },
+      {
+        $lookup: {
+          from: "users",
+          let: { userid: "$pushed_by" },
+          pipeline: [{ $match: { $expr: { $eq: ["$_id", "$$userid"] } } },
+          { $project: { _id: 0, name: 1, email: 1, type: 1 } }],
+          as: "replyUser"
+        }
+      },
+      { $unwind: "$replyUser" }
+
+    ])
       .then(result => {
         resolve(result)
       })
@@ -180,7 +217,6 @@ const create_activities = (
     original_filename,
     secure_url
   }) => {
-
 
   return new Promise((resolve, reject) => {
 

@@ -10,7 +10,8 @@ export {
    post_comments,
    set_modal_state,
    close_modal,
-   get_replies
+   get_replies,
+   getPaginatedcomments
 } from './activities.action'
 
 export {

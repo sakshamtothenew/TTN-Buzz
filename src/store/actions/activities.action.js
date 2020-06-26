@@ -3,6 +3,7 @@ import * as actions from './index.actions'
 import axios from 'axios'
 import { show_toast, hide_toast } from './toasts.action'
 
+
 export const set_activities = (activityData) => {
   return {
     type: actionTypes.SET_ACTIVITIES,
@@ -117,6 +118,25 @@ export const close_modal = (activityId) => {
   return {
     type: actionTypes.CLOSE_MODAL,
     show: false
+  }
+}
+
+export const getPaginatedcomments = (activityId, pageNo) => {
+  return dispatch => {
+
+    const Url = '/activities/comment/' + activityId + '?pageno=' + pageNo;
+
+    axios.get(Url)
+      .then(response => {
+        console.log(response.data)
+        dispatch({
+          type: actionTypes.UPDATE_PAGINATED_COMMENTS,
+          comments: response.data
+        })
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
 }
 
