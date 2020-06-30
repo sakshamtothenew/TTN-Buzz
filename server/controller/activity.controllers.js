@@ -24,7 +24,6 @@ const getAllActivities = (req, res) => {
     })
     .catch((err) => {
       res.status(400)
-      console.log(err)
       res.send(err)
     });
 };
@@ -62,18 +61,17 @@ const createActivities = async (req, res) => {
 const getCommentReplies = (req, res) => {
   get_comment_replies(req.params.commentid)
     .then(result => {
-      console.log(result)
+
       res.send(result)
     })
     .catch(err => {
-      console.log(err)
-      console.log(err)
-
+      res.status(400)
+      res.send("bad request")
     })
 }
 
 const createComment = (req, res) => {
-  console.log(req.body)
+
   create_comment_on_post(req.body)
 
     .then(result => {
