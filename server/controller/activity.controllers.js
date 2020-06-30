@@ -14,14 +14,17 @@ const {
 } = require("../services/activity.service");
 
 const cloudinary = require('cloudinary');
-const { default: Axios } = require("axios");
+
 
 const getAllActivities = (req, res) => {
-  get_all_activities()
+  const pageno = req.query.pageno
+  get_all_activities(pageno)
     .then((result) => {
       res.send(result)
     })
     .catch((err) => {
+      res.status(400)
+      console.log(err)
       res.send(err)
     });
 };

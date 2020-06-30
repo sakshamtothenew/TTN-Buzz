@@ -12,7 +12,7 @@ export const set_activities = (activityData) => {
 }
 export const init_activities = () => {
   return {
-    type: actionTypes.INIT_ACTIVITIES
+    type: actionTypes.INIT_ACTIVITIES , 
   }
 }
 
@@ -23,10 +23,11 @@ export const set_comments = (comments) => {
   }
 }
 
-export const get_activities = () => {
+
+export const get_activities = (pageNo) => {
   return dispatch => {
-    dispatch(init_activities())
-    axios.get('/activities/')
+    const Url = '/activities/?pageno=' + pageNo
+    axios.get(Url)
       .then(response => {
         console.log(response.data)
         const stateObj = {}
@@ -42,19 +43,18 @@ export const get_activities = () => {
   }
 }
 
-export const update_activities = (activity) => {
+export const update_activities = (activityId) => {
   return dispatch => {
-    axios.get('/activities/' + activity._id)
+    axios.get('/activities/' + activityId)
       .then((result) => {
         dispatch({
           type: actionTypes.UPDATE_ACTIVITIES,
           activity: result.data[0]
         })
       })
-
   }
-
 }
+
 
 export const post_activities = (formData) => {
   return dispatch => {
@@ -64,9 +64,10 @@ export const post_activities = (formData) => {
     }, 1000)
     axios.post('/activities/', formData)
       .then(response => {
+        console.log(response)
         dispatch(actions.show_toast("success", "Post Created sucessfully.."))
         dispatch(actions.hide_toast())
-        dispatch(update_activities(response.data))
+        dispatch(update_activities(response.data._id))
       })
       .catch(err => {
         dispatch(actions.show_toast("error", err))
@@ -161,7 +162,7 @@ export const post_comments = (data) => {
     const postId = data.post_id
     axios.post('/activities/comment/' + postId, data)
       .then(response => {
-        dispatch(get_activities())
+        dispatch(update_activities(response.data.post_id))
       })
       .catch(err => {
         console.log(err)

@@ -4,10 +4,14 @@ const { get_user_by_email } = require("./user.service");
 const { Action } = require('../model/actions.model')
 const { ObjectId } = require('../Utils/convertors')
 
-const get_all_activities = () => {
-  return new Promise((reject, resolve) => {
-
+const get_all_activities = (pageNo) => {
+  return new Promise((resolve, reject) => {
+    const limit = 10;
+    const skips = (pageNo - 1) * limit;
     Activity.aggregate([
+      { $sort: { createdAt: -1 } },
+      { $skip: skips },
+      { $limit: limit },
       {
         $lookup: {
           from: "comments",
@@ -43,10 +47,6 @@ const get_all_activities = () => {
           await get_action_count(result[i]._id, result[i].userDetails._id)
             .then(actionDetails => {
               result[i].actionDetails = { ...actionDetails }
-            })
-            .catch(err => {
-              console.log(err)
-              reject(err)
             })
         }
         resolve(result)

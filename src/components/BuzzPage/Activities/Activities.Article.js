@@ -9,22 +9,30 @@ import { withRouter } from "react-router-dom";
 import * as actions from '../../../store/actions/index.actions'
 import { checkValidity } from '../../../Util/Utility'
 import moment from 'moment'
-import BuzzModal from "../BuzzModal/BuzzModal";
+import Spinner from "../../UI/Spinner/Spinner";
+
 
 const Activities = (props) => {
 
   const dispatch = useDispatch();
 
-  const getActivities = useCallback(() => dispatch(actions.get_activities()), [dispatch]);
+  const getActivities = useCallback((pageno) => dispatch(actions.get_activities(pageno)), [dispatch]);
   const makeChanges = (method, state, requestBody) => dispatch(actions.make_actions(method, state, requestBody))
   const post_comments = (data) => dispatch(actions.post_comments(data))
   const set_modal_state = (id) => dispatch(actions.set_modal_state(id))
+  const init_activities = () => dispatch(actions.init_activities())
   const user = useSelector(state => state.user.user)
+  const loading = useSelector(state => state.activities.loading)
   const toasts = useSelector(state => state.toasts)
-  const activities = useSelector(state => state.activities)
+  const activities = useSelector(state => state.activities.activity)
 
   const [commentInput, setCommentInput] = useState(null)
-
+  const [scrollposition, setScrollPosition] = useState(0)
+  const [pageno, setpageno] = useState(2)
+  const divRef = React.useRef()
+  const innerDivRef = React.useRef()
+  console.log(activities);
+  console.log(commentInput);
 
   if (toasts.show) {
     if (toasts.type === "error") {
@@ -34,6 +42,8 @@ const Activities = (props) => {
       toast.success(`${toasts.message}`)
     }
   }
+
+
 
   const inputObj = {
     elementType: "textarea",
@@ -52,17 +62,46 @@ const Activities = (props) => {
   }
 
   useEffect(() => {
-    getActivities();
+    getActivities(1);
   }, [getActivities])
 
   useEffect(() => {
     let commentInputArray = {}
     Object.keys(activities).forEach((keys) => {
       commentInputArray[keys] = { ...inputObj }
-
     })
     setCommentInput(commentInputArray)
   }, [activities])
+
+
+  useEffect(() => {
+
+    divRef.current.addEventListener('scroll', handleScroll);
+    return () => divRef.current.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    if (!loading) return;
+    getpaginatedActivities()
+
+  }, [loading]);
+
+
+  const handleScroll = () => {
+
+    if (divRef.current.clientHeight + divRef.current.scrollTop < divRef.current.scrollHeight || loading) {
+      setScrollPosition(divRef.current.clientHeight + divRef.current.scrollTop)
+      return
+    };
+    divRef.current.scrollTop -= 100
+    init_activities()
+  }
+
+  const getpaginatedActivities = () => {
+    getActivities(pageno);
+    setpageno(pageno + 1)
+    divRef.current.scrollTop = scrollposition;
+  }
   const onlikehandler = (action, post_id) => {
     const requestBody = {
       value: action,
@@ -215,7 +254,7 @@ const Activities = (props) => {
       )
     })
 
-    allActivities.push(<div className={classes.container} key={activities[eachActivity]._id}>
+    allActivities.push(<div ref={innerDivRef} className={classes.container} key={activities[eachActivity]._id}>
       <div className={classes.date} >
         <p><span className={classes.dt}>{day}</span>
           <span className={classes.slash}>/ </span>{month}</p>
@@ -255,7 +294,7 @@ const Activities = (props) => {
             <p onClick={(event) => viewFullPostHandler(event, eachActivity)}>view all {activities[eachActivity].comments_count} comments</p> : null}
           {comments.length > 0 ? comments : <p>no Comments</p>}
         </div>
-        {commentInput !== null && Object.keys(commentInput).length !== 0 ? <div className={classes.commentSection}>
+        { commentInput !== null&& commentInput[eachActivity] && Object.keys(commentInput).length !== 0 ? <div className={classes.commentSection}>
           <Input type={commentInput[eachActivity].elementType}
             elementConfig={commentInput[eachActivity].elementConfig}
             label={commentInput[eachActivity].label}
@@ -273,8 +312,9 @@ const Activities = (props) => {
 
   return (
     <Wrapper heading="Recent Buzz">
-      <div className={classes.outercontainer}>
+      <div ref={divRef} className={classes.outercontainer}>
         {allActivities}
+        {loading ? <Spinner classname = "Buzz"/> : null}
       </div>
       <ToastContainer />
     </Wrapper>

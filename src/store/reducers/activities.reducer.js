@@ -1,16 +1,17 @@
 import * as actiontype from '../actions/actionType'
 
-const reducers = (state = {}, action) => {
+const reducers = (state = { activity: {} , loading : false }, action) => {
 
     switch (action.type) {
 
         case (actiontype.SET_ACTIVITIES):
-            return { ...action.activityData }
+            return { ...state, activity: {...state.activity , ...action.activityData} , loading : false }
         case (actiontype.INIT_ACTIVITIES):
-            return {}
-        case (actiontype.UPDATE_ACTIVITIES): 
-            state[action.activity._id] = action.activity;
-            return {...state}
+            return { ...state , loading : true}
+        case (actiontype.UPDATE_ACTIVITIES):
+            const activity = { ...state.activity };
+            activity[action.activity._id] = action.activity
+            return { ...state, activity: activity , loading : false }
         default:
             return state
     }

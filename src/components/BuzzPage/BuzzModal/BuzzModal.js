@@ -68,7 +68,6 @@ const BuzzModal = (props) => {
             commentPostData.parent = replyid
         }
         post_comments(commentPostData);
-        setModal(activity._id)
         setreplyid(null)
 
     }

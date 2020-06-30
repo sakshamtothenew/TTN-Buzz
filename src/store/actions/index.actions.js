@@ -11,7 +11,8 @@ export {
    set_modal_state,
    close_modal,
    get_replies,
-   getPaginatedcomments
+   getPaginatedcomments,
+   init_activities
 } from './activities.action'
 
 export {
