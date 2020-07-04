@@ -17,30 +17,30 @@ const NavBar = () => {
     <div className={classes.container}>
       <div className={classes.NavBar} >
         <div className={classes.navElement}>
-          <NavLink to='/home/Buzz' exact activeStyle={activeStyle}><span>Buzz</span>
+          <NavLink to='/home/dashboard/Buzz' exact activeStyle={activeStyle}><span>Buzz</span>
             <i className={"fa fa-angle-right " + classes.righticon} aria-hidden="true"></i>
           </NavLink>
 
         </div>
         <div className={classes.navElement}>
-          <NavLink to='/home/Complaints' activeStyle={activeStyle}><span>Complaints</span>
+          <NavLink to='/home/dashboard/Complaints' activeStyle={activeStyle}><span>Complaints</span>
             <i className={"fa fa-angle-right " + classes.righticon} aria-hidden="true"></i>
           </NavLink>
         </div>
         {User.type === "Admin" ? <div className={classes.navElement}>
-          <NavLink to='/home/Resolved' activeStyle={activeStyle}><span>Resolved</span>
+          <NavLink to='/home/dashboard/Resolved' activeStyle={activeStyle}><span>Resolved</span>
             <i className={"fa fa-angle-right " + classes.righticon} aria-hidden="true"></i>
           </NavLink>
         </div> : null}
         <div className={classes.footer}>
           <NavFooter />
-        
+
+        </div>
       </div>
-    </div>
-    <div className={classes.footer1}>
-      <NavFooter />
-    </div>
-      </div >
+      <div className={classes.footer1}>
+        <NavFooter />
+      </div>
+    </div >
 
   );
 };

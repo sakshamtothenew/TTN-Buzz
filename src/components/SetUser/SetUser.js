@@ -12,7 +12,7 @@ const SetUser = () => {
     })
 
     return (
-        <Redirect to="/home" />)
+        <Redirect to="/home/dashboard" />)
 
 }
 

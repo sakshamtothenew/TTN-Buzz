@@ -12,10 +12,10 @@ const MainContent = (props) => {
   return (
     <div className={classes.MainContent}>
       <Switch>
-        <Route path="/home/Buzz" exact render={() => <BuzzPage />} />
-        <Route path="/home/Complaints" render={() => <ComplaintPage />} />
-        {User.type === "Admin" ? <Route path='/home/Resolved' render={() => <ResolveTable editable={true} />} /> : null}
-        <Redirect to="/home/Buzz" />
+        <Route path="/home/dashboard/Buzz" exact render={() => <BuzzPage />} />
+        <Route path="/home/dashboard/Complaints" render={() => <ComplaintPage />} />
+        {User.type === "Admin" ? <Route path='/home/dashboard/Resolved' render={() => <ResolveTable editable={true} />} /> : null}
+        <Redirect to="/home/dashboard/Buzz" />
       </Switch>
     </div>
   );
