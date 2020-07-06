@@ -83,14 +83,16 @@
     padding: 2%;
     height : 100px;
     overflow-y: scroll;
+
     
 }
 .assignedList li {
   list-style: none;
   padding : 2%;
-border-bottom: 1px solid brown;
-width : 100%;
-}
+  border-bottom: 1px solid brown;
+  width : 100%;
+  cursor: pointer;
+  }
 
 
 .closebtn:focus {

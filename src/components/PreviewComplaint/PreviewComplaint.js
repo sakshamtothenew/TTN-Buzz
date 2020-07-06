@@ -11,7 +11,10 @@ import moment from 'moment'
 import * as actions from '../../store/actions/index.actions'
 const PreviewComplaints = (props) => {
   const assignedPersonal = useSelector(state => state.complaints.assignedPersonals);
+
   const setInitList = () => dispatch(action.set_init_assigned_list())
+  const [formIsValid, setFormisValid] = useState(false)
+  const complaints = useSelector(state => state.complaints.data)
 
   const [editable, seteditable] = useState(false);
   const [inputField, setInputFields] = useState({
@@ -72,10 +75,11 @@ const PreviewComplaints = (props) => {
     seteditable(false)
   }, [props.complaintId])
 
+  useEffect(() => {
+    setInitList()
+  }, [props.complaintId])
 
 
-  const [formIsValid, setFormisValid] = useState(false)
-  const complaints = useSelector(state => state.complaints.data)
 
   let displayComplaint = null
   if (Object.keys(complaints).length !== 0)
