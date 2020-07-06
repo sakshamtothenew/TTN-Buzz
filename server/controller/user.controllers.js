@@ -3,6 +3,7 @@ const {
   get_all_users,
   get_user_by_id,
   update_user_by_id,
+  get_user_by_dept_and_id
 } = require("../services/user.service");
 
 const addUser = (req, res) => {
@@ -30,9 +31,26 @@ const updateUserById = (req, res) => {
     .catch((err) => res.send(err));
 };
 
+
+const getUserByDepartmentAndName = (req, res) => {
+  const department = req.query.department;
+  const name = req.query.name;
+  get_user_by_dept_and_id(department, name)
+    .then(result => {
+      console.log(result)
+      res.send(result)
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(400)
+      res.send(err)
+    })
+}
+
 module.exports = {
   addUser,
   getUserById,
   getAllUsers,
   updateUserById,
+  getUserByDepartmentAndName
 };

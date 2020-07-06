@@ -20,7 +20,9 @@ export {
    set_complaints,
    update_complaints,
    post_complaints,
-   get_complaint_count
+   get_complaint_count,
+   getAssignedPersonel,
+   set_init_assigned_list
 } from './complaints.action'
 
 export {

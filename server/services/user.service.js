@@ -42,6 +42,23 @@ const update_user_by_id = (id, updation) => {
 
 };
 
+const get_user_by_dept_and_id = (department, name) => {
+  return new Promise((resolve, reject) => {
+    const regExp = new RegExp(name, 'i');
+    console.log(regExp)
+    User.find({ department: department, name: regExp})
+      .then(result => {
+        console.log(result)
+        resolve(result)
+      })
+      .catch(err => {
+        console.log(err)
+        reject(err)
+      })
+  })
+
+}
+
 const get_user_by_email = (email) => {
   return new Promise((resolve, reject) => {
 
@@ -57,5 +74,6 @@ module.exports = {
   get_all_users,
   get_user_by_id,
   get_user_by_email,
+  get_user_by_dept_and_id,
   update_user_by_id,
 };

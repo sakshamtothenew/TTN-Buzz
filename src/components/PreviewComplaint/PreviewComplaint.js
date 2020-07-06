@@ -8,7 +8,10 @@ import styles from '../Complaints/Complaint.module.css'
 import { checkValidity } from '../../Util/Utility'
 import { toast } from 'react-toastify'
 import moment from 'moment'
+import * as actions from '../../store/actions/index.actions'
 const PreviewComplaints = (props) => {
+  const assignedPersonal = useSelector(state => state.complaints.assignedPersonals);
+  const setInitList = () => dispatch(action.set_init_assigned_list())
 
   const [editable, seteditable] = useState(false);
   const [inputField, setInputFields] = useState({
@@ -63,9 +66,13 @@ const PreviewComplaints = (props) => {
     }
   })
 
+
+
   useEffect(() => {
     seteditable(false)
   }, [props.complaintId])
+
+
 
   const [formIsValid, setFormisValid] = useState(false)
   const complaints = useSelector(state => state.complaints.data)
@@ -75,9 +82,9 @@ const PreviewComplaints = (props) => {
     displayComplaint = { ...complaints[props.complaintId] }
 
   const dispatch = useDispatch()
+  const getUserBydeptandName = (department, name) => dispatch(actions.getAssignedPersonel(department, name))
 
   const updateComplaints = (complaintObj) => dispatch(action.update_complaints(complaintObj))
-
   const setInitialInputState = () => {
     let currstate = { ...inputField };
     let Assigned = { ...currstate["AssignedTo"] }
@@ -144,6 +151,9 @@ const PreviewComplaints = (props) => {
   }
 
   const inputChangeHandler = (event, inputIdentifier) => {
+    if (inputIdentifier === "AssignedTo") {
+      AssignmentChangeHandler(event.target.value)
+    }
     const currstate = { ...inputField };
     const changeInput = { ...currstate[inputIdentifier] };
     changeInput.value = event.target.value;
@@ -154,6 +164,38 @@ const PreviewComplaints = (props) => {
     updateValidation(currstate)
     setInputFields(currstate);
   }
+
+  const AssignmentChangeHandler = (value) => {
+    const department = displayComplaint.department;
+    const name = value;
+
+    setTimeout(() => {
+      getUserBydeptandName(department, name)
+      console.log(value)
+
+    }, 500)
+
+  }
+
+  const onAssignedSelectHandler = (event, assignedName) => {
+    const currstate = { ...inputField };
+    const changeInput = { ...currstate["AssignedTo"] };
+    changeInput.value = assignedName
+    changeInput.valid = checkValidity(changeInput.value, changeInput.validation,
+      changeInput.elementConfig.options ? changeInput.elementConfig.options : undefined)
+    currstate["AssignedTo"] = changeInput;
+    setInitList()
+    updateValidation(currstate)
+    setInputFields(currstate);
+  }
+  let assignedList = [];
+
+  if (assignedPersonal.length > 0) {
+    assignedList.push(<ul className={classes.assignedList}>
+      {assignedPersonal.map(o => <li onClick={(event) => onAssignedSelectHandler(event, o.name)}>{o.name}</li>)}
+    </ul>)
+  }
+
 
   let preview = (<Wrapper>
     <span className={classes.defaultText}>
@@ -219,6 +261,8 @@ const PreviewComplaints = (props) => {
                 <p>{displayComplaint.Assigned_to ?
                   displayComplaint.Assigned_to :
                   "UnAssigned"}</p>
+              }{
+                assignedList
               }</div>
             <div>
               <h5>Estimated Resolve Date </h5>
