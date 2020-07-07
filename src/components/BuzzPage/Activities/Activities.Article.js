@@ -43,8 +43,6 @@ const Activities = (props) => {
     }
   }
 
-
-
   const inputObj = {
     elementType: "textarea",
     elementConfig: {
