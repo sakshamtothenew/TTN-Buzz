@@ -33,8 +33,17 @@ const get_all_users = () => {
 };
 
 const update_user_by_id = (id, updation) => {
+  console.log(updation)
+  const { _id, department, Role } = updation;
   return new Promise((resolve, reject) => {
-    User.findOneAndUpdate({ _id: ObjectId(id) }, { $set: { type: updation.type } })
+    User.findOneAndUpdate({ _id: ObjectId(_id) },
+      {
+        $set:
+        {
+          type: Role,
+          department: department,
+        }
+      })
       .then(result => resolve(result))
       .catch(err => reject(err))
 
@@ -46,7 +55,7 @@ const get_user_by_dept_and_id = (department, name) => {
   return new Promise((resolve, reject) => {
     const regExp = new RegExp(name, 'i');
     console.log(regExp)
-    User.find({ department: department, name: regExp})
+    User.find({ department: department, name: regExp })
       .then(result => {
         console.log(result)
         resolve(result)

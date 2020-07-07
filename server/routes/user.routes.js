@@ -15,7 +15,7 @@ route.get("/:id", getUserById);
 
 route.get("/", getAllUsers);
 
-route.put("/:id", updateUserById);
+route.put("/:id", verifyAuth, updateUserById);
 
 
 module.exports = route;

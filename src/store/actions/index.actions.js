@@ -36,5 +36,6 @@ export {
 } from './toasts.action'
 
 export {
-   get_all_users
+   get_all_users,
+   update_userDetails
 } from './superAdmin.action'
