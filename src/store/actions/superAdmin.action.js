@@ -6,7 +6,7 @@ export const get_all_users = () => {
 
     return dispatch => {
 
-        axios.get('/users')
+        axios.get('/user')
             .then(response => {
                 console.log(response.data)
             })
