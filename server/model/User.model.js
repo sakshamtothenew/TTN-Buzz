@@ -14,6 +14,9 @@ const UserSchema = new Schema({
   name: {
     type: String,
   },
+  department: {
+    type: String
+  },
   token: {
     type: String,
     required: true

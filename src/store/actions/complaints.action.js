@@ -15,6 +15,12 @@ export const init_complaints = () => {
   }
 }
 
+export const set_init_assigned_list = () => {
+  return {
+    type: actionTypes.SET_INIT_ASSIGNED_LIST
+  }
+}
+
 export const update_complaints = (complaintObj) => {
   return dispatch => {
     axios.put('/complaints/' + complaintObj._id, complaintObj)
@@ -105,3 +111,20 @@ export const post_complaints = (formData) => {
   }
 }
 
+export const getAssignedPersonel = (department, name) => {
+  return dispatch => {
+
+    axios.get(`/user/assigned/all?department=${department}&name=${name}`)
+      .then(response => {
+        dispatch({
+          type: actionTypes.SET_ASSIGNED_PERSONEL,
+          data: response.data
+        })
+
+      })
+      .catch(err => {
+        console.log(err)
+      })
+
+  }
+}
