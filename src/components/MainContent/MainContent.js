@@ -15,7 +15,7 @@ const MainContent = (props) => {
         <Route path="/home/Buzz" exact render={() => <BuzzPage />} />
         <Route path="/home/Complaints" render={() => <ComplaintPage />} />
         {User.type === "Admin" ? <Route path='/home/Resolved' render={() => <ResolveTable editable={true} />} /> : null}
-        <Redirect to="/home/Buzz" />
+        <Redirect to="/home/Complaints" />
       </Switch>
     </div>
   );
