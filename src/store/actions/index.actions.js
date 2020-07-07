@@ -31,3 +31,7 @@ export {
    show_toast,
    hide_toast
 } from './toasts.action'
+
+export {
+   get_all_users
+} from './superAdmin.action'
