@@ -6,6 +6,7 @@ import * as actions from '../../../store/actions/index.actions'
 import Input from '../../UI/Input/input'
 import { checkValidity } from '../../../Util/Utility'
 import styles from '../Activities/activity.module.css'
+import placeholder from '../../../assets/placeholder.png'
 
 const BuzzModal = (props) => {
 
@@ -115,7 +116,7 @@ const BuzzModal = (props) => {
             <div className={classes.modalBody}>
                 <i onClick={buzzCloseHandle} className="fas fa-times"></i>
                 <div className={classes.image}>
-                    <img src={activity.image.secure_url} />
+                    <img src={activity.image.secure_url ? activity.image.secure_url : placeholder} />
                 </div>
                 <div className={classes.commentSection}>
                     <div className={classes.descriptionSection}>

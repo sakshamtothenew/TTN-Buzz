@@ -12,7 +12,7 @@ export const set_activities = (activityData) => {
 }
 export const init_activities = () => {
   return {
-    type: actionTypes.INIT_ACTIVITIES , 
+    type: actionTypes.INIT_ACTIVITIES,
   }
 }
 
@@ -163,6 +163,27 @@ export const post_comments = (data) => {
     axios.post('/activities/comment/' + postId, data)
       .then(response => {
         dispatch(update_activities(response.data.post_id))
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+}
+
+export const delete_post = (id) => {
+
+  return dispatch => {
+
+    axios.delete('/activities/' + id)
+      .then(response => {
+        console.log(response.data)
+        if(response.data.deletedCount > 0)
+        {
+          dispatch({
+            type : actionTypes.DELETE_BUZZ,
+            post_id : id
+          })
+        }
       })
       .catch(err => {
         console.log(err)

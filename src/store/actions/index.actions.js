@@ -12,7 +12,8 @@ export {
    close_modal,
    get_replies,
    getPaginatedcomments,
-   init_activities
+   init_activities,
+   delete_post
 } from './activities.action'
 
 export {
@@ -22,7 +23,7 @@ export {
    post_complaints,
    get_complaint_count,
    getAssignedPersonel,
-   set_init_assigned_list
+   set_init_assigned_list,
 } from './complaints.action'
 
 export {

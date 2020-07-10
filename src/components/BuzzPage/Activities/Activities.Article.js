@@ -21,6 +21,7 @@ const Activities = (props) => {
   const post_comments = (data) => dispatch(actions.post_comments(data))
   const set_modal_state = (id) => dispatch(actions.set_modal_state(id))
   const init_activities = () => dispatch(actions.init_activities())
+  const delete_post = (id) => dispatch(actions.delete_post(id))
   const user = useSelector(state => state.user.user)
   const loading = useSelector(state => state.activities.loading)
   const toasts = useSelector(state => state.toasts)
@@ -29,10 +30,9 @@ const Activities = (props) => {
   const [commentInput, setCommentInput] = useState(null)
   const [scrollposition, setScrollPosition] = useState(0)
   const [pageno, setpageno] = useState(2)
+  const [displayClass, setDisplayClass] = useState(null)
   const divRef = React.useRef()
   const innerDivRef = React.useRef()
-  console.log(activities);
-  console.log(commentInput);
 
   if (toasts.show) {
     if (toasts.type === "error") {
@@ -65,10 +65,13 @@ const Activities = (props) => {
 
   useEffect(() => {
     let commentInputArray = {}
+    let DisplayClass = {}
     Object.keys(activities).forEach((keys) => {
       commentInputArray[keys] = { ...inputObj }
+      DisplayClass[keys] = "Hide"
     })
     setCommentInput(commentInputArray)
+    setDisplayClass(DisplayClass)
   }, [activities])
 
 
@@ -199,7 +202,6 @@ const Activities = (props) => {
   }
 
   const viewFullPostHandler = (event, activityId) => {
-    console.log(activityId)
     set_modal_state(activityId)
   }
 
@@ -227,6 +229,21 @@ const Activities = (props) => {
       timedifference: timedifference
     }
   }
+
+  const post_delete_handler = (id) => {
+    delete_post(id)
+  }
+
+  const edit_post = (id) => {
+    // here  we call activity 
+  }
+
+  const menuHandler = (id) => {
+    const currDisplayClass = { ...displayClass };
+    currDisplayClass[id] = currDisplayClass[id] === "Hide" ? "Show" : "Hide"
+    setDisplayClass(currDisplayClass)
+  }
+
 
   const allActivities = [];
 
@@ -258,6 +275,12 @@ const Activities = (props) => {
           <span className={classes.slash}>/ </span>{month}</p>
       </div>
       <div className={classes.content}>
+        <div onClick={() => menuHandler(activities[eachActivity]._id)} className={classes.editMenu}>
+          <i class="fas fa-ellipsis-v"></i>
+          {displayClass !== null ? <ul className={[classes.postMenu, classes[displayClass[activities[eachActivity]._id]]].join(' ')}>
+            <li onClick={() => post_delete_handler(activities[eachActivity]._id)}>Delete Post</li>
+          </ul> : null}
+        </div>
 
         {activities[eachActivity].image['secure_url'] ?
           <div className={classes.imagediv}>
@@ -292,7 +315,7 @@ const Activities = (props) => {
             <p onClick={(event) => viewFullPostHandler(event, eachActivity)}>view all {activities[eachActivity].comments_count} comments</p> : null}
           {comments.length > 0 ? comments : <p>no Comments</p>}
         </div>
-        { commentInput !== null&& commentInput[eachActivity] && Object.keys(commentInput).length !== 0 ? <div className={classes.commentSection}>
+        {commentInput !== null && commentInput[eachActivity] && Object.keys(commentInput).length !== 0 ? <div className={classes.commentSection}>
           <Input type={commentInput[eachActivity].elementType}
             elementConfig={commentInput[eachActivity].elementConfig}
             label={commentInput[eachActivity].label}
@@ -312,7 +335,7 @@ const Activities = (props) => {
     <Wrapper heading="Recent Buzz">
       <div ref={divRef} className={classes.outercontainer}>
         {allActivities}
-        {loading ? <Spinner classname = "Buzz"/> : null}
+        {loading ? <Spinner classname="Buzz" /> : null}
       </div>
       <ToastContainer />
     </Wrapper>

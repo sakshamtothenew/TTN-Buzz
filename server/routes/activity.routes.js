@@ -39,7 +39,7 @@ route.delete('/actions/:user/:post', deleteAction)
 
 route.put('/actions', updateActions)
 
-route.delete("/:id", deleteActivities);
+route.delete("/:id", verifyAuth , deleteActivities);
 
 route.delete('/', deleteAll)
 
