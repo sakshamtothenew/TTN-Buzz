@@ -1,6 +1,8 @@
 .container {
     display : flex;
     border-bottom : 1px solid #ebe3e3;
+    background-color: #fff;
+    margin: 2% 0;
 }
 .container p {
     margin: 0;

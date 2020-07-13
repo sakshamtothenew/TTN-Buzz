@@ -33,14 +33,17 @@ const BuzzModal = (props) => {
     const get_paginated_comments = (activityId, pageno) => dispatch(actions.getPaginatedcomments(activityId, pageno))
     const show = useSelector(state => state.modal.show)
     const user = useSelector(state => state.user.user)
+    const editable = useSelector(state => state.modal.edit)
     const activity = useSelector(state => state.modal.activity)
     const [replyid, setreplyid] = useState(null)
     const [commentInput, setCommentInput] = useState(inputObj)
     const [pageno, setPageNo] = useState(2);
-    
+    const [editing, setEditing] = useState({ bool : false , color : "orange"})
+
 
     useEffect(() => {
         setPageNo(2);
+        setEditing({bool : false , color : "orange"})
     }, [show])
 
 
@@ -83,6 +86,15 @@ const BuzzModal = (props) => {
         ref.current.focus()
     }
 
+    const EditBtnHandler = () => {
+            if(editing.bool)
+            {  
+                setEditing({bool : false , color : "orange"})
+            }
+            else {
+                setEditing({bool : true , color : "green"})
+            }
+    }
 
     let modalBody = null
     if (show) {
@@ -119,7 +131,14 @@ const BuzzModal = (props) => {
                     <img src={activity.image.secure_url ? activity.image.secure_url : placeholder} />
                 </div>
                 <div className={classes.commentSection}>
+
                     <div className={classes.descriptionSection}>
+                        {editable ?
+                            <button onClick={EditBtnHandler}
+                                className={[classes.editBtn , classes[editing.color]].join(' ')}>
+                                {editing.bool ? "Save" : "Edit"}
+                            </button>
+                            : null}
                         <div>
                             <h6>caption:</h6>
                             <p>{activity.content}</p>

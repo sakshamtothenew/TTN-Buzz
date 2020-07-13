@@ -98,14 +98,15 @@ export const make_actions = (method, state, requestBody) => {
   }
 }
 
-export const set_modal_state = (activity_id) => {
+export const set_modal_state = (activity_id , edit) => {
   return dispatch => {
     axios.get('/activities/' + activity_id)
       .then(response => {
         console.log(response.data)
         dispatch({
           type: actionTypes.SET_MODAL_STATE,
-          activity: response.data[0]
+          activity: response.data[0],
+          edit : edit
         })
       })
       .catch(err => {

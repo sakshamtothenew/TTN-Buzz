@@ -202,14 +202,23 @@
     opacity: 0;
 }
 .postMenu li{
-    position: absolute;
     height : 30px;
     width : 150px;
     list-style: none;
-    background-color: #fff;
-    border : 1px solid gray;
+    background-color: #ffbe81;
+    border : 1px solid rgb(240, 134, 85);
+    color : rgb(255, 255, 255);
+    font-size: small;
     cursor: pointer;
+    padding : 2% 2%;
     z-index: 5000;
+    font-weight: bolder;
+    border-radius: 2px;
+}
+
+.postMenu li:hover {
+    background-color: #dd924c;
+    transition: all 0.2s ease-in;
 }
 .Hide {
     display: none; 

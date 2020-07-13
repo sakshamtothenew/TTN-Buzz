@@ -19,7 +19,7 @@ const Activities = (props) => {
   const getActivities = useCallback((pageno) => dispatch(actions.get_activities(pageno)), [dispatch]);
   const makeChanges = (method, state, requestBody) => dispatch(actions.make_actions(method, state, requestBody))
   const post_comments = (data) => dispatch(actions.post_comments(data))
-  const set_modal_state = (id) => dispatch(actions.set_modal_state(id))
+  const set_modal_state = (id, edit) => dispatch(actions.set_modal_state(id, edit))
   const init_activities = () => dispatch(actions.init_activities())
   const delete_post = (id) => dispatch(actions.delete_post(id))
   const user = useSelector(state => state.user.user)
@@ -202,7 +202,7 @@ const Activities = (props) => {
   }
 
   const viewFullPostHandler = (event, activityId) => {
-    set_modal_state(activityId)
+    set_modal_state(activityId, false)
   }
 
   const postCommentHandler = (event, inputIdentifier) => {
@@ -235,7 +235,7 @@ const Activities = (props) => {
   }
 
   const edit_post = (id) => {
-    // here  we call activity 
+    set_modal_state(id, true)
   }
 
   const menuHandler = (id) => {
@@ -279,6 +279,7 @@ const Activities = (props) => {
           <i class="fas fa-ellipsis-v"></i>
           {displayClass !== null ? <ul className={[classes.postMenu, classes[displayClass[activities[eachActivity]._id]]].join(' ')}>
             <li onClick={() => post_delete_handler(activities[eachActivity]._id)}>Delete Post</li>
+            <li onClick={() => edit_post(activities[eachActivity]._id)}>Edit Post</li>
           </ul> : null}
         </div>
 

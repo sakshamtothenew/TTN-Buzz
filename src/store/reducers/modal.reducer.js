@@ -2,7 +2,8 @@ import * as actionTypes from '../actions/actionType'
 
 const initialState = {
     activity: null,
-    show: false
+    show: false,
+    edit: false
 }
 
 const reducers = (state = initialState, action) => {
@@ -12,7 +13,8 @@ const reducers = (state = initialState, action) => {
         case (actionTypes.SET_MODAL_STATE):
             return {
                 activity: action.activity,
-                show: true
+                show: true,
+                edit: action.edit
             }
         case (actionTypes.CLOSE_MODAL):
             return {
