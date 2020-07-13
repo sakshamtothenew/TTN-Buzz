@@ -7,13 +7,18 @@ import { NavLink } from 'react-router-dom'
 const Header = () => {
 
   const user = useSelector(state => state.user.user)
+
+  const clearLocalStorage = () => {
+    sessionStorage.setItem("initialLoading", false)
+    sessionStorage.setItem("role" , "role")
+  }
   return (
     <React.Fragment>
       <div className={classes.container}>
         <div className={classes.logo}>
           <img src={ttnlogo} alt="ttnlogo" />
         </div>
-        <div className={classes.logout}><a href="/auth/logout">logout</a></div>
+        <div onClick={clearLocalStorage} className={classes.logout}><a href="/auth/logout">logout</a></div>
       </div>
       <div className={classes.banner}>
         <div className={classes.userinfo}>

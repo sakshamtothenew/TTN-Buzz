@@ -29,7 +29,6 @@ const BuzzModal = (props) => {
 
     const close_modal = () => dispatch(actions.close_modal())
     const post_comments = (data) => dispatch(actions.post_comments(data))
-    const setModal = (activityId) => dispatch(actions.set_modal_state(activityId))
     const get_replies = (commentId) => dispatch(actions.get_replies(commentId))
     const get_paginated_comments = (activityId, pageno) => dispatch(actions.getPaginatedcomments(activityId, pageno))
     const show = useSelector(state => state.modal.show)
