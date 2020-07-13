@@ -162,7 +162,12 @@ export const post_comments = (data) => {
     const postId = data.post_id
     axios.post('/activities/comment/' + postId, data)
       .then(response => {
-        dispatch(update_activities(response.data.post_id))
+
+        // dispatch(update_activities(response.data.post_id))
+        dispatch({
+          type: actionTypes.UPDATE_PAGINATED_COMMENTS,
+          comments: response.data
+        })
       })
       .catch(err => {
         console.log(err)
@@ -177,11 +182,10 @@ export const delete_post = (id) => {
     axios.delete('/activities/' + id)
       .then(response => {
         console.log(response.data)
-        if(response.data.deletedCount > 0)
-        {
+        if (response.data.deletedCount > 0) {
           dispatch({
-            type : actionTypes.DELETE_BUZZ,
-            post_id : id
+            type: actionTypes.DELETE_BUZZ,
+            post_id: id
           })
         }
       })

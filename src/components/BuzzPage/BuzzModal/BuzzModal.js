@@ -37,6 +37,7 @@ const BuzzModal = (props) => {
     const [replyid, setreplyid] = useState(null)
     const [commentInput, setCommentInput] = useState(inputObj)
     const [pageno, setPageNo] = useState(2);
+    
 
     useEffect(() => {
         setPageNo(2);

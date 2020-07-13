@@ -57,6 +57,11 @@
 
 .comments > p  {
     text-align: center;
+    cursor: pointer;
+}
+
+.comments > p:active {
+    color: #faad05;
 }
 .comments::-webkit-scrollbar {
      width: 0 !important 

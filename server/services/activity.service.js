@@ -169,9 +169,42 @@ const create_comment_on_post = ({ content, pushed_by, post_id, parent }) => {
 
         newComment
           .save()
-          .then(result => resolve(result))
+          .then(result => {
+
+            Comments.aggregate([
+              { $match: { _id: ObjectId(result._id) } },
+              {
+                $lookup: {
+                  from: "comments",
+                  let: { parent: "$_id" },
+                  pipeline: [{ $match: { $expr: { $eq: ["$parent", "$$parent"] } } },
+                  { $group: { _id: null, count: { $sum: 1 } } }],
+                  as: "commentRepliesCount"
+                },
+              },
+              {
+                $lookup: {
+                  from: "users",
+                  let: { userid: "$pushed_by" },
+                  pipeline: [{ $match: { $expr: { $eq: ["$_id", "$$userid"] } } }],
+                  as: "commentUser"
+                },
+              },
+              { $unwind: "$commentUser" }
+            ])
+              .then(res => {
+                console.log(res)
+                resolve(res)
+              })
+              .catch(err => {
+                console.log(err)
+              })
+          })
       })
-      .catch(err => reject(err))
+      .catch(err => {
+        console.log(err)
+        reject(err)
+      })
 
   })
 }

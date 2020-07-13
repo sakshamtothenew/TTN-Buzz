@@ -34,7 +34,14 @@
 
 .comments p {
     font-size : 12px;
+    cursor: pointer;
 }
+
+.comments p:hover {
+    color : green
+}
+
+
 .outercontainer {
     height : 700px;
     overflow-y: scroll;
