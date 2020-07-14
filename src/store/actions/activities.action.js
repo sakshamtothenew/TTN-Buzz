@@ -76,6 +76,23 @@ export const post_activities = (formData) => {
   }
 }
 
+export const update_activity_content = (payload) => {
+
+  return dispatch => {
+    const _id = payload._id;
+    axios.put('/activities/update/' + _id, payload)
+      .then(response => {
+        dispatch({
+          type: actionTypes.UPDATE_MODAL_CONTENT,
+          activity: response.data,
+          change: payload
+        })
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+}
 
 export const make_actions = (method, state, requestBody) => {
   return dispatch => {
@@ -98,7 +115,7 @@ export const make_actions = (method, state, requestBody) => {
   }
 }
 
-export const set_modal_state = (activity_id , edit) => {
+export const set_modal_state = (activity_id, edit) => {
   return dispatch => {
     axios.get('/activities/' + activity_id)
       .then(response => {
@@ -106,7 +123,7 @@ export const set_modal_state = (activity_id , edit) => {
         dispatch({
           type: actionTypes.SET_MODAL_STATE,
           activity: response.data[0],
-          edit : edit
+          edit: edit
         })
       })
       .catch(err => {

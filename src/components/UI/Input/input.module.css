@@ -122,7 +122,13 @@ label {
   outline: none;
 }
 
-
+.Caption textarea{
+  width: 100%;
+  height: 30px;
+  border: none;
+  resize: none;
+  outline: none;
+}
 @media (max-width : 500px) {
   .LFInput {
     flex-basis: 100%;

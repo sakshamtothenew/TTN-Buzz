@@ -48,6 +48,15 @@ const reducers = (state = initialState, action) => {
                     activity: activityState
                 }
             }
+        case (actionTypes.UPDATE_MODAL_CONTENT):
+            {
+                const activityState = { ...state.activity }
+                activityState.content = action.change.content;
+                return {
+                    ...state,
+                    activity: activityState
+                }
+            }
         default:
             return { ...state }
     }

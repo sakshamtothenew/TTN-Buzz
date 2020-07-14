@@ -277,8 +277,10 @@ const create_activities = (
 };
 
 const update_activities_by_id = (id, updation) => {
+  const { content } = updation;
   return new Promise((resolve, reject) => {
-    Activity.updateOne({ _id: id }, { $set: { ...updation } })
+    Activity.findOneAndUpdate({ _id: ObjectId(id) },
+      { $set: { content: content } })
       .then((result) => resolve(result))
       .catch((err) => reject(err));
   });

@@ -31,19 +31,36 @@ const BuzzModal = (props) => {
     const post_comments = (data) => dispatch(actions.post_comments(data))
     const get_replies = (commentId) => dispatch(actions.get_replies(commentId))
     const get_paginated_comments = (activityId, pageno) => dispatch(actions.getPaginatedcomments(activityId, pageno))
+    const update_activity = (payload) => dispatch(actions.update_activity_content(payload))
+
     const show = useSelector(state => state.modal.show)
     const user = useSelector(state => state.user.user)
     const editable = useSelector(state => state.modal.edit)
     const activity = useSelector(state => state.modal.activity)
+    
     const [replyid, setreplyid] = useState(null)
     const [commentInput, setCommentInput] = useState(inputObj)
     const [pageno, setPageNo] = useState(2);
-    const [editing, setEditing] = useState({ bool : false , color : "orange"})
-
+    const [editing, setEditing] = useState({ bool: false, color: "orange" })
+    const [inputArea, setInputArea] = useState({
+        elementType: "textarea",
+        elementConfig: {
+            type: "textarea",
+            placeholder: "Caption",
+        },
+        validation: {
+            required: true
+        },
+        value: "",
+        label: "",
+        classname: "Caption",
+        valid: false,
+        touched: false
+    })
 
     useEffect(() => {
         setPageNo(2);
-        setEditing({bool : false , color : "orange"})
+        setEditing({ bool: false, color: "orange" })
     }, [show])
 
 
@@ -87,13 +104,25 @@ const BuzzModal = (props) => {
     }
 
     const EditBtnHandler = () => {
-            if(editing.bool)
-            {  
-                setEditing({bool : false , color : "orange"})
+        if (editing.bool) {
+
+            const captionValue = inputArea.value;
+            const payload = {
+                _id: activity._id,
+                content: captionValue
             }
-            else {
-                setEditing({bool : true , color : "green"})
-            }
+            update_activity(payload)
+            setEditing({ bool: false, color: "orange" })
+        }
+        else {
+            setEditing({ bool: true, color: "green" })
+        }
+    }
+
+    const captionChangeHandler = (event) => {
+        const currstate = { ...inputArea };
+        currstate.value = event.target.value;
+        setInputArea(currstate)
     }
 
     let modalBody = null
@@ -135,13 +164,22 @@ const BuzzModal = (props) => {
                     <div className={classes.descriptionSection}>
                         {editable ?
                             <button onClick={EditBtnHandler}
-                                className={[classes.editBtn , classes[editing.color]].join(' ')}>
+                                className={[classes.editBtn, classes[editing.color]].join(' ')}>
                                 {editing.bool ? "Save" : "Edit"}
                             </button>
                             : null}
                         <div>
                             <h6>caption:</h6>
-                            <p>{activity.content}</p>
+                            {!editing.bool ?
+                                <p>{activity.content}</p> :
+                                <Input type={inputArea.elementType}
+                                    elementConfig={inputArea.elementConfig}
+                                    label={inputArea.label}
+                                    ref={ref}
+                                    changed={captionChangeHandler}
+                                    classname={inputArea.classname}
+                                    value={inputArea.value}
+                                />}
                         </div>
                     </div>
                     <div className={classes.comments}>

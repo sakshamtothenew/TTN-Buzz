@@ -16,6 +16,17 @@ const reducers = (state = { activity: {}, loading: false }, action) => {
             const currState = { ...state.activity };
             delete currState[action.post_id];
             return { ...state, activity: currState }
+        case (actiontype.UPDATE_MODAL_CONTENT):
+            {
+                const activityState = { ...state.activity };
+                const changedActivity = { ...activityState[action.change._id] }
+                changedActivity.content = action.change.content
+                activityState[action.change._id] = changedActivity;
+                return {
+                    ...state,
+                    activity: activityState
+                }
+            }
         default:
             return state
     }

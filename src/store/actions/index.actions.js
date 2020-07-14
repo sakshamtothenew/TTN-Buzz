@@ -7,6 +7,7 @@ export {
    make_actions,
    get_activities,
    post_activities,
+   update_activity_content,
    post_comments,
    set_modal_state,
    close_modal,
