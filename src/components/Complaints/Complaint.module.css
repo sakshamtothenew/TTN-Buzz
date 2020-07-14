@@ -60,6 +60,54 @@
     display: flex;
     justify-content: center;
 }
+
+.filterDiv {
+    position : relative;
+    width : 10%;
+    left : 90%;
+    top : -30px;
+}
+.filterIcon {
+    position : absolute;
+}
+
+.filterList {
+    position : relative;
+    top : 30px;
+    left : -20px;
+    width : 30%;
+}
+.parentFilter {
+    position : absolute;
+    
+}
+
+.childFilter {
+    position : relative;
+    left : -80px;
+    margin : 2%;
+}
+
+.parentFilter  li {
+    height : 30px;
+    width : 100px;
+    list-style: none;
+    background-color: #ffbe81;
+    border : 1px solid rgb(240, 134, 85);
+    color : rgb(255, 255, 255);
+    font-size: small;
+    cursor: pointer;
+    padding : 2% 2%;
+    z-index: 5000;
+    font-weight: bolder;
+    border-radius: 2px;
+}
+
+.childFilter li {
+    background-color: #8bd316;
+    border : 1px solid rgb(76, 129, 15);
+}
+
 @media (max-width : 1000px) {
     .container{
         overflow-x: scroll;

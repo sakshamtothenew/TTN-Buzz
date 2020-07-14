@@ -31,6 +31,6 @@ route.get('/count/all' , verifyAuth , getComplaintCount)
 
 route.get("/all/:pageNo", getAllComplaints);
 
-route.put("/:id", checkUpdateComplaintValidation, updateComplaintById);
+route.put("/:id", updateComplaintById);
 
 module.exports = route;

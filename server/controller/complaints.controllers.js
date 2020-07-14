@@ -42,8 +42,10 @@ const createComplaint = async (req, res) => {
 
 const getComplaintCount = (req, res) => {
   let userid = req.params.userid ? req.params.userid : null;
+  const filterField = req.query.field;
+  const filterValue = req.query.value;
 
-  get_Complaint_count(userid)
+  get_Complaint_count(userid, filterField, filterValue)
     .then(result => {
       res.send(result)
     })
@@ -54,8 +56,10 @@ const getComplaintCount = (req, res) => {
 }
 
 const getAllComplaints = (req, res) => {
+  const filterField = req.query.field;
+  const filterValue = req.query.value;
   const pageNo = req.params.pageNo
-  get_all_complaints(pageNo)
+  get_all_complaints(pageNo, filterField, filterValue)
     .then((result) => res.send(result))
     .catch((err) => {
       res.status(400)
@@ -70,8 +74,11 @@ const updateComplaintById = (req, res) => {
 };
 
 const getComplaintsByUserId = (req, res) => {
+  const filterField = req.query.field;
+  const filterValue = req.query.value;
+  console.log(filterField, filterValue)
   const pageNo = req.params.pageNo
-  get_complaints_by_user(req.params.id, pageNo)
+  get_complaints_by_user(req.params.id, pageNo, filterField, filterValue)
     .then((result) => res.send(result))
     .catch((err) => res.send(err));
 };

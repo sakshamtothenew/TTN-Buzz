@@ -40,13 +40,15 @@ export const update_complaints = (complaintObj) => {
   }
 }
 
-export const get_complaint_count = (userid) => {
+export const get_complaint_count = (userid, filter) => {
   return dispatch => {
     let Url = '/complaints/count/all'
 
     if (userid) {
       Url = "/complaints/count/user/" + userid;
     }
+    Url += `?field=${filter.field}&value=${filter.value}`
+
     axios.get(Url)
       .then(response => {
         dispatch({
@@ -60,7 +62,7 @@ export const get_complaint_count = (userid) => {
   }
 }
 
-export const get_complaints = (pageNo, userid) => {
+export const get_complaints = (pageNo, userid, filter) => {
 
   return dispatch => {
     dispatch(init_complaints())
@@ -72,7 +74,7 @@ export const get_complaints = (pageNo, userid) => {
     else {
       Url += "all/" + pageNo
     }
-
+    Url += `?field=${filter.field}&value=${filter.value}`
     axios.get(Url)
       .then(response => {
         const stateObj = {}

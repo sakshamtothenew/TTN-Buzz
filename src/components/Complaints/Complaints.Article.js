@@ -10,17 +10,27 @@ import * as actions from '../../store/actions/index.actions'
 import Page from "../UI/Pages/Pages";
 const ComplaintTable = (props) => {
 
+  const filterOptionObj = {
+    department: ["Admin", "Transport", "IT", "HR", "Finance", "Food"],
+    status: ["Open", "InProgress", "Resolved"]
+  }
+
   const dispatch = useDispatch();
-  const getComplaints = useCallback((pageno, userid) => dispatch(actions.get_complaints(pageno, userid)), [dispatch])
+  const getComplaints = useCallback((pageno, userid, filter) => dispatch(actions.get_complaints(pageno, userid, filter)), [dispatch])
   const setComplaints = useCallback((complaints) => dispatch(actions.set_complaints(complaints)), [dispatch])
-  const getComplaintCount = useCallback((userid) => dispatch(actions.get_complaint_count(userid)), [dispatch])
+  const getComplaintCount = useCallback((userid, filter) => dispatch(actions.get_complaint_count(userid, filter)), [dispatch])
   const toasts = useSelector(state => state.toasts)
   const complaints = useSelector(state => state.complaints.data);
   const updateComplaints = (complaintObj) => dispatch(actions.update_complaints(complaintObj))
   const User = useSelector(state => state.user.user)
   const complaintCount = useSelector(state => state.complaints.count)
   const [sorting, setSorting] = useState({ field: null, order: -1 })
-
+  const [filterOptions, setFilterOptions] = useState([])
+  const [showList, setShowList] = useState(false)
+  const [filter, setFilter] = useState({
+    field: null,
+    value: null
+  })
   // const [statusSelect, setStatusSelect] = useState()
 
   const statusSelect = {
@@ -49,13 +59,13 @@ const ComplaintTable = (props) => {
     }
     else {
       if (props.userOnly) {
-        getComplaintCount(User._id)
-        getComplaints(1, User._id)
+        getComplaintCount(User._id, filter)
+        getComplaints(1, User._id, filter)
       }
       else {
 
-        getComplaintCount()
-        getComplaints(1)
+        getComplaintCount(null, filter)
+        getComplaints(1, null, filter)
       }
     }
   }, [setComplaints, getComplaints, User._id, props.userOnly, User.user, getComplaintCount])
@@ -68,8 +78,8 @@ const ComplaintTable = (props) => {
 
   const pageChangeHandler = (pageNo) => {
     props.userOnly ?
-      getComplaints(pageNo, User._id) :
-      getComplaints(pageNo)
+      getComplaints(pageNo, User._id, filter) :
+      getComplaints(pageNo, null, filter)
 
   }
 
@@ -89,6 +99,42 @@ const ComplaintTable = (props) => {
     setComplaints(currComplaints);
   }
 
+  const filterOptionHandler = (field) => {
+
+    setFilterOptions(filterOptionObj[field]);
+    setFilter({
+      field: field,
+      value: filter.value
+    })
+  }
+
+  const toggleListHandler = () => setShowList(!showList)
+
+  const getFilteredResultHandler = (filterValue) => {
+    const obj = {
+      field: filter.field,
+      value: filterValue
+    }
+    setFilter(obj)
+    if (props.userOnly) {
+
+
+      getComplaintCount(User._id, obj)
+      getComplaints(1, User._id, obj)
+    }
+    else {
+      getComplaintCount(null, obj)
+      getComplaints(1, null, obj)
+    }
+  }
+
+
+  let subFilterList = filterOptions.map((eachOption) => {
+    return (
+      <li onClick={() => getFilteredResultHandler(eachOption)} >{eachOption}</li>
+    )
+  })
+
 
   let complaintList = [];
   let sortedComplaints = [];
@@ -106,7 +152,6 @@ const ComplaintTable = (props) => {
       return 0
 
     })
-
     for (let i in sortedComplaints) {
       const eachComplaint = complaints[sortedComplaints[i]]
       complaintList.push(<tr key={eachComplaint._id}>
@@ -139,16 +184,29 @@ const ComplaintTable = (props) => {
   let pages = []
   for (let i = 1; i <= Math.ceil(complaintCount / 7); i++) {
 
-    pages.push(<Page key = {i} pageNo={i} pageChange={() => pageChangeHandler(i)} />)
+    pages.push(<Page key={i} pageNo={i} pageChange={() => pageChangeHandler(i)} />)
   }
   return (
     <Wrapper heading="Your Complaints">
       <div className={classes.container}>
+        <div className={classes.filterDiv}>
+          <i onClick={toggleListHandler} className={["fas fa-filter", classes.filterIcon].join(' ')}></i>
+          {showList ? <div className={classes.filterList}>
+            <ul className={classes.parentFilter}>
+              <li onClick={() => filterOptionHandler("department")}>Department</li>
+              <li onClick={() => filterOptionHandler("status")}>Status</li>
+              <ul className={classes.childFilter}>
+                {subFilterList}
+              </ul>
+            </ul>
+
+          </div> : null}
+        </div>
         <Table bordered hover size="sm">
           <thead>
             <tr>
-              <th onClick={() => sortComplaints("department", (-1 * sorting.order))}>Department
-            <i className="fas fa-sort"></i>
+              <th onClick={() => sortComplaints("department", (-1 * sorting.order))}>
+                Department <i className="fas fa-sort"></i>
               </th>
               <th>Issue Id</th>
               {User.type === "Admin" && props.editable ? <th>Locked By</th> : null}

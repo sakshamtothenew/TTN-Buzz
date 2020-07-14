@@ -61,13 +61,18 @@ const create_complaint = ({
   });
 };
 
-const get_all_complaints = (page) => {
+const get_all_complaints = (page, filterField, filterValue) => {
 
   const limits = 7;
   const skips = (page - 1) * limits
   return new Promise((resolve, reject) => {
-
-    Complaints.find().skip(skips).limit(limits)
+    let query = {};
+    if (filterField !== 'null' && filterValue !== 'null') {
+      query = filterField === "department" ?
+        { department: filterValue } :
+        { status: filterValue }
+    }
+    Complaints.find(query).skip(skips).limit(limits)
       .then((result) => {
         resolve(result)
       })
@@ -77,13 +82,19 @@ const get_all_complaints = (page) => {
   });
 };
 
-const get_Complaint_count = (userid) => {
+const get_Complaint_count = (userid, filterField, filterValue) => {
 
   return new Promise((resolve, reject) => {
     let query = null;
     if (userid) {
       query = { "createdBy.userid": ObjectId(userid) }
     }
+    if (filterField !== 'null' && filterValue !== 'null') {
+      query = filterField === "department" ?
+        { ...query, department: filterValue } :
+        { ...query, status: filterValue }
+    }
+
     Complaints.count(query)
       .then((result) => {
         resolve({ count: result })
@@ -119,11 +130,18 @@ const update_complaint_by_id = (id, updation) => {
   });
 };
 
-const get_complaints_by_user = (id, pageNo) => {
+const get_complaints_by_user = (id, pageNo, filterField, filterValue) => {
   const limits = 7;
   const skips = (pageNo - 1) * limits
   return new Promise((resolve, reject) => {
-    Complaints.find({ "createdBy.userid": ObjectId(id) })
+    let query = {}
+    if (filterField !== 'null' && filterValue !== 'null') {
+      query = filterField === "department" ?
+        { department: filterValue } :
+        { status: filterValue }
+    }
+    
+    Complaints.find({ "createdBy.userid": ObjectId(id), ...query })
       .skip(skips)
       .limit(limits)
       .then((result) => {
