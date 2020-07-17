@@ -32,6 +32,25 @@ const get_all_users = () => {
   });
 };
 
+const update_user_profile_data = (_id, updation) => {
+
+  return new Promise((resolve, reject) => {
+
+    User.findOneAndUpdate({ _id: ObjectId(_id) },
+      { $set: updation }
+    )
+      .then(result => {
+        console.log(result);
+        resolve(result)
+      })
+      .catch(err => {
+        console.log(err)
+        reject(err)
+      })
+
+  })
+}
+
 const update_user_by_id = (id, updation) => {
   console.log(updation)
   const { _id, department, Role } = updation;
@@ -85,4 +104,5 @@ module.exports = {
   get_user_by_email,
   get_user_by_dept_and_id,
   update_user_by_id,
+  update_user_profile_data
 };

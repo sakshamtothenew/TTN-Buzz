@@ -19,11 +19,19 @@ export const setUser = () => {
     dispatch(getUsers())
     axios.get('/auth/getuser')
       .then(response => {
-       
+
         dispatch(saveUsers(response.data))
       })
       .catch(err => {
-       
+
       })
+  }
+}
+
+export const update_user_details = (_id, updateObj) => {
+
+  return dispatch => {
+
+    axios.put('/user/profile/' + _id, updateObj)
   }
 }

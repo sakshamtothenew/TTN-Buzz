@@ -58,7 +58,7 @@ const MainBody = (props) => {
                         <MainContent user={props.user} /> </>)} />
                 <Route path="/home/Profile" render={() => <UserProfile />} />
                 <Route path='/home/SuperAdmin' render={() => <SuperAdmin />} />
-                <Redirect to="/home/dashboard" />
+                <Redirect to="/home/Profile" />
             </Switch>)
 
 

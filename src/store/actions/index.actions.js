@@ -1,6 +1,7 @@
 export {
    setUser,
-   getUsers
+   getUsers,
+   update_user_details
 } from './user.actions'
 
 export {

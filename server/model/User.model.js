@@ -31,7 +31,37 @@ const UserSchema = new Schema({
   },
   picture: {
     type: String
+  },
+  maritalStatus: {
+    type: String,
+    enum: ["Married", "Single", "Seperated", "Divorced", "Widowed"]
+  },
+  nationality: {
+    type: String,
+  },
+  gender: {
+    type: String,
+    enum: ["Male", "Female", "Other"]
+  },
+  personalEmail: {
+    type: String,
+  },
+  newerId: {
+    type: Number
+  },
+  dob: {
+    type: Date,
+  },
+  birthCountry: {
+    type: String
+  },
+  birthPlace: {
+    type: String
+  },
+  mobileNumber: {
+    type: String,
   }
+
 });
 
 UserSchema.pre("updateOne", () => {

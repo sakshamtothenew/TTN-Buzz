@@ -3,7 +3,8 @@ const {
   get_all_users,
   get_user_by_id,
   update_user_by_id,
-  get_user_by_dept_and_id
+  get_user_by_dept_and_id,
+  update_user_profile_data
 } = require("../services/user.service");
 
 const addUser = (req, res) => {
@@ -31,7 +32,18 @@ const updateUserById = (req, res) => {
     .catch((err) => res.send(err));
 };
 
+const updateUserProfileData = (req, res) => {
 
+  const _id = req.params.id;
+  update_user_profile_data(_id, req.body)
+    .then(result => {
+      res.send(result)
+    })
+    .catch(err => {
+      res.err(500)
+      res.send(err)
+    })
+}
 const getUserByDepartmentAndName = (req, res) => {
   const department = req.query.department;
   const name = req.query.name;
@@ -52,5 +64,6 @@ module.exports = {
   getUserById,
   getAllUsers,
   updateUserById,
-  getUserByDepartmentAndName
+  getUserByDepartmentAndName,
+  updateUserProfileData
 };
