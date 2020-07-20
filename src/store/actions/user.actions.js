@@ -1,6 +1,7 @@
 import * as actionTypes from './actionType'
 import axios from 'axios'
 
+
 export const saveUsers = (user) => {
   return {
     type: actionTypes.SET_USERS,
@@ -33,5 +34,14 @@ export const update_user_details = (_id, updateObj) => {
   return dispatch => {
 
     axios.put('/user/profile/' + _id, updateObj)
+      .then(response => {
+        dispatch({
+          type: actionTypes.UPDATE_USER_PROFILE,
+          payload: { ...response.data, ...updateObj }
+        })
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
 }

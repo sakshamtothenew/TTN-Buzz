@@ -40,11 +40,9 @@ const update_user_profile_data = (_id, updation) => {
       { $set: updation }
     )
       .then(result => {
-        console.log(result);
         resolve(result)
       })
       .catch(err => {
-        console.log(err)
         reject(err)
       })
 

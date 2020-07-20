@@ -26,17 +26,25 @@ const UserProfile = () => {
         const setEditableFunctions = [
             {
                 value: basicInfoEditable,
-                function: setbasicIntoEditable
+                function: setbasicIntoEditable,
+                formValue: basicInfoForm,
+                formValuefn: setBasicInfoForm
             },
             {
                 value: dobInfoEditable,
                 function: setdobInfoEditable,
+                formValue: dobInfoForm,
+                formVauefn: setdobInfoForm
             },
             {
                 value: contactInfoEditable,
-                function: setContactInfoEditable
+                function: setContactInfoEditable,
+                formValue: contactInfoForm,
+                formValuefn: setContactInfoForm
             }
         ];
+
+
 
         setEditableFunctions[index].function(!setEditableFunctions[index].value)
     }
@@ -57,6 +65,10 @@ const UserProfile = () => {
         setstateFunction(currState)
     }
 
+    const initialValueState = (formState, formFunction) => {
+
+        
+    }
     const formSubmitHandler = (state, setEditableFunction, editableState) => {
 
         const updationObj = {};
@@ -205,7 +217,6 @@ const UserProfile = () => {
                                     <td>{user.personalEmail}</td>
                                     <td>{user.mobileNumber}</td>
                                 </tr>) : <tr>{contactFormRow}</tr>}
-
                         </tbody>
                     </Table>
                 </div>
